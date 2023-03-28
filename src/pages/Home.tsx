@@ -1,18 +1,11 @@
-import { useEffect, useState } from "react";
 import BookList from "../components/BookList";
 import BookForm from "../components/BookForm";
 
-import { fetchBooks } from "../firebase/services/booksService";
-import { DocumentData } from "firebase/firestore";
+import { useRealtimeBooks } from "../hooks/useRealtimeBooks";
 
 export default function Home() {
-  const [books, setBooks] = useState<DocumentData>([]);
+  const { books } = useRealtimeBooks();
 
-  useEffect(() => {
-    fetchBooks().then((books: DocumentData[]) => setBooks(books));
-  }, []);
-
-  console.log(books);
   return (
     <div className="App">
       {books && <BookList books={books} />}
