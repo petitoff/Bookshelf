@@ -29,6 +29,8 @@ const useLogout = () => {
     return () => {
       isMounted = false;
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggingOut]);
 
   const logout = () => {
