@@ -3,13 +3,20 @@ import { useState } from "react";
 import { useAddNewBook } from "../hooks/useAddNewBook";
 
 export default function BookForm() {
-  const [newBook, setNewBook] = useState("");
-  const [addBook, isLoading, error] = useAddNewBook();
+  const [newBook, setNewBook] = useState<string>("");
+  const { addBook } = useAddNewBook();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newBook);
-    await addBook(newBook);
+    if (addBook && typeof addBook === "function") {
+      await addBook(newBook);
+      handleResetForm();
+    } else {
+      console.error("addBook is not a function or is undefined");
+    }
+  };
+
+  const handleResetForm = () => {
     setNewBook("");
   };
 

@@ -5,7 +5,7 @@ export function useAddNewBook() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  async function addBook(bookData: string) {
+  async function addBook(bookData: string): Promise<void> {
     setIsLoading(true);
     setError(null);
 
@@ -19,5 +19,5 @@ export function useAddNewBook() {
     }
   }
 
-  return [addBook, isLoading, error];
+  return { addBook, isLoading, error };
 }
