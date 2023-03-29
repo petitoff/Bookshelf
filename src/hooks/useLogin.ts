@@ -21,7 +21,11 @@ const useLogin = () => {
           password
         );
 
-        // console.log("login", userCredential.user);
+        if (!userCredential.user) {
+          setIsLoggingIn(false);
+          setLoginError(new Error("No user found"));
+          return;
+        }
 
         const userProfile: User = {
           id: userCredential.user?.uid,
