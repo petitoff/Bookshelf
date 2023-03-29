@@ -1,4 +1,5 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { useAppSelector } from "./hooks/hooks";
 
 // components
 import Navbar from "./components/Navbar";
@@ -6,20 +7,45 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
+function PrivateRoute({ children, ...rest }: any) {
+  const user = useAppSelector((state) => state.auth.user);
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        user ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
 function App() {
+  const userIsAuthenticated = useAppSelector(
+    (state) => state.auth.user !== undefined
+  );
+
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar />
         <Switch>
-          <Route exact path="/">
+          <PrivateRoute exact path="/">
             <Home />
+          </PrivateRoute>
+          <Route exact path="/signup">
+            {userIsAuthenticated ? <Redirect to="/" /> : <Signup />}
           </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/login">
-            <Login />
+          <Route exact path="/login">
+            {userIsAuthenticated ? <Redirect to="/" /> : <Login />}
           </Route>
         </Switch>
       </BrowserRouter>
