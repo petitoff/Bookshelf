@@ -1,12 +1,15 @@
 import { useState } from "react";
+import useLogin from "../hooks/useLogin";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, isLoggingIn, loginError } = useLogin();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(email, password);
+
+    login(email, password);
   };
 
   return (
@@ -32,6 +35,8 @@ export default function Login() {
           />
         </label>
         <button>log in</button>
+        {loginError && <p>{loginError.message}</p>}
+        {isLoggingIn && <p>Logging in...</p>}
       </form>
     </div>
   );
