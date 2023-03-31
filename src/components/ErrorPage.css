@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #f8f8f8;
+}
+
+.container h1 {
+  font-size: 5rem;
+  color: #ff0000;
+}
+
+.container p {
+  font-size: 2rem;
+  color: #333;
+  margin-top: 2rem;
+}

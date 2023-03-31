@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ErrorPage from "./components/ErrorPage";
 
 function PrivateRoute({ children, ...rest }: any) {
   const user = useAppSelector((state) => state.auth.user);
@@ -46,6 +47,9 @@ function App() {
           </Route>
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/" /> : <Login />}
+          </Route>
+          <Route>
+            <ErrorPage />
           </Route>
         </Switch>
       </BrowserRouter>
