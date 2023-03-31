@@ -1,13 +1,19 @@
 import { db } from "../firebase/config";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Book } from "../types/Book";
+import { useAppSelector } from "./hooks";
 
 export function useRealtimeBooks() {
   const [books, setBooks] = useState<Book[]>([]);
+  const uid = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
-    const booksCollection = collection(db, "books");
+    const booksCollection = query(
+      collection(db, "books"),
+      where("uid", "==", uid)
+    );
+
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
       const bookList = snapshot.docs.map((doc) => {
         const bookData = doc.data();
@@ -16,7 +22,7 @@ export function useRealtimeBooks() {
       setBooks(bookList);
     });
     return () => unsubscribe();
-  }, []);
+  }, [uid]);
 
   return { books };
 }

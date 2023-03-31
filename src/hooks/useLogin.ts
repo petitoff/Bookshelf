@@ -15,25 +15,33 @@ const useLogin = () => {
   useEffect(() => {
     const handleLogin = async () => {
       if (isLoggingIn) {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
 
-        if (!userCredential.user) {
+          if (!userCredential.user) {
+            setIsLoggingIn(false);
+            setLoginError(new Error("No user found"));
+            return;
+          }
+
+          console.log(userCredential);
+
+          const userProfile: User = {
+            id: userCredential.user?.uid,
+            email: userCredential.user?.email || undefined,
+          };
+
+          dispatch(setUser(userProfile));
           setIsLoggingIn(false);
-          setLoginError(new Error("No user found"));
-          return;
+          setLoginError(null);
+        } catch (error) {
+          setIsLoggingIn(false);
+          setLoginError(error);
         }
-
-        const userProfile: User = {
-          id: userCredential.user?.uid,
-          email: userCredential.user?.email || undefined,
-        };
-        dispatch(setUser(userProfile));
-        setIsLoggingIn(false);
-        setLoginError(null);
       }
     };
 

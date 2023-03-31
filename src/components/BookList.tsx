@@ -16,7 +16,12 @@ export default function BookList({ books }: Props) {
     <div className="book-list">
       <ul>
         {books.map((book) => (
-          <li key={book.id} onClick={() => handleClick(book.id)}>
+          <li
+            key={book.id}
+            onClick={() => {
+              book.id && handleClick(book.id);
+            }}
+          >
             {book.title}
           </li>
         ))}
