@@ -48,7 +48,7 @@ function App() {
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/" /> : <Login />}
           </Route>
-          <Route>
+          <Route path="/*">
             <ErrorPage />
           </Route>
         </Switch>
