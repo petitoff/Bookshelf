@@ -17,7 +17,15 @@ export function useRealtimeBooks() {
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
       const bookList = snapshot.docs.map((doc) => {
         const bookData = doc.data();
-        return { id: doc.id, title: bookData.title };
+        const book: Book = {
+          id: doc.id,
+          title: bookData.title,
+          authorUid: bookData.authorUid,
+          authorName: bookData.authorName,
+          imageUrl: bookData.imageUrl,
+        };
+
+        return book;
       });
       setBooks(bookList);
     });

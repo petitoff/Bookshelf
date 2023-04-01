@@ -1,18 +1,25 @@
 import { FiChevronRight } from "react-icons/fi";
 import { Book } from "../../types/Book";
 import "./BookCard.css";
+import useFirebaseImage from "../../hooks/useFirebaseImage";
 
 interface BookCardProps {
   book: Book;
 }
 
 const BookCard = ({ book }: BookCardProps) => {
+  const { imageUrl } = useFirebaseImage({ imageName: book?.imageUrl });
+
   return (
     <div className="book-card">
-      <img src="book1.jpg" alt="Book 1" />
+      {imageUrl ? (
+        <img src={imageUrl} alt="Okładka książki" />
+      ) : (
+        <div>Loading...</div>
+      )}
       <div className="book-details">
-        <h4 className="book-title">Book Title</h4>
-        <p className="book-author">Author Name</p>
+        <h4 className="book-title">{book?.title}</h4>
+        <p className="book-author">{book?.authorName}</p>
         <div className="book-info">
           <p className="book-pages">
             <strong>290</strong>
