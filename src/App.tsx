@@ -2,11 +2,12 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useAppSelector } from "./hooks/hooks";
 
 // components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function PrivateRoute({ children, ...rest }: any) {
   const user = useAppSelector((state) => state.auth.user);
@@ -38,6 +39,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
+        <Sidebar />
         <Switch>
           <PrivateRoute exact path="/">
             <Home />
