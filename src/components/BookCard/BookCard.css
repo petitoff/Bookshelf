@@ -8,6 +8,15 @@
   padding-top: 20px;
 }
 
+:root {
+  --primary-color: #4a80f0;
+  --secondary-color: #f0f0f0;
+  --text-color: #333;
+  --text-color-light: #666;
+  --text-color-lighter: #999;
+  --text-color-lightest: #b2b2bc;
+}
+
 .book-card img {
   width: 100px;
   border-radius: 5px 5px 0 0;
@@ -56,7 +65,7 @@
 
 .book-button {
   padding: 10px;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   text-decoration: none;
   border-radius: 0 0 5px 5px;
@@ -64,6 +73,7 @@
 
 .book-button:hover {
   background-color: #0069d9;
+  cursor: pointer;
 }
 
 .separator {
