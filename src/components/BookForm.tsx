@@ -4,7 +4,7 @@ import { useAddNewBook } from "../hooks/useAddNewBook";
 
 export default function BookForm() {
   const [newBook, setNewBook] = useState<string>("");
-  const { addBook } = useAddNewBook();
+  const { addBook, error, isLoading } = useAddNewBook();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +32,8 @@ export default function BookForm() {
         />
       </label>
       <button>Add</button>
+      {error && <p>{error.message}</p>}
+      {isLoading && <p>Loading...</p>}
     </form>
   );
 }

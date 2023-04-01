@@ -1,0 +1,14 @@
+.foryou-section {
+  margin: 50px 50px 0 400px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.books-container {
+  display: flex;
+  gap: 30px;
+}

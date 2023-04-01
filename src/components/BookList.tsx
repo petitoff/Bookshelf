@@ -19,7 +19,7 @@ export default function BookList({ books }: Props) {
           <li
             key={book.id}
             onClick={() => {
-              book.id && handleClick(book.id);
+              book.authorUid && handleClick(book.authorUid);
             }}
           >
             {book.title}

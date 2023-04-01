@@ -5,13 +5,13 @@ import { Book } from "../types/Book";
 import { useAppSelector } from "./hooks";
 
 export function useRealtimeBooks() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<any>([]);
   const uid = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     const booksCollection = query(
       collection(db, "books"),
-      where("uid", "==", uid)
+      where("authorUid", "==", uid)
     );
 
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
