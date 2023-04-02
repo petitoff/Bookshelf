@@ -2,30 +2,26 @@ import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/config";
 
-interface Props {
-  imageName?: string;
-}
-
-const useFirebaseImage = ({ imageName }: Props) => {
+const useFirebaseImage = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    console.log(`image url: ${imageName}`);
-    const imageRef = ref(storage, `images/${imageName}`);
-    getDownloadURL(imageRef)
-      .then((url) => {
-        setImageUrl(url);
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error);
-      });
+  const getImageUrl = async (imageName?: string) => {
+    try {
+      const imageRef = ref(storage, `images/${imageName}`);
+      const url = await getDownloadURL(imageRef);
+      setImageUrl(url);
+    } catch (error: any) {
+      console.log(error);
+      setError(error);
+    }
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageName, storage]);
+  // useEffect(() => {
+  //   getImageUrl();
+  // }, [imageName]);
 
-  return { imageUrl, error };
+  return { getImageUrl, imageUrl, error };
 };
 
 export default useFirebaseImage;

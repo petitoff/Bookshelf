@@ -31,7 +31,7 @@ const useLogin = () => {
           console.log(userCredential);
 
           const userProfile: User = {
-            id: userCredential.user?.uid,
+            UID: userCredential.user?.uid,
             email: userCredential.user?.email || undefined,
           };
 

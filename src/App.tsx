@@ -40,6 +40,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Sidebar />
+
         <Switch>
           <PrivateRoute exact path="/">
             <Home />

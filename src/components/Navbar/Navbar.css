@@ -16,7 +16,7 @@
 .navigation__menu {
   display: flex;
   align-items: center;
-  padding-left: 400px;
+  padding-left: 10%;
 }
 
 .navigation__menu-item {

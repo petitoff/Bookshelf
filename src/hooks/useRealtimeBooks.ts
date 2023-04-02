@@ -6,7 +6,7 @@ import { useAppSelector } from "./hooks";
 
 export function useRealtimeBooks() {
   const [books, setBooks] = useState<any>([]);
-  const uid = useAppSelector((state) => state.auth.user?.id);
+  const uid = useAppSelector((state) => state.auth.user?.UID);
 
   useEffect(() => {
     const booksCollection = query(

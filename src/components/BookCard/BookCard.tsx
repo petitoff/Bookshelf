@@ -2,7 +2,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { Book } from "../../types/Book";
 import "./BookCard.css";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 
 interface BookCardProps {
@@ -10,12 +10,16 @@ interface BookCardProps {
 }
 
 const BookCard = ({ book }: BookCardProps) => {
-  const { imageUrl, error } = useFirebaseImage({ imageName: book?.imageUrl });
+  const { getImageUrl, imageUrl, error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
   const handleLoad = () => {
     setLoaded(true);
   };
+
+  useEffect(() => {
+    getImageUrl(book?.imageUrl ?? "");
+  }, [book]);
 
   return (
     <div className="book-card">
@@ -49,17 +53,17 @@ const BookCard = ({ book }: BookCardProps) => {
         <div className="book-info">
           <p className="book-pages">
             <strong>290</strong>
-            Pages
+            pages
           </p>
           <div className="separator" />
           <p className="book-reviews">
             <strong>50</strong>
-            Reviews
+            reviews
           </p>
           <div className="separator" />
           <p className="book-ratings">
             <strong>500</strong>
-            Ratings
+            ratings
           </p>
         </div>
       </div>

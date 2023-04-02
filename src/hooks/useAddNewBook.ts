@@ -17,7 +17,7 @@ export function useAddNewBook() {
     try {
       const newBookId = await addNewBook({
         title: bookData,
-        authorUid: user.id,
+        authorUid: user.UID,
       });
       console.log(`New book added with ID ${newBookId}`);
     } catch (err: Error | any) {
