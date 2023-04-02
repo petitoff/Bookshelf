@@ -13,7 +13,9 @@ const useUserData = (userId?: string) => {
   const { getImageUrl, imageUrl } = useFirebaseImage();
 
   useEffect(() => {
-    const userRef = doc(db, "users", auth?.UID || "");
+    if (!auth?.UID) return;
+
+    const userRef = doc(db, "users", auth?.UID);
 
     getDoc(userRef)
       .then((doc) => {
