@@ -9,6 +9,8 @@ export function useRealtimeBooks() {
   const uid = useAppSelector((state) => state.auth.user?.UID);
 
   useEffect(() => {
+    if (!uid) return;
+
     const booksCollection = query(
       collection(db, "books"),
       where("authorUid", "==", uid)

@@ -9,6 +9,10 @@ const useLogout = () => {
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     let isMounted = true;
     if (isLoggingOut) {
@@ -17,6 +21,7 @@ const useLogout = () => {
           if (isMounted) {
             setIsLoggingOut(false);
             dispatch(logoutUser());
+            handleRefresh();
           }
         })
         .catch((error) => {

@@ -28,8 +28,6 @@ const useLogin = () => {
             return;
           }
 
-          console.log(userCredential);
-
           const userProfile: User = {
             UID: userCredential.user?.uid,
             email: userCredential.user?.email || undefined,

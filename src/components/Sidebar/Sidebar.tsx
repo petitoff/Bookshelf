@@ -2,21 +2,22 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { FaHome, FaList, FaHeart, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import "./Sidebar.css";
-import { logoutUser } from "../../store/slices/authSlice";
 import { Link } from "react-router-dom";
 import { toggleSidebar } from "../../store/slices/sidebarSlice";
 import useUserData from "../../hooks/useUserData";
+import useLogout from "../../hooks/useLogout";
 
 const Sidebar = () => {
   const sidebarOpen = useAppSelector((state) => state.sidebar.sidebarOpen);
   const auth = useAppSelector((state) => state.auth.user);
   const { user, imageUrl } = useUserData(auth?.UID);
+  const { logout } = useLogout();
 
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(toggleSidebar());
-    dispatch(logoutUser());
+    logout();
   };
 
   return (
