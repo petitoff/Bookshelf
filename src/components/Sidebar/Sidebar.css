@@ -43,6 +43,7 @@
 
 .sidebar__menu li a .icon {
   margin-right: 10px;
+  margin-left: 10px;
 }
 
 .sidebar__menu li a:hover {
