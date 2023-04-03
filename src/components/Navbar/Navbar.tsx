@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { toggleSidebar } from "../../store/slices/sidebarSlice";
+import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState("books");
   const [searchQuery, setSearchQuery] = useState("");
-  const isSidebarOpen = useAppSelector((state) => state.sidebar.sidebarOpen);
+  const isLeftSidebarOpen = useAppSelector(
+    (state) => state.sidebar.isLeftSidebarOpen
+  );
+  const isRightSidebarOpen = useAppSelector(
+    (state) => state.sidebar.isRightSidebarOpen
+  );
 
   const dispatch = useAppDispatch();
 
@@ -24,16 +29,16 @@ const Navigation = () => {
     // Handle search submit here
   };
 
-  const handleToggleSidebar = () => {
+  const handleToggleLeftSidebar = () => {
     // Handle sidebar toggle here
-    dispatch(toggleSidebar());
+    dispatch(toggleLeftSidebar());
   };
 
   return (
-    <nav className="navigation">
+    <nav className={`navigation ${isRightSidebarOpen && "open-right-sidebar"}`}>
       <ul className="navigation__menu">
-        <li className="open-sidebar" onClick={handleToggleSidebar}>
-          {isSidebarOpen ? <FaTimes /> : <FaBars />}
+        <li className="open-sidebar" onClick={handleToggleLeftSidebar}>
+          {isLeftSidebarOpen ? <FaTimes /> : <FaBars />}
         </li>
         <li
           className={`navigation__menu-item ${

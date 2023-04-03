@@ -3,12 +3,14 @@ import { FaHome, FaList, FaHeart, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
-import { toggleSidebar } from "../../store/slices/sidebarSlice";
+import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useUserData from "../../hooks/useUserData";
 import useLogout from "../../hooks/useLogout";
 
 const Sidebar = () => {
-  const sidebarOpen = useAppSelector((state) => state.sidebar.sidebarOpen);
+  const sidebarOpen = useAppSelector(
+    (state) => state.sidebar.isLeftSidebarOpen
+  );
   const auth = useAppSelector((state) => state.auth.user);
   const { user, imageUrl } = useUserData();
   const { logout } = useLogout();
@@ -16,7 +18,7 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
-    dispatch(toggleSidebar());
+    dispatch(toggleLeftSidebar());
     logout();
   };
 
@@ -55,7 +57,7 @@ const Sidebar = () => {
         </li>
 
         <hr />
-        {user ? (
+        {auth ? (
           <>
             <li>
               <Link to="/settings">

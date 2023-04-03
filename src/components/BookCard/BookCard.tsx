@@ -19,6 +19,7 @@ const BookCard = ({ book }: BookCardProps) => {
 
   useEffect(() => {
     getImageUrl(book?.imageUrl ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [book]);
 
   return (

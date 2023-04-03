@@ -1,10 +1,30 @@
+import { useEffect } from "react";
 import BasicInfoSection from "../common/BasicInfoSection/BasicInfoSection";
 import WideButton from "../common/WideButton/WideButton";
 import styles from "./BookInfo.module.css";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import {
+  closeRightSidebar,
+  openRightSidebar,
+} from "../../store/slices/sidebarSlice";
 
 const BookInfo = () => {
+  const isOpen = useAppSelector((state) => state.sidebar.isRightSidebarOpen);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(openRightSidebar());
+
+    return () => {
+      dispatch(closeRightSidebar());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(isOpen);
   return (
-    <div className={`${styles.bookInfo}`}>
+    <div className={`${styles.bookInfo} ${isOpen && styles.show}`}>
       <h2>About the book</h2>
       <div className={`${styles.bookCover}`}></div>
       <h3>Title of the Book</h3>

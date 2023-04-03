@@ -4,13 +4,18 @@
   height: 100vh;
   position: fixed;
   top: 0;
-  right: 0;
+  right: -18%;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
   padding: 10px;
   color: #fff;
+  transition: right 0.3s ease-in-out; /* Dodanie tej właściwości dodaje efekt animacji */
+}
+
+.show {
+  right: 0;
 }
 
 .bookInfo h2 {

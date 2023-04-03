@@ -4,8 +4,9 @@
   justify-content: space-between;
   padding: 20px;
   background-color: #fdfdfd;
-  width: 75%;
+  width: 90%;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  transition: width 0.3s ease;
 }
 
 .navigation__logo {
@@ -76,4 +77,8 @@
 
 .open-sidebar {
   margin-right: 20px;
+}
+
+.open-right-sidebar {
+  width: 75%;
 }
