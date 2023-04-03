@@ -1,14 +1,19 @@
 import { useEffect } from "react";
 import BasicInfoSection from "../common/BasicInfoSection/BasicInfoSection";
 import WideButton from "../common/WideButton/WideButton";
-import styles from "./BookInfo.module.css";
+import styles from "./BookInfoRightSidebar.module.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import {
   closeRightSidebar,
   openRightSidebar,
 } from "../../store/slices/sidebarSlice";
 
-const BookInfo = () => {
+/**
+ * The BookInfoRightSidebar component displays information and details about a book in the right sidebar.
+ * It includes the book cover, title, author, basic information section, plot summary, and a button to read the book.
+ * @returns JSX.Element
+ */
+const BookInfoRightSidebar = () => {
   const isOpen = useAppSelector((state) => state.sidebar.isRightSidebarOpen);
 
   const dispatch = useAppDispatch();
@@ -54,4 +59,4 @@ const BookInfo = () => {
   );
 };
 
-export default BookInfo;
+export default BookInfoRightSidebar;
