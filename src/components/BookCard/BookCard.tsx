@@ -50,7 +50,7 @@ const BookCard = ({ book }: BookCardProps) => {
       <div className="book-details">
         <h4 className="book-title">{book?.title}</h4>
         <p className="book-author">{book?.authorName}</p>
-        <div className="book-info">
+        <div className="book-card-info">
           <p className="book-pages">
             <strong>290</strong>
             pages

@@ -5,3 +5,11 @@ body {
   font-family: "Quicksand", sans-serif;
   font-weight: 400;
 }
+
+.separator {
+  height: 15px;
+  align-self: center;
+  width: 1px;
+  background-color: rgba(136, 136, 136, 0.5);
+  margin: 0 10px;
+}

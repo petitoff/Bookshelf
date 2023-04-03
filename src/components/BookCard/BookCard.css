@@ -38,13 +38,13 @@
   margin: 5px 0;
 }
 
-.book-info {
+.book-card-info {
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
 }
 
-.book-info p {
+.book-card-info p {
   font-size: 14px;
   margin-right: 10px;
   display: flex;
@@ -53,7 +53,7 @@
   color: rgba(136, 136, 136, 0.5);
 }
 
-.book-info strong {
+.book-card-info strong {
   margin-bottom: 10px;
   font-size: 20px;
   font-weight: 700;
@@ -79,10 +79,3 @@
   cursor: pointer;
 }
 
-.separator {
-  height: 15px;
-  align-self: center;
-  width: 1px;
-  background-color: rgba(136, 136, 136, 0.5);
-  margin: 0 10px;
-}
