@@ -6,14 +6,15 @@ import { useAppSelector } from "./hooks";
 import { doc, getDoc } from "firebase/firestore";
 import useFirebaseImage from "./useFirebaseImage";
 
-const useUserData = (userId?: string) => {
+const useUserData = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const auth = useAppSelector((state) => state.auth.user);
   const { getImageUrl, imageUrl } = useFirebaseImage();
+  const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   useEffect(() => {
-    if (!auth?.UID) return;
+    if (!auth?.UID || isUserLoaded) return;
 
     const userRef = doc(db, "users", auth?.UID);
 
@@ -23,6 +24,7 @@ const useUserData = (userId?: string) => {
           const userData = doc.data() as User;
           setUser(userData);
           getImageUrl(userData?.imageId);
+          setIsUserLoaded(true);
         } else {
           console.log("No such document!");
         }
@@ -31,7 +33,7 @@ const useUserData = (userId?: string) => {
         console.log("Error getting document:", error);
         setError(error);
       });
-  }, [auth, getImageUrl]);
+  }, []);
 
   return { user, imageUrl, error };
 };

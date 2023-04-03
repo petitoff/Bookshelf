@@ -10,7 +10,7 @@ import useLogout from "../../hooks/useLogout";
 const Sidebar = () => {
   const sidebarOpen = useAppSelector((state) => state.sidebar.sidebarOpen);
   const auth = useAppSelector((state) => state.auth.user);
-  const { user, imageUrl } = useUserData(auth?.UID);
+  const { user, imageUrl } = useUserData();
   const { logout } = useLogout();
 
   const dispatch = useAppDispatch();
