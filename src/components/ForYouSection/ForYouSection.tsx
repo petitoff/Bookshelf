@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../hooks/hooks";
-import BookCard from "../BookCard/BookCard";
+import BookCard from "../common/WideBookCard/WideBookCard";
 import "./ForYouSection.css";
 import { Book } from "../../types/Book";
 import { useRealtimeBooks } from "../../hooks/useRealtimeBooks";
@@ -23,3 +23,4 @@ const ForYouSection = () => {
 };
 
 export default ForYouSection;
+

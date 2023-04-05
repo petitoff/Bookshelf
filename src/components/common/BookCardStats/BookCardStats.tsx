@@ -1,10 +1,10 @@
-import styles from "./BasicInfoSection.module.css";
+import styles from "./BookCardStats.module.css";
 
 interface Props {
   isDarkMode: boolean;
 }
 
-const BasicInfoSection = ({ isDarkMode }: Props) => {
+const BookCardStats = ({ isDarkMode }: Props) => {
   return (
     <div
       className={`${styles.bookCard}`}
@@ -28,4 +28,4 @@ const BasicInfoSection = ({ isDarkMode }: Props) => {
   );
 };
 
-export default BasicInfoSection;
+export default BookCardStats;

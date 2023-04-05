@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import BasicInfoSection from "../common/BasicInfoSection/BasicInfoSection";
+import BasicInfoSection from "../common/BookCardStats/BookCardStats";
 import WideButton from "../common/WideButton/WideButton";
 import styles from "./BookInfoRightSidebar.module.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -27,7 +27,6 @@ const BookInfoRightSidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(isOpen);
   return (
     <div className={`${styles.bookInfo} ${isOpen && styles.show}`}>
       <h2>About the book</h2>

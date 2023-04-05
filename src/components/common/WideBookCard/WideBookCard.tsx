@@ -1,7 +1,7 @@
 import { FiChevronRight } from "react-icons/fi";
-import { Book } from "../../types/Book";
-import "./BookCard.css";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
+import { Book } from "../../../types/Book";
+import "./WideBookCard.css";
+import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 
