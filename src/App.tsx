@@ -8,27 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Sidebar from "./components/Sidebar/Sidebar";
-
-const ProtectedRoute = ({ children, ...rest }: any) => {
-  const user = useAppSelector((state) => state.auth.user);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
