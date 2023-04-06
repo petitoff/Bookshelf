@@ -9,7 +9,7 @@ import Signup from "./pages/Signup";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Sidebar from "./components/Sidebar/Sidebar";
 
-function PrivateRoute({ children, ...rest }: any) {
+const ProtectedRoute = ({ children, ...rest }: any) => {
   const user = useAppSelector((state) => state.auth.user);
   return (
     <Route
@@ -28,7 +28,7 @@ function PrivateRoute({ children, ...rest }: any) {
       }
     />
   );
-}
+};
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -42,9 +42,9 @@ function App() {
         <Sidebar />
 
         <Switch>
-          <PrivateRoute exact path="/">
+          <ProtectedRoute exact path="/">
             <Home />
-          </PrivateRoute>
+          </ProtectedRoute>
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/" /> : <Signup />}
           </Route>
