@@ -50,17 +50,18 @@
   border-radius: 20px;
 }
 .navigation__search-input {
-  padding: 15px 40px 15px 20px;
+  padding: 15px 15px 15px 20px;
   flex-grow: 1;
   border: none;
   outline: none;
   background-color: transparent;
+  width: 200px;
   margin-right: 8px;
 }
 
 .navigation__search-input::placeholder {
   color: #a3a2a2;
-  text-align: center;
+  text-align: left;
 }
 
 .navigation__search-button {

@@ -72,6 +72,7 @@ const Navigation = () => {
           value={searchQuery}
           onChange={handleSearchInputChange}
           className="navigation__search-input"
+          // autoComplete="off"
         />
         <button type="submit" className="navigation__search-button">
           <FaSearch color="#aaa" size={15} />
