@@ -5,10 +5,12 @@ import { Book } from "../../types/Book";
 import { useRealtimeBooks } from "../../hooks/useRealtimeBooks";
 
 const ForYouSection = () => {
-  const { books } = useRealtimeBooks();
+  const books = useAppSelector((state) => state.books.books);
+
+  useRealtimeBooks();
 
   // Pobieramy dane książek z Redux Store
-  const allBooks = useAppSelector((state) => state.books.books);
+  // const allBooks = useAppSelector((state) => state.books.books);
 
   return (
     <section className="foryou-section">
@@ -23,4 +25,3 @@ const ForYouSection = () => {
 };
 
 export default ForYouSection;
-

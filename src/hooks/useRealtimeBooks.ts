@@ -2,14 +2,18 @@ import { db } from "../firebase/config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Book } from "../types/Book";
-import { useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks";
+import { fetchBooksStart, fetchBooksSuccess } from "../store/slices/bookSlice";
 
 export function useRealtimeBooks() {
   const [books, setBooks] = useState<any>([]);
   const uid = useAppSelector((state) => state.auth.user?.UID);
 
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (!uid) return;
+
+    dispatch(fetchBooksStart());
 
     const booksCollection = query(
       collection(db, "books"),
@@ -24,12 +28,13 @@ export function useRealtimeBooks() {
           title: bookData.title,
           authorUid: bookData.authorUid,
           authorName: bookData.authorName,
-          imageUrl: bookData.imageUrl,
+          imageId: bookData.imageUrl,
         };
 
         return book;
       });
       setBooks(bookList);
+      dispatch(fetchBooksSuccess(bookList));
     });
     return () => unsubscribe();
   }, [uid]);

@@ -3,7 +3,15 @@ export interface Book {
   title?: string;
   authorUid?: string;
   authorName?: string;
-  imageUrl?: string;
+  imageId?: string;
   summary?: string;
   rating?: number;
+}
+
+export interface BookCollection {
+  // [key: string]: Book[];
+  forYouSection?: Book[];
+  popularSection?: Book[];
+  newSection?: Book[];
+  weekOfModernClassics?: Book[];
 }

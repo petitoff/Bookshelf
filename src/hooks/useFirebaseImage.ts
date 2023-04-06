@@ -6,9 +6,9 @@ const useFirebaseImage = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  const getImageUrl = async (imageName?: string) => {
+  const getImageUrl = async (imageId?: string) => {
     try {
-      const imageRef = ref(storage, `images/${imageName}`);
+      const imageRef = ref(storage, `images/${imageId}`);
       const url = await getDownloadURL(imageRef);
       setImageUrl(url);
     } catch (error: any) {
