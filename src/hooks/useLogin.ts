@@ -34,7 +34,10 @@ const useLogin = () => {
 
           dispatch(setUser(userProfile));
           setIsLoggingIn(false);
-          toast.success("Logged in successfully!");
+          toast.success("Logged in successfully!", {
+            autoClose: 1000,
+            hideProgressBar: true,
+          });
         } catch (error: any) {
           setIsLoggingIn(false);
 
