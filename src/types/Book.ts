@@ -5,7 +5,9 @@ export interface Book {
   authorName?: string;
   imageId?: string;
   summary?: string;
-  rating?: number;
+  pages?: number;
+  ratings?: string[];
+  reviews?: string[];
 }
 
 export interface BookCollection {

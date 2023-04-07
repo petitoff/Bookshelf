@@ -25,10 +25,7 @@ export function useBooks() {
         const bookData = doc.data();
         const book: Book = {
           id: doc.id,
-          title: bookData.title,
-          authorUid: bookData.authorUid,
-          authorName: bookData.authorName,
-          imageId: bookData.imageId,
+          ...bookData,
         };
 
         return book;
@@ -37,6 +34,8 @@ export function useBooks() {
       dispatch(fetchBooksSuccess(bookList));
     });
     return () => unsubscribe();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   return { books };

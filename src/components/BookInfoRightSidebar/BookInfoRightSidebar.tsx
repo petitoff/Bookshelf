@@ -59,7 +59,7 @@ const BookInfoRightSidebar = () => {
           <h3>{activeBook?.title}</h3>
           <h5>{activeBook?.authorName}</h5>
 
-          <BasicInfoSection isDarkMode={true} />
+          <BasicInfoSection book={activeBook} isDarkMode={true} />
 
           <div className={styles.plot}>
             <h2>Plot</h2>
