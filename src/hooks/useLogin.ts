@@ -9,6 +9,7 @@ const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginError, setLoginError] = useState<Error | any>(null);
   const dispatch = useAppDispatch();
 
@@ -33,19 +34,21 @@ const useLogin = () => {
             email: userCredential.user?.email || undefined,
           };
 
+          setIsLoggedIn(true);
           dispatch(setUser(userProfile));
           setIsLoggingIn(false);
           setLoginError(null);
         } catch (error) {
           setIsLoggingIn(false);
           setLoginError(error);
+          setIsLoggedIn(false);
         }
       }
     };
 
     handleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggingIn, email, password]);
+  }, [email, password]);
 
   const login = (email: string, password: string) => {
     setEmail(email);
@@ -53,7 +56,7 @@ const useLogin = () => {
     setIsLoggingIn(true);
   };
 
-  return { login, isLoggingIn, loginError };
+  return { login, isLoggingIn, loginError, isLoggedIn };
 };
 
 export default useLogin;

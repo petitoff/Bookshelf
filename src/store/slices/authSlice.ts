@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/User";
+import { toast } from "react-toastify";
 
 export interface AuthState {
   user?: User;
@@ -18,6 +19,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
+      toast.success("Logged in successfully");
       state.user = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
