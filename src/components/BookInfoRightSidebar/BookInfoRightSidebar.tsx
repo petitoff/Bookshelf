@@ -7,6 +7,7 @@ import {
   closeRightSidebar,
   openRightSidebar,
 } from "../../store/slices/sidebarSlice";
+import useFirebaseImage from "../../hooks/useFirebaseImage";
 
 /**
  * The BookInfoRightSidebar component displays information and details about a book in the right sidebar.
@@ -15,8 +16,21 @@ import {
  */
 const BookInfoRightSidebar = () => {
   const isOpen = useAppSelector((state) => state.sidebar.isRightSidebarOpen);
+  const activeBook = useAppSelector((state) => state.books.activeBook);
+  const { getImageUrl, imageUrl } = useFirebaseImage();
+
+  // const {pages} = activeBook   ;
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (activeBook?.imageId) {
+      getImageUrl(activeBook.imageId);
+    } else {
+      getImageUrl();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeBook]);
 
   useEffect(() => {
     dispatch(openRightSidebar());
@@ -30,26 +44,35 @@ const BookInfoRightSidebar = () => {
   return (
     <div className={`${styles.bookInfo} ${isOpen && styles.show}`}>
       <h2>About the book</h2>
-      <div className={styles.bookCover}></div>
-      <h3>Title of the Book</h3>
-      <h5>by Author Name</h5>
 
-      <BasicInfoSection isDarkMode={true} />
+      {activeBook ? (
+        <>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={activeBook?.title}
+              className={styles.image}
+            />
+          ) : (
+            <div className={styles.image}></div>
+          )}
+          <h3>{activeBook?.title}</h3>
+          <h5>{activeBook?.authorName}</h5>
 
-      <div className={styles.plot}>
-        <h2>Plot</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-          ex. Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
-          animi mollitia modi ipsum perferendis dolorum at excepturi Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Sed euismod ex. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Officia animi
-          mollitia modi ipsum perferendis dolorum at excepturi Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Sed euismod ex. Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Officia animi mollitia
-          modi ipsum perferendis dolorum at excepturi
-        </p>
-      </div>
+          <BasicInfoSection isDarkMode={true} />
+
+          <div className={styles.plot}>
+            <h2>Plot</h2>
+            <p>
+              {activeBook?.summary ?? "No summary available for this book."}
+            </p>
+          </div>
+        </>
+      ) : (
+        <div className={styles.noBook}>
+          <h3 className="">No book selected</h3>
+        </div>
+      )}
 
       <WideButton>
         <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>

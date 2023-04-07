@@ -5,7 +5,7 @@ import { Book } from "../types/Book";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { fetchBooksStart, fetchBooksSuccess } from "../store/slices/bookSlice";
 
-export function useRealtimeBooks() {
+export function useBooks() {
   const [books, setBooks] = useState<any>([]);
   const uid = useAppSelector((state) => state.auth.user?.UID);
 
@@ -28,7 +28,7 @@ export function useRealtimeBooks() {
           title: bookData.title,
           authorUid: bookData.authorUid,
           authorName: bookData.authorName,
-          imageId: bookData.imageUrl,
+          imageId: bookData.imageId,
         };
 
         return book;

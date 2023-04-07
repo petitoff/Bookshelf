@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book, BookCollection } from "../../types/Book";
+import { Book } from "../../types/Book";
 
 interface BooksState {
   books: Book[];
@@ -22,6 +22,9 @@ const booksSlice = createSlice({
     setActiveBook(state, action: PayloadAction<Book>) {
       state.activeBook = action.payload;
     },
+    setActiveBookNull(state) {
+      state.activeBook = null;
+    },
     fetchBooksStart(state) {
       state.loading = true;
     },
@@ -40,6 +43,7 @@ const booksSlice = createSlice({
 
 export const {
   setActiveBook,
+  setActiveBookNull,
   fetchBooksStart,
   fetchBooksSuccess,
   fetchBooksFailure,

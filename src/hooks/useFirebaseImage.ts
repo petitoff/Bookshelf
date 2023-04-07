@@ -8,6 +8,10 @@ const useFirebaseImage = () => {
 
   const getImageUrl = async (imageId?: string) => {
     try {
+      if (imageId === undefined) {
+        setImageUrl(null);
+      }
+
       const imageRef = ref(storage, `images/${imageId}`);
       const url = await getDownloadURL(imageRef);
       setImageUrl(url);

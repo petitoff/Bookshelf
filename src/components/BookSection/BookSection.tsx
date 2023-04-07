@@ -1,9 +1,8 @@
-import React, { useState } from "react";
 import BookCard from "../common/BookCard/BookCard";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./BookSection.module.css";
 import { Book } from "../../types/Book";
-import { setActiveBook } from "../../store/slices/bookSlice";
+import { setActiveBook, setActiveBookNull } from "../../store/slices/bookSlice";
 
 interface Props {
   titleOfSection: string;
@@ -17,13 +16,14 @@ const BookSection = ({ titleOfSection }: Props) => {
 
   const handleSetActiveBook = (id: string) => {
     if (activeBook?.id === id) {
-      dispatch(setActiveBook({}));
+      dispatch(setActiveBookNull());
       return;
     }
 
     // setActiveBook(books.find((book: Book) => book.id === id) as Book);
 
     const localActiveBook = books.find((book: Book) => book.id === id) as Book;
+    console.log(localActiveBook);
 
     dispatch(setActiveBook(localActiveBook));
   };

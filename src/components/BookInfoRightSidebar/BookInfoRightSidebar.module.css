@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
+  text-align: center;
   align-items: center;
   padding: 10px;
   color: #fff;
@@ -22,6 +23,7 @@
   color: #fff;
   margin: 0;
   padding-top: 20px;
+  margin-bottom: 20px;
   font-size: 1.3rem;
 }
 
@@ -29,11 +31,13 @@
   color: #fff;
   margin: 0;
   padding-top: 20px;
+  width: 90%;
 }
 
 .bookInfo h5 {
   color: rgba(255, 255, 255, 0.7);
   margin: 0.4rem 0px;
+  width: 90%;
 }
 
 .bookCover {
@@ -62,4 +66,14 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
   line-height: 1.4;
+}
+
+.image {
+  width: 80%;
+  height: auto;
+  margin: 10px 0px;
+}
+
+.noBook {
+  margin: 100% 0px;
 }
