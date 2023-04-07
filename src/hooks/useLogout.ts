@@ -17,6 +17,7 @@ const useLogout = () => {
           if (isMounted) {
             setIsLoggingOut(false);
             dispatch(logoutUser());
+            // handleRefresh();
           }
         })
         .catch((error) => {

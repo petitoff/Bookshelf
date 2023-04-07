@@ -1,0 +1,23 @@
+.button {
+  width: 90%;
+  border: none;
+  border-radius: 20px;
+  background-color: #4a80f0;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  transition: background-color 0.2s ease;
+}
+
+.button:hover,
+.disabled {
+  background-color: #262b47;
+  box-shadow: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.button:active {
+  background-color: #25417a;
+}

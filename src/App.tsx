@@ -2,32 +2,14 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useAppSelector } from "./hooks/hooks";
 
 // components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ErrorPage from "./components/ErrorPage";
-
-function PrivateRoute({ children, ...rest }: any) {
-  const user = useAppSelector((state) => state.auth.user);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import Sidebar from "./components/Sidebar/Sidebar";
+import ProtectedRoute from "./ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -38,10 +20,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
+        <Sidebar />
+        <ToastContainer position="top-center" />
+
         <Switch>
-          <PrivateRoute exact path="/">
+          <ProtectedRoute exact path="/">
             <Home />
-          </PrivateRoute>
+          </ProtectedRoute>
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/" /> : <Signup />}
           </Route>

@@ -1,15 +1,21 @@
-import BookList from "../components/BookList";
-import BookForm from "../components/BookForm";
+import BookInfoRightSidebar from "../components/BookInfoRightSidebar/BookInfoRightSidebar";
+import BookSection from "../components/BookSection/BookSection";
+import ForYouSection from "../components/ForYouSection/ForYouSection";
+import { useBooks } from "../hooks/useBooks";
 
-import { useRealtimeBooks } from "../hooks/useRealtimeBooks";
-
+/**
+ * Home page
+ */
 export default function Home() {
-  const { books } = useRealtimeBooks();
+  useBooks();
 
   return (
-    <div className="App">
-      {books && <BookList books={books} />}
-      <BookForm />
-    </div>
+    <>
+      <BookInfoRightSidebar />
+      <ForYouSection />
+      <div style={{ marginRight: "20%", marginLeft: "10%" }}>
+        <BookSection titleOfSection={"Week Of Modern Classics"} />
+      </div>
+    </>
   );
 }
