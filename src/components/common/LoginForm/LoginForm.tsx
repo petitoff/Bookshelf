@@ -7,26 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoggedIn, loginError } = useLogin();
+  const { login } = useLogin();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
     login(email, password);
   };
-
-  useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn);
-    if (isLoggedIn) {
-      toast.success("Logged in successfully");
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (loginError) {
-      toast.error("Error logging in");
-    }
-  }, [loginError]);
 
   return (
     <div className={styles.loginForm}>
