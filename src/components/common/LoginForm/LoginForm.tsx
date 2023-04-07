@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./LoginForm.module.css";
 import useLogin from "../../../hooks/useLogin";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
