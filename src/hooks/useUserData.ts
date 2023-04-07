@@ -33,6 +33,8 @@ const useUserData = () => {
         console.log("Error getting document:", error);
         setError(error);
       });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   return { user, imageUrl, error };
