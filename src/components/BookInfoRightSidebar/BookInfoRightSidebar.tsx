@@ -74,7 +74,7 @@ const BookInfoRightSidebar = () => {
         </div>
       )}
 
-      <WideButton>
+      <WideButton isActive={activeBook !== null}>
         <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>
       </WideButton>
     </div>

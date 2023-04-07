@@ -10,7 +10,8 @@
   transition: background-color 0.2s ease;
 }
 
-.button:hover {
+.button:hover,
+.disabled {
   background-color: #262b47;
   box-shadow: none;
   cursor: pointer;

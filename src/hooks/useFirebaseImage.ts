@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/config";
 
@@ -10,6 +10,12 @@ const useFirebaseImage = () => {
     try {
       if (imageId === undefined) {
         setImageUrl(null);
+        return;
+      }
+
+      if (imageId === null) {
+        setImageUrl(null);
+        return;
       }
 
       const imageRef = ref(storage, `images/${imageId}`);
