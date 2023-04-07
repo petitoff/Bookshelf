@@ -4,12 +4,12 @@ import { auth } from "../firebase/config";
 import { useAppDispatch } from "./hooks";
 import { setUser } from "../store/slices/authSlice";
 import { User } from "../types/User";
+import { toast } from "react-toastify";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [loginError, setLoginError] = useState<Error | any>(null);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,7 +24,6 @@ const useLogin = () => {
 
           if (!userCredential.user) {
             setIsLoggingIn(false);
-            setLoginError(new Error("No user found"));
             return;
           }
 
@@ -35,17 +34,27 @@ const useLogin = () => {
 
           dispatch(setUser(userProfile));
           setIsLoggingIn(false);
-          setLoginError(null);
-        } catch (error) {
+          toast.success("Logged in successfully!", {
+            autoClose: 1000,
+            hideProgressBar: true,
+          });
+        } catch (error: any) {
           setIsLoggingIn(false);
-          setLoginError(error);
+
+          if (error.code === "auth/user-not-found") {
+            toast.error("User not found!");
+          } else if (error.code === "auth/wrong-password") {
+            toast.error("Wrong password!");
+          } else {
+            toast.error("Something went wrong!");
+          }
         }
       }
     };
 
     handleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggingIn, email, password]);
+  }, [email, password]);
 
   const login = (email: string, password: string) => {
     setEmail(email);
@@ -53,7 +62,7 @@ const useLogin = () => {
     setIsLoggingIn(true);
   };
 
-  return { login, isLoggingIn, loginError };
+  return { login };
 };
 
 export default useLogin;

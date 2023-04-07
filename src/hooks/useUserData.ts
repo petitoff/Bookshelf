@@ -33,7 +33,7 @@ const useUserData = () => {
         console.log("Error getting document:", error);
         setError(error);
       });
-  }, []);
+  }, [auth]);
 
   return { user, imageUrl, error };
 };

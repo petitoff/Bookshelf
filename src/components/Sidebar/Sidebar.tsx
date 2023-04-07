@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     dispatch(toggleLeftSidebar());
     logout();
   };

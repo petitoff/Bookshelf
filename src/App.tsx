@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -20,6 +21,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Sidebar />
+        <ToastContainer position="top-center" />
 
         <Switch>
           <ProtectedRoute exact path="/">

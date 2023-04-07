@@ -53,17 +53,17 @@ const BookCard = ({ book }: BookCardProps) => {
         <p className="book-author">{book?.authorName}</p>
         <div className="book-card-info">
           <p className="book-pages">
-            <strong>290</strong>
+            <strong>{book.pages}</strong>
             pages
           </p>
           <div className="separator" />
           <p className="book-reviews">
-            <strong>50</strong>
+            <strong>{book?.reviews?.length ?? 0}</strong>
             reviews
           </p>
           <div className="separator" />
           <p className="book-ratings">
-            <strong>500</strong>
+            <strong>{book?.ratings?.length ?? 0}</strong>
             ratings
           </p>
         </div>
