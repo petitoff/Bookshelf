@@ -10,6 +10,8 @@ import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoute from "./ProtectedRoute";
 import { ToastContainer } from "react-toastify";
+import Books from "./pages/Books";
+import Book from "./pages/Book";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -21,17 +23,24 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Sidebar />
+
         <ToastContainer position="top-center" />
 
         <Switch>
-          <ProtectedRoute exact path="/">
+          <Route exact path="/">
             <Home />
+          </Route>
+          <ProtectedRoute exact path="/books">
+            <Books />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/books/:id">
+            <Book />
           </ProtectedRoute>
           <Route exact path="/signup">
-            {userIsAuthenticated ? <Redirect to="/" /> : <Signup />}
+            {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
           </Route>
           <Route exact path="/login">
-            {userIsAuthenticated ? <Redirect to="/" /> : <Login />}
+            {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
           <Route path="/*">
             <ErrorPage />

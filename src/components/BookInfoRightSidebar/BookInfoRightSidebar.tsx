@@ -8,6 +8,7 @@ import {
   openRightSidebar,
 } from "../../store/slices/sidebarSlice";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
+import { useHistory } from "react-router-dom";
 
 /**
  * The BookInfoRightSidebar component displays information and details about a book in the right sidebar.
@@ -17,9 +18,13 @@ import useFirebaseImage from "../../hooks/useFirebaseImage";
 const BookInfoRightSidebar = () => {
   const isOpen = useAppSelector((state) => state.sidebar.isRightSidebarOpen);
   const activeBook = useAppSelector((state) => state.books.activeBook);
-  const { getImageUrl, imageUrl } = useFirebaseImage();
 
-  // const {pages} = activeBook   ;
+  const { getImageUrl, imageUrl } = useFirebaseImage();
+  const history = useHistory();
+
+  const handleOpenDetailsPage = () => {
+    history.push(`/books/${activeBook?.id}`);
+  };
 
   const dispatch = useAppDispatch();
 
@@ -74,7 +79,10 @@ const BookInfoRightSidebar = () => {
         </div>
       )}
 
-      <WideButton isActive={activeBook !== null}>
+      <WideButton
+        isActive={activeBook !== null}
+        onButtonPress={handleOpenDetailsPage}
+      >
         <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>
       </WideButton>
     </div>

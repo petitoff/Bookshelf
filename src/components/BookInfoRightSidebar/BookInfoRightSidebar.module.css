@@ -12,7 +12,7 @@
   align-items: center;
   padding: 10px;
   color: #fff;
-  transition: right 0.3s ease-in-out; /* Dodanie tej właściwości dodaje efekt animacji */
+  transition: right 0.3s ease; /* Dodanie tej właściwości dodaje efekt animacji */
 }
 
 .show {
