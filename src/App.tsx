@@ -28,14 +28,18 @@ function App() {
 
         <Switch>
           <Route exact path="/" component={Home} />
-          <ProtectedRoute exact path="/books" component={Books} />
-          <ProtectedRoute exact path="/books/:id" component={Book} />
-          <Route exact path="/signup">
-            {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
-          </Route>
+          <ProtectedRoute exact path="/books">
+            <Books />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/books/:id">
+            <Book />
+          </ProtectedRoute>
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
+          {/* <Route exact path="/logout">
+            {userIsAuthenticated ? <Redirect to="/books" /> : <Logout />}
+          </Route> */}
           <Route path="/*" component={ErrorPage} />
         </Switch>
       </BrowserRouter>
