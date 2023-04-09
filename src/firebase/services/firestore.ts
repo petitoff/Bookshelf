@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../config";
 import { Book } from "../../types/Book";
 
@@ -26,6 +26,18 @@ export const getBookFromFirestore = async (bookId: string): Promise<Book> => {
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching book from Firestore");
+  }
+};
+
+export const addBook = async (book: Book): Promise<string> => {
+  try {
+    const booksCollectionRef = collection(db, "books");
+    const docRef = await addDoc(booksCollectionRef, book);
+    console.log("New book added with ID: ", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding book: ", error);
+    throw new Error("Error adding book to Firestore");
   }
 };
 
