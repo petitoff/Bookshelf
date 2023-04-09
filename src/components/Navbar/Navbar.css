@@ -83,3 +83,8 @@
 .open-right-sidebar {
   width: 75%;
 }
+
+.disable-decorations {
+  text-decoration: none;
+  color: #333;
+}

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState("books");
@@ -34,6 +35,22 @@ const Navigation = () => {
     dispatch(toggleLeftSidebar());
   };
 
+  // if press esc key, close the sidebar
+  const handleKeyDown = (event: any) => {
+    if (event.keyCode === 27) {
+      dispatch(toggleLeftSidebar());
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <nav className={`navigation ${isRightSidebarOpen && "open-right-sidebar"}`}>
       <ul className="navigation__menu">
@@ -46,7 +63,9 @@ const Navigation = () => {
           }`}
           onClick={() => handleMenuItemClick("books")}
         >
-          Books
+          <Link to="/books" className="disable-decorations ">
+            Books
+          </Link>
         </li>
         <li
           className={`navigation__menu-item ${
