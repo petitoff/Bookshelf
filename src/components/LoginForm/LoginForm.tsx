@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./LoginForm.module.css";
-import useLogin from "../../../hooks/useLogin";
+import useLogin from "../../hooks/useLogin";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {

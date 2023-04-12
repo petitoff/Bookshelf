@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./RegisterForm.module.css";
-import useSignup from "../../../hooks/useSignup";
+import useSignup from "../../hooks/useSignup";
 import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
