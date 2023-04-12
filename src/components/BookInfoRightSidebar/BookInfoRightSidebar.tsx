@@ -81,7 +81,7 @@ const BookInfoRightSidebar = () => {
 
       <WideButton
         isActive={activeBook !== null}
-        onButtonPress={handleOpenDetailsPage}
+        onClick={handleOpenDetailsPage}
       >
         <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>
       </WideButton>
