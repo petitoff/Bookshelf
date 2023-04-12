@@ -27,7 +27,9 @@ function App() {
         <ToastContainer position="top-center" />
 
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/">
+            <Redirect to="/books" />
+          </Route>
           <ProtectedRoute exact path="/books">
             <Books />
           </ProtectedRoute>
