@@ -39,9 +39,9 @@ function App() {
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
-          {/* <Route exact path="/logout">
-            {userIsAuthenticated ? <Redirect to="/books" /> : <Logout />}
-          </Route> */}
+          <Route exact path="/signup">
+            {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
+          </Route>
           <Route path="/*" component={ErrorPage} />
         </Switch>
       </BrowserRouter>

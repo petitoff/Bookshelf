@@ -1,24 +1,23 @@
 import { useState } from "react";
-import styles from "./LoginForm.module.css";
-import useLogin from "../../../hooks/useLogin";
-import "react-toastify/dist/ReactToastify.css";
+import styles from "./RegisterForm.module.css";
+import useSignup from "../../../hooks/useSignup";
 import { Link } from "react-router-dom";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useLogin();
+  const { signup } = useSignup();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    login(email, password);
+    signup(email, password);
   };
 
   return (
-    <div className={styles.loginForm}>
+    <div className={styles.registerForm}>
       <form className={styles.form}>
-        <p className={styles.heading}>Login</p>
+        <p className={styles.heading}>Register</p>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -35,15 +34,15 @@ const LoginForm = () => {
           placeholder="Password"
           type="password"
         />
-        <Link to={"/signup"} className={styles.link}>
-          <p>Don't have account? Create here!</p>
+        <Link to={"/login"} className={styles.link}>
+          <p>Already have an account? Login here!</p>
         </Link>
         <button onClick={handleSubmit} className={styles.btn}>
-          Login in
+          Register
         </button>
       </form>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
