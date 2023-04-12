@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useAppSelector } from "./hooks/hooks";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 // components
