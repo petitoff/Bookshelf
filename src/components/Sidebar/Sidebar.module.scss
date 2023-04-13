@@ -1,0 +1,99 @@
+// Variables
+$sidebar-width: 300px;
+$sidebar-top-position: 20%;
+$sidebar-background-color: #1a1a23;
+$sidebar-font-color: rgba(253, 253, 253, 0.5);
+$sidebar-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+$sidebar-border-radius: 50px;
+$transition-duration: 0.3s;
+$menu-padding: 20px;
+$menu-width: 80%;
+$menu-item-spacing: 10px;
+$menu-link-background-color: #4a80f0;
+$menu-link-border-radius: 20px;
+
+// Mixins
+@mixin border-radius($radius) {
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+// Styles
+.sidebar {
+  background-color: $sidebar-background-color;
+  color: $sidebar-font-color;
+  position: fixed;
+  top: $sidebar-top-position;
+  left: -#{$sidebar-width};
+  width: $sidebar-width;
+  min-height: 60%;
+  box-shadow: $sidebar-box-shadow;
+  transition: all $transition-duration ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include border-radius($sidebar-border-radius);
+
+  &.open {
+    left: 0;
+  }
+
+  .menu {
+    list-style: none;
+    margin: 0 auto;
+    padding: $menu-padding;
+    width: $menu-width;
+
+    li {
+      margin-bottom: $menu-item-spacing;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: $sidebar-font-color;
+        transition: background-color $transition-duration ease;
+        border-radius: $menu-link-border-radius;
+
+        .icon {
+          margin-right: 10px;
+          margin-left: 10px;
+        }
+
+        &:hover {
+          background-color: $menu-link-background-color;
+          border-radius: $menu-link-border-radius;
+        }
+      }
+
+      .separator {
+        border: none;
+        height: 1px;
+        background-color: #b2b2bc;
+        margin: 10px auto;
+        width: 100%;
+        flex-basis: 100%;
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+
+    img {
+      width: 100px;
+      height: 100px;
+      margin-right: 16px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}

@@ -1,13 +1,14 @@
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { FaHome, FaList, FaHeart, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useUserData from "../../hooks/useUserData";
 import useLogout from "../../hooks/useLogout";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import styles from "./Sidebar.module.scss";
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const sidebarOpen = useAppSelector(
     (state) => state.sidebar.isLeftSidebarOpen
   );
@@ -15,21 +16,16 @@ const Sidebar = () => {
   const { user, imageUrl } = useUserData();
   const { logout } = useLogout();
 
-  const dispatch = useAppDispatch();
-
   const handleLogout = () => {
     dispatch(toggleLeftSidebar());
     logout();
   };
 
   return (
-    <div className={sidebarOpen ? "sidebar open" : "sidebar"}>
-      {/* <div className="sidebar__header">
-        <h2>Sidebar</h2>
-      </div> */}
-      <ul className="sidebar__menu">
+    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
+      <ul className={styles.menu}>
         <li>
-          <div className="user">
+          <div className={styles.user}>
             {imageUrl ? (
               <img src={imageUrl} alt="user" />
             ) : (
@@ -39,40 +35,42 @@ const Sidebar = () => {
           </div>
         </li>
 
-        <hr />
+        <hr className={styles.separator} />
+
         <li>
-          <a href="/">
-            <FaHome className="icon" /> Home
-          </a>
+          <Link to="/">
+            <FaHome className={styles.icon} /> Home
+          </Link>
         </li>
         <li>
-          <a href="/mylist">
-            <FaList className="icon" /> My List
-          </a>
+          <Link to="/mylist">
+            <FaList className={styles.icon} /> My List
+          </Link>
         </li>
         <li>
-          <a href="/favourites">
-            <FaHeart className="icon" /> Favourites
-          </a>
+          <Link to="/favourites">
+            <FaHeart className={styles.icon} /> Favourites
+          </Link>
         </li>
 
         <hr />
+
         {auth ? (
           <>
             <li>
               <Link to="/settings">
-                <FaCog className="icon" /> Settings
+                <FaCog className={styles.icon} /> Settings
               </Link>
             </li>
             <li>
-              <Link to="/login" onClick={handleLogout}>
-                <RiLogoutBoxRLine className="icon" /> Logout
+              <Link to="/" onClick={handleLogout}>
+                <RiLogoutBoxRLine className={styles.icon} /> Logout
               </Link>
             </li>
           </>
         ) : (
           <li>
-            <Link to="/login"> Login </Link>
+            <Link to="/login">Login</Link>
           </li>
         )}
       </ul>
