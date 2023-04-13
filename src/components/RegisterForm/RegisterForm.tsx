@@ -10,6 +10,7 @@ const RegisterForm = () => {
       buttonText="Register"
       altText="Already have an account? Login here!"
       altLink="/login"
+      confirmPassword={true}
       onSubmit={(email, password) => signup(email, password)}
     />
   );
