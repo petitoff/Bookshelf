@@ -30,35 +30,39 @@ const DetailsBook = () => {
 
   // create a return statement with the book details
   return (
-    <div className={styles.container}>
-      <div className={styles.item1}>
-        <img src={imageUrl ?? ""} alt={book.title} className={styles.image} />
-        <div className={styles.buttonContainer}>
+    <div className={styles.pageContainer}>
+      <div className={styles.leftContainer}>
+        <img
+          src={imageUrl ?? ""}
+          alt={book.title}
+          className={styles.imageContainer}
+        />
+        <div className={styles.buttonGroup}>
           <WideButton isActive={true} className={styles.button}>
-            <div className={styles.container}>
-              <div className={styles.left}>
+            <div className={styles.innerContainer}>
+              <div className={styles.leftItem}>
                 <FontAwesomeIcon icon={faBookOpen} size="2x" />
               </div>
-              <div className={styles.center}>
+              <div className={styles.centerItem}>
                 <p style={{ color: "#fff" }}>Read online</p>
               </div>
-              <div className={styles.right}></div>
+              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
           <WideButton isActive={true} className={styles.button}>
-            <div className={styles.container}>
-              <div className={styles.left}>
+            <div className={styles.innerContainer}>
+              <div className={styles.leftItem}>
                 <AiOutlineBook size={32} color="#fff" />
               </div>
-              <div className={styles.center}>
+              <div className={styles.centerItem}>
                 <p style={{ color: "#fff" }}>Save to reading list</p>
               </div>
-              <div className={styles.right}></div>
+              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
         </div>
       </div>
-      <div className={styles.item2}>
+      <div className={styles.rightContainer}>
         <h1>{book.title}</h1>
         <p>{book.authorName}</p>
         <p>{book.summary}</p>
