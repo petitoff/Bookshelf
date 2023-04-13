@@ -14,6 +14,8 @@ const DetailsBook = () => {
   const { getImageUrl, imageUrl } = useFirebaseImage();
 
   useEffect(() => {
+    if (!book?.imageId) return;
+
     getImageUrl(book?.imageId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
