@@ -1,11 +1,11 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useAppSelector } from "./hooks/hooks";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 // components
 import Navbar from "./components/Navbar/Navbar";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
@@ -39,9 +39,9 @@ function App() {
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
-          {/* <Route exact path="/logout">
-            {userIsAuthenticated ? <Redirect to="/books" /> : <Logout />}
-          </Route> */}
+          <Route exact path="/signup">
+            {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
+          </Route>
           <Route path="/*" component={ErrorPage} />
         </Switch>
       </BrowserRouter>

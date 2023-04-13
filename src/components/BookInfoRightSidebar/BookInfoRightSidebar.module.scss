@@ -1,0 +1,85 @@
+$bookInfoWidth: 18%;
+
+.bookInfo {
+  background-color: #121421;
+  width: $bookInfoWidth;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: -$bookInfoWidth;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+  transition: right 0.3s ease;
+
+  &.show {
+    right: 0;
+  }
+
+  h2 {
+    color: #fff;
+    margin: 0;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    color: #fff;
+    margin: 0;
+    padding-top: 20px;
+    width: 90%;
+  }
+
+  h5 {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0.4rem 0px;
+    width: 90%;
+  }
+
+  .bookCover {
+    background-size: cover;
+    background-position: center;
+    width: 80%;
+    height: 0;
+    padding-bottom: 120%;
+  }
+
+  .plot {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 90%;
+
+    h2 {
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent);
+      mask-image: linear-gradient(180deg, #000 60%, transparent);
+      color: white;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 6;
+      line-height: 1.4;
+      margin-top: 0;
+      margin-bottom: 0.9rem;
+    }
+  }
+
+  .image {
+    width: 80%;
+    height: auto;
+    margin: 10px 0px;
+  }
+
+  .noBook {
+    margin: 100% 0px;
+  }
+}

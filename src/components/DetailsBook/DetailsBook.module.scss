@@ -1,57 +1,60 @@
-.container {
+$button-container-width: 80%;
+
+.pageContainer {
   display: grid;
   grid-template-columns: 1fr 2fr;
   column-gap: 5rem;
 
-  .item1 {
+  .leftContainer {
     grid-column: 1 / span 1;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
-    .buttonContainer {
+    .buttonGroup {
       display: flex;
       justify-content: center;
       flex-direction: column;
       align-items: center;
       margin-top: 1rem;
-      width: 80%;
+      width: $button-container-width;
 
       .button {
         margin-bottom: 0.5rem;
       }
 
-      .container {
-        width: 100%; /* szerokość kontenera */
+      .innerContainer {
+        width: 100%; /* container width */
         display: flex;
         justify-content: center;
         align-items: center;
 
-        .left {
-          float: right; /* przesuwa lewy element na prawą stronę */
+        .leftItem {
+          float: right; /* moves the left item to the right */
           margin-left: 10px;
-          width: 25%; /* szerokość lewego elementu */
+          width: 25%; /* width of the left item */
         }
 
-        .center {
-          margin: 0 auto; /* centruje środkowy element */
-          width: 70%; /* szerokość środkowego elementu */
+        .centerItem {
+          margin: 0 auto; /* centers the center item */
+          width: 70%; /* width of the center item */
         }
 
-        .right {
-          float: right; /* przesuwa prawy element na prawą stronę (obok lewego) */
-          width: 25%; /* szerokość prawego elementu */
+        .rightItem {
+          float: right; /* moves the right item to the right (next to the left item) */
+          width: 25%; /* width of the right item */
         }
       }
     }
   }
 
-  .item2 {
+  .rightContainer {
     grid-column: 2 / span 1;
+    width: 80%;
   }
 
-  .image {
+  .imageContainer {
     max-width: 60%;
     max-height: 100%;
     padding: 20px;
