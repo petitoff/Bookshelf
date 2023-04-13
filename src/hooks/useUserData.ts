@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import "firebase/firestore";
 import { User } from "../types/User";
 import { db } from "../firebase/config";
-import { useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import { doc, getDoc } from "firebase/firestore";
 import useFirebaseImage from "./useFirebaseImage";
+import { setUser } from "../store/slices/authSlice";
 
 const useUserData = () => {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const auth = useAppSelector((state) => state.auth.user);
   const { getImageUrl, imageUrl } = useFirebaseImage();
   const [isUserLoaded, setIsUserLoaded] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!auth?.UID || isUserLoaded) return;
@@ -22,12 +25,13 @@ const useUserData = () => {
       .then((doc) => {
         if (doc.exists()) {
           const userData = doc.data() as User;
-          setUser(userData);
+          // setUser(userData);
           if (userData.imageId) {
             getImageUrl(userData?.imageId);
           }
 
           setIsUserLoaded(true);
+          dispatch(setUser(userData));
         } else {
           console.log("No such document!");
         }
@@ -40,7 +44,7 @@ const useUserData = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
-  return { user, imageUrl, error };
+  return { imageUrl, error };
 };
 
 export default useUserData;

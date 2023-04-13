@@ -1,5 +1,5 @@
 import { db } from "../firebase/config";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Book } from "../types/Book";
 import { useAppDispatch, useAppSelector } from "./hooks";
@@ -7,18 +7,15 @@ import { fetchBooksStart, fetchBooksSuccess } from "../store/slices/bookSlice";
 
 export function useBooks() {
   const [books, setBooks] = useState<any>([]);
-  const uid = useAppSelector((state) => state.auth.user?.UID);
+  const user = useAppSelector((state) => state.auth.user);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (!uid) return;
+    if (!user?.UID) return;
 
     dispatch(fetchBooksStart());
 
-    const booksCollection = query(
-      collection(db, "books"),
-      where("authorUid", "==", uid)
-    );
+    const booksCollection = query(collection(db, "books"));
 
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
       const bookList = snapshot.docs.map((doc) => {
@@ -36,7 +33,7 @@ export function useBooks() {
     return () => unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uid]);
+  }, [user?.UID]);
 
   return { books };
 }

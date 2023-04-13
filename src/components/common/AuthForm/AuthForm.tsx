@@ -1,12 +1,14 @@
 import { useState } from "react";
 import styles from "./AuthForm.module.scss";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Props {
   heading: string;
   buttonText: string;
   altText: string;
   altLink: string;
+  confirmPassword?: boolean;
   onSubmit: (email: string, password: string) => void;
 }
 
@@ -15,13 +17,27 @@ const AuthForm = ({
   buttonText,
   altText,
   altLink,
+  confirmPassword,
   onSubmit,
 }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+
+  const isPasswordValid = (password: string, minLength: number): boolean => {
+    return password.length >= minLength;
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (confirmPassword && password !== confirmPasswordValue) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    if (!isPasswordValid(password, 8)) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
     onSubmit(email, password);
   };
 
@@ -45,6 +61,16 @@ const AuthForm = ({
           placeholder="Password"
           type="password"
         />
+        {confirmPassword && (
+          <input
+            value={confirmPasswordValue}
+            onChange={(e) => setConfirmPasswordValue(e.target.value)}
+            required
+            className={styles.input}
+            placeholder="Retype password"
+            type="password"
+          />
+        )}
         <Link to={altLink} className={styles.link}>
           <p>{altText}</p>
         </Link>
