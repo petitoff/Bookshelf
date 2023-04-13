@@ -1,26 +1,46 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
+import { toast } from "react-toastify";
+
+interface SignupState {
+  isLoading: boolean;
+  error: string | null;
+}
 
 const useSignup = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [signupState, setSignupState] = useState<SignupState>({
+    isLoading: false,
+    error: null,
+  });
 
-  const signup = async (email: string, password: string) => {
-    setIsLoading(true);
-    setError(null);
+  const signup = async (email: string, password: string): Promise<void> => {
+    setSignupState({ isLoading: true, error: null });
 
     try {
-      // Sign up the user with Firebase Authentication
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error: Error | any) {
-      setError(error);
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (result.user) {
+        toast.success("User created successfully");
+      }
+    } catch (error: any) {
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already in use");
+      } else {
+        toast.error(`Something went wrong ${error.message}`);
+      }
+
+      setSignupState({ isLoading: false, error });
     } finally {
-      setIsLoading(false);
+      setSignupState({ isLoading: false, error: null });
     }
   };
 
-  return { signup, isLoading, error };
+  return { signupState, signup };
 };
 
 export default useSignup;

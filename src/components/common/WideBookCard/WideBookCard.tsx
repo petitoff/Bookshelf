@@ -4,6 +4,7 @@ import "./WideBookCard.css";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
+import { useHistory } from "react-router-dom";
 
 interface BookCardProps {
   book: Book;
@@ -13,8 +14,14 @@ const BookCard = ({ book }: BookCardProps) => {
   const { getImageUrl, imageUrl, error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
+  const history = useHistory();
+
   const handleLoad = () => {
     setLoaded(true);
+  };
+
+  const handleOpenDetails = () => {
+    history.push(`/books/${book.id}`);
   };
 
   useEffect(() => {
@@ -73,7 +80,11 @@ const BookCard = ({ book }: BookCardProps) => {
           See details
         </a> */}
 
-        <FiChevronRight className="book-button" size={20} />
+        <FiChevronRight
+          onClick={handleOpenDetails}
+          className="book-button"
+          size={20}
+        />
       </div>
     </div>
   );

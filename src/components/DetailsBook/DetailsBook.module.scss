@@ -1,0 +1,63 @@
+$button-container-width: 80%;
+
+.pageContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 5rem;
+
+  .leftContainer {
+    grid-column: 1 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .buttonGroup {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+      width: $button-container-width;
+
+      .button {
+        margin-bottom: 0.5rem;
+      }
+
+      .innerContainer {
+        width: 100%; /* container width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .leftItem {
+          float: right; /* moves the left item to the right */
+          margin-left: 10px;
+          width: 25%; /* width of the left item */
+        }
+
+        .centerItem {
+          margin: 0 auto; /* centers the center item */
+          width: 70%; /* width of the center item */
+        }
+
+        .rightItem {
+          float: right; /* moves the right item to the right (next to the left item) */
+          width: 25%; /* width of the right item */
+        }
+      }
+    }
+  }
+
+  .rightContainer {
+    grid-column: 2 / span 1;
+    width: 80%;
+  }
+
+  .imageContainer {
+    max-width: 60%;
+    max-height: 100%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+}

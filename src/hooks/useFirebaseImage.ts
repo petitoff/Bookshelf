@@ -6,7 +6,7 @@ const useFirebaseImage = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  const getImageUrl = async (imageId?: string) => {
+  const getImageUrl = async (imageId: string) => {
     try {
       if (imageId === undefined) {
         setImageUrl(null);

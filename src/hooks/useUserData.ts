@@ -23,7 +23,10 @@ const useUserData = () => {
         if (doc.exists()) {
           const userData = doc.data() as User;
           setUser(userData);
-          getImageUrl(userData?.imageId);
+          if (userData.imageId) {
+            getImageUrl(userData?.imageId);
+          }
+
           setIsUserLoaded(true);
         } else {
           console.log("No such document!");

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
-import styles from "./BookCard.module.css";
+import styles from "./BookCard.module.scss";
 
 interface Props {
   id: string;
