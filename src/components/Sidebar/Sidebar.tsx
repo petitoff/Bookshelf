@@ -6,14 +6,17 @@ import useUserData from "../../hooks/useUserData";
 import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
+import useFirebaseImage from "../../hooks/useFirebaseImage";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const sidebarOpen = useAppSelector(
     (state) => state.sidebar.isLeftSidebarOpen
   );
-  const auth = useAppSelector((state) => state.auth.user);
-  const { user, imageUrl } = useUserData();
+  const user = useAppSelector((state) => state.auth.user);
+  const [image, setImage] = useState("");
+  const { getImageUrl, imageUrl } = useFirebaseImage();
   const { logout } = useLogout();
 
   const handleLogout = () => {
@@ -21,13 +24,33 @@ const Sidebar = () => {
     logout();
   };
 
+  useEffect(() => {
+    if (!user || !user.imageId) {
+      setImage("");
+      return;
+    }
+
+    getImageUrl(user?.imageId);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (!imageUrl) {
+      setImage("");
+      return;
+    }
+
+    setImage(imageUrl);
+  }, [imageUrl]);
+
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>
-            {imageUrl ? (
-              <img src={imageUrl} alt="user" />
+            {image ? (
+              <img src={image} alt="user" />
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}
@@ -55,7 +78,7 @@ const Sidebar = () => {
 
         <hr />
 
-        {auth ? (
+        {user ? (
           <>
             <li>
               <Link to="/settings">

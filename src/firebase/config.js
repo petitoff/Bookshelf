@@ -14,6 +14,9 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
+// Set the FIRESTORE_EMULATOR_HOST environment variable
+process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
+
 const db = getFirestore();
 
 const auth = getAuth();

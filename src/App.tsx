@@ -13,11 +13,14 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoute from "./ProtectedRoute";
 import Books from "./pages/Books";
 import Book from "./pages/Book";
+import useUserData from "./hooks/useUserData";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
     (state) => state.auth.user !== undefined
   );
+
+  useUserData();
 
   return (
     <div>

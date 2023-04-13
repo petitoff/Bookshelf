@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 interface SignupState {
@@ -24,7 +25,15 @@ const useSignup = () => {
         password
       );
 
+      console.log(result);
+
       if (result.user) {
+        await setDoc(doc(db, "users", result.user.uid), {
+          UID: result.user.uid,
+          email: result.user.email,
+          // Add any additional user data you want to store in the document
+        });
+
         toast.success("User created successfully");
       }
     } catch (error: any) {

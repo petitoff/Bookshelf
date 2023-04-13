@@ -16,8 +16,8 @@ export function useBooks() {
     dispatch(fetchBooksStart());
 
     const booksCollection = query(
-      collection(db, "books"),
-      where("authorUid", "==", uid)
+      collection(db, "books")
+      // where("authorUid", "==", uid)
     );
 
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
