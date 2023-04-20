@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import { updateUser } from "../../firebase/services/firestore";
 import { User } from "../../types/User";
-import { setUser } from "../../store/slices/authSlice";
 
 type ActiveButton = "My Profile" | "Security";
 
@@ -15,22 +14,14 @@ const AccountSettings = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   const [activeButton, setActiveButton] = useState<ActiveButton>("My Profile");
-  const [enabledEdit, setEnabledEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
 
-  const handleButtonClick = (buttonName: ActiveButton) => {
-    setActiveButton(buttonName);
-  };
+  const handleSaveClick = () => {
+    setIsEditing(!isEditing);
 
-  const handleEditClick = () => {
-    setEnabledEdit(!enabledEdit);
-
-    if (enabledEdit) {
-      console.log("Save");
-
-      user?.UID && updateUser(user?.UID, { name } as User);
-
-      dispatch(setUser({ name } as User));
+    if (isEditing) {
+      user?.UID && updateUser(dispatch, user?.UID, { name } as User);
     }
   };
 
@@ -45,7 +36,7 @@ const AccountSettings = () => {
           className={`${styles.button} ${
             activeButton === "My Profile" && styles.activeButton
           }`}
-          onClick={() => handleButtonClick("My Profile")}
+          onClick={() => setActiveButton("My Profile")}
         >
           My Profile
         </button>
@@ -53,7 +44,7 @@ const AccountSettings = () => {
           className={`${styles.button} ${
             activeButton === "Security" && styles.activeButton
           }`}
-          onClick={() => handleButtonClick("Security")}
+          onClick={() => setActiveButton("Security")}
         >
           Security
         </button>
@@ -73,17 +64,17 @@ const AccountSettings = () => {
                 <p className={`${styles.paragraphInput} `}>
                   <input
                     type="text"
-                    disabled={!enabledEdit}
+                    disabled={!isEditing}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={`${enabledEdit && styles.activeInput}`}
+                    className={`${isEditing && styles.activeInput}`}
                   />
                 </p>
               </div>
             </div>
             <div className={styles.sectionRight}>
-              <button onClick={handleEditClick} className={styles.editButton}>
-                {enabledEdit ? (
+              <button onClick={handleSaveClick} className={styles.editButton}>
+                {isEditing ? (
                   <>
                     <span>Save</span>
                     <FontAwesomeIcon icon={faSave} className={styles.icon} />
