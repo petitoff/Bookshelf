@@ -7,16 +7,18 @@ import { updateUser } from "../../firebase/services/firestore";
 import { User } from "../../types/User";
 import { setUser } from "../../store/slices/authSlice";
 
+type ActiveButton = "My Profile" | "Security";
+
 const AccountSettings = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.auth.user);
 
-  const [activeButton, setActiveButton] = useState("My Profile");
+  const [activeButton, setActiveButton] = useState<ActiveButton>("My Profile");
   const [enabledEdit, setEnabledEdit] = useState(false);
   const [name, setName] = useState("");
 
-  const handleButtonClick = (buttonName: string) => {
+  const handleButtonClick = (buttonName: ActiveButton) => {
     setActiveButton(buttonName);
   };
 
@@ -57,43 +59,47 @@ const AccountSettings = () => {
         </button>
       </div>
       <div className={styles.separator}></div>
+
       <div className={styles.settingsSection}>
         <h2>{activeButton}</h2>
+        {activeButton === "My Profile" ? (
+          <div className={styles.section}>
+            <div className={styles.sectionLeft}>
+              <div className={styles.userImage}>
+                <img src={user?.imageUrl ?? ""} alt="user" />
+              </div>
 
-        <div className={styles.section}>
-          <div className={styles.sectionLeft}>
-            <div className={styles.userImage}>
-              <img src={user?.imageUrl ?? ""} alt="user" />
+              <div>
+                <p className={`${styles.paragraphInput} `}>
+                  <input
+                    type="text"
+                    disabled={!enabledEdit}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={`${enabledEdit && styles.activeInput}`}
+                  />
+                </p>
+              </div>
             </div>
-
-            <div>
-              <p className={`${styles.paragraphInput} `}>
-                <input
-                  type="text"
-                  disabled={!enabledEdit}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={`${enabledEdit && styles.activeInput}`}
-                />
-              </p>
+            <div className={styles.sectionRight}>
+              <button onClick={handleEditClick} className={styles.editButton}>
+                {enabledEdit ? (
+                  <>
+                    <span>Save</span>
+                    <FontAwesomeIcon icon={faSave} className={styles.icon} />
+                  </>
+                ) : (
+                  <>
+                    edit
+                    <FontAwesomeIcon icon={faEdit} className={styles.icon} />
+                  </>
+                )}
+              </button>
             </div>
           </div>
-          <div className={styles.sectionRight}>
-            <button onClick={handleEditClick} className={styles.editButton}>
-              {enabledEdit ? (
-                <>
-                  <span>Save</span>
-                  <FontAwesomeIcon icon={faSave} className={styles.icon} />
-                </>
-              ) : (
-                <>
-                  edit
-                  <FontAwesomeIcon icon={faEdit} className={styles.icon} />
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );
