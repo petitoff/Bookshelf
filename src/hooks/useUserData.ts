@@ -8,7 +8,6 @@ import useFirebaseImage from "./useFirebaseImage";
 import { setUser } from "../store/slices/authSlice";
 
 const useUserData = () => {
-  // const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const auth = useAppSelector((state) => state.auth.user);
   const { getImageUrl, imageUrl } = useFirebaseImage();
@@ -25,7 +24,6 @@ const useUserData = () => {
       .then((doc) => {
         if (doc.exists()) {
           const userData = doc.data() as User;
-          // setUser(userData);
           if (userData.imageId) {
             getImageUrl(userData?.imageId);
           }
@@ -44,7 +42,13 @@ const useUserData = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
-  return { imageUrl, error };
+  useEffect(() => {
+    if (!imageUrl) return;
+    dispatch(setUser({ imageUrl } as User));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageUrl]);
+
+  return { error };
 };
 
 export default useUserData;

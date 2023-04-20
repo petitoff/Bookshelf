@@ -5,8 +5,6 @@ import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
-import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -14,42 +12,24 @@ const Sidebar = () => {
     (state) => state.sidebar.isLeftSidebarOpen
   );
   const user = useAppSelector((state) => state.auth.user);
-  const [image, setImage] = useState("");
-  const { getImageUrl, imageUrl } = useFirebaseImage();
   const { logout } = useLogout();
 
   const handleLogout = () => {
-    dispatch(toggleLeftSidebar());
+    handleLinkClick();
     logout();
   };
 
-  useEffect(() => {
-    if (!user || !user.imageId) {
-      setImage("");
-      return;
-    }
-
-    getImageUrl(user?.imageId);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  useEffect(() => {
-    if (!imageUrl) {
-      setImage("");
-      return;
-    }
-
-    setImage(imageUrl);
-  }, [imageUrl]);
+  const handleLinkClick = () => {
+    dispatch(toggleLeftSidebar());
+  };
 
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>
-            {image ? (
-              <img src={image} alt="user" />
+            {user?.imageUrl ? (
+              <img src={user?.imageUrl} alt="user" />
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}
@@ -60,17 +40,17 @@ const Sidebar = () => {
         <hr className={styles.separator} />
 
         <li>
-          <Link to="/">
+          <Link to="/" onClick={handleLinkClick}>
             <FaHome className={styles.icon} /> Home
           </Link>
         </li>
         <li>
-          <Link to="/mylist">
+          <Link to="/mylist" onClick={handleLinkClick}>
             <FaList className={styles.icon} /> My List
           </Link>
         </li>
         <li>
-          <Link to="/favourites">
+          <Link to="/favourites" onClick={handleLinkClick}>
             <FaHeart className={styles.icon} /> Favourites
           </Link>
         </li>
@@ -80,7 +60,7 @@ const Sidebar = () => {
         {user ? (
           <>
             <li>
-              <Link to="/settings">
+              <Link to="/settings" onClick={handleLinkClick}>
                 <FaCog className={styles.icon} /> Settings
               </Link>
             </li>
@@ -92,7 +72,9 @@ const Sidebar = () => {
           </>
         ) : (
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login" onClick={handleLinkClick}>
+              Login
+            </Link>
           </li>
         )}
       </ul>
