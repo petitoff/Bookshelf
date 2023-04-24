@@ -1,4 +1,4 @@
-$bookInfoWidth: 18%;
+$bookInfoWidth: 18vw;
 
 .bookInfo {
   background-color: #121421;
@@ -81,5 +81,9 @@ $bookInfoWidth: 18%;
 
   .noBook {
     margin: 100% 0px;
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
   }
 }
