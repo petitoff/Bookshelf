@@ -3,12 +3,24 @@
   margin: 0 auto;
   width: 70vw;
   height: 70vh;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
 }
 
 .buttonList {
   display: flex;
   flex-direction: column;
   width: 7rem;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }
 
 .button {
@@ -28,16 +40,25 @@
     background-color: #f2f2f2;
     color: #296bf1;
   }
+
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+    margin: 0 0.5rem;
+  }
 }
 
 .activeButton {
-  background-color: #e9f0ff;
+  background-color: #f2f2f2;
   color: #296bf1;
 }
 
 .separator {
   border-left: 1px solid rgba(204, 204, 204, 0.5);
   margin: 0 2rem;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 .settingsSection {
@@ -56,16 +77,30 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      padding: 1rem;
+    }
   }
 
   .sectionLeft {
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0.5rem;
+    }
   }
 
   .sectionRight {
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
 
@@ -112,6 +147,17 @@
     cursor: default;
     padding: 1rem;
   }
+
+  @media screen and (max-width: 768px) {
+    input {
+      font-size: 14px;
+    }
+
+    .activeInput {
+      font-size: 14px;
+      padding: 0.5rem;
+    }
+  }
 }
 
 .editButton {
@@ -130,5 +176,9 @@
 
   .icon {
     margin-left: 0.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 10px;
   }
 }
