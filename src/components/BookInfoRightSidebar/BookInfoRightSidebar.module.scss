@@ -2,7 +2,7 @@ $bookInfoWidth: 18vw;
 
 .bookInfo {
   background-color: #121421;
-  width: $bookInfoWidth;
+  width: clamp(300px, $bookInfoWidth, 400px);
   height: 100vh;
   position: fixed;
   top: 0;
@@ -84,6 +84,10 @@ $bookInfoWidth: 18vw;
   }
 
   @media (max-width: 1200px) {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
     display: none;
   }
 }
