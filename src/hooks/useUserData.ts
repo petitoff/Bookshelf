@@ -43,8 +43,14 @@ const useUserData = () => {
   }, [auth]);
 
   useEffect(() => {
-    if (!imageUrl) return;
-    dispatch(setUser({ imageUrl } as User));
+    if (!imageUrl || !auth?.UID) return;
+    
+    dispatch(
+      setUser({
+        imageUrl,
+        UID: auth?.UID,
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl]);
 
