@@ -21,7 +21,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
   };
 
   const handleOpenDetails = () => {
-    history.push(`/books/${book.id}`);
+    history.push(`/book/${book.id}`);
   };
 
   useEffect(() => {
