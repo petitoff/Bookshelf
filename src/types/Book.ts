@@ -3,11 +3,12 @@ export interface Book {
   title?: string;
   authorUid?: string;
   authorName?: string;
-  imageId?: string;
   summary?: string;
   pages?: number;
   ratings?: string[];
   reviews?: string[];
+
+  imageId?: string;
 }
 
 export interface BookCollection {

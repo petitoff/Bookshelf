@@ -1,6 +1,16 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../config";
 import { Book } from "../../types/Book";
+import { User } from "../../types/User";
+import { AppDispatch } from "../../store/store";
+import { setUser } from "../../store/slices/authSlice";
 
 /** Function to fetch all books from Firestore */
 export const getBooksFromFirestore = async (): Promise<Book[]> => {
@@ -38,6 +48,19 @@ export const addBook = async (book: Book): Promise<string> => {
   } catch (error) {
     console.error("Error adding book: ", error);
     throw new Error("Error adding book to Firestore");
+  }
+};
+
+export const updateUser = async (
+  dispatch: AppDispatch,
+  UID: string,
+  data: User
+) => {
+  try {
+    dispatch(setUser(data));
+    await updateDoc(doc(db, "users", UID), data);
+  } catch (error: any) {
+    throw new Error("Error updating user");
   }
 };
 

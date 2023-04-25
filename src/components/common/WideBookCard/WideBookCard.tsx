@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 import { useHistory } from "react-router-dom";
 
-interface BookCardProps {
+interface WideBookCardProps {
   book: Book;
 }
 
-const BookCard = ({ book }: BookCardProps) => {
+const WideBookCard = ({ book }: WideBookCardProps) => {
   const { getImageUrl, imageUrl, error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
@@ -21,7 +21,7 @@ const BookCard = ({ book }: BookCardProps) => {
   };
 
   const handleOpenDetails = () => {
-    history.push(`/books/${book.id}`);
+    history.push(`/book/${book.id}`);
   };
 
   useEffect(() => {
@@ -90,4 +90,4 @@ const BookCard = ({ book }: BookCardProps) => {
   );
 };
 
-export default BookCard;
+export default WideBookCard;

@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Books from "./pages/Books";
 import Book from "./pages/Book";
 import useUserData from "./hooks/useUserData";
+import Settings from "./pages/Settings";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -36,7 +37,7 @@ function App() {
           <ProtectedRoute exact path="/books">
             <Books />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/books/:id">
+          <ProtectedRoute exact path="/book/:id">
             <Book />
           </ProtectedRoute>
           <Route exact path="/login">
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
+          </Route>
+          <Route exact path="/settings">
+            <Settings />
           </Route>
           <Route path="/*" component={ErrorPage} />
         </Switch>

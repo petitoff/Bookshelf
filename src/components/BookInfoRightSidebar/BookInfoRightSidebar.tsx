@@ -43,8 +43,28 @@ const BookInfoRightSidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1200px)");
+
+    const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) {
+        dispatch(closeRightSidebar());
+      } else {
+        dispatch(openRightSidebar());
+      }
+    };
+
+    handleMediaChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleMediaChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaChange);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleOpenDetailsPage = () => {
-    history.push(`/books/${activeBook?.id}`);
+    history.push(`/book/${activeBook?.id}`);
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
-import "./Navbar.css";
+import "./Navbar.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import { Link } from "react-router-dom";
@@ -67,7 +67,7 @@ const Navigation = () => {
             Books
           </Link>
         </li>
-        <li
+        {/* <li
           className={`navigation__menu-item ${
             activeItem === "audiobooks" ? "active" : ""
           }`}
@@ -82,7 +82,7 @@ const Navigation = () => {
           onClick={() => handleMenuItemClick("podcasts")}
         >
           Podcasts
-        </li>
+        </li> */}
       </ul>
       <form onSubmit={handleSearchSubmit} className="navigation__search">
         <input

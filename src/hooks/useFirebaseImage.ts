@@ -6,14 +6,9 @@ const useFirebaseImage = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  const getImageUrl = async (imageId: string) => {
+  const getImageUrl = async (imageId: string | undefined | null) => {
     try {
-      if (imageId === undefined) {
-        setImageUrl(null);
-        return;
-      }
-
-      if (imageId === null) {
+      if (!imageId) {
         setImageUrl(null);
         return;
       }
@@ -26,10 +21,6 @@ const useFirebaseImage = () => {
       setError(error);
     }
   };
-
-  // useEffect(() => {
-  //   getImageUrl();
-  // }, [imageName]);
 
   return { getImageUrl, imageUrl, error };
 };
