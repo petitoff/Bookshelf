@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import BasicInfoSection from "../common/BookCardStats/BookCardStats";
 import WideButton from "../common/WideButton/WideButton";
 import styles from "./BookInfoRightSidebar.module.scss";
@@ -46,7 +46,7 @@ const BookInfoRightSidebar = () => {
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1200px)");
 
-    const handleMediaChange: any = (e: MediaQueryList) => {
+    const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
       if (e.matches) {
         dispatch(closeRightSidebar());
       } else {
@@ -55,13 +55,11 @@ const BookInfoRightSidebar = () => {
     };
 
     handleMediaChange(mediaQuery);
-    // eslint-disable-next-line
-    mediaQuery.addListener(handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
     return () => {
-      mediaQuery.removeListener(handleMediaChange);
+      mediaQuery.removeEventListener("change", handleMediaChange);
     };
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
