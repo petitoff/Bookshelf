@@ -34,7 +34,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
       {error ? (
         <div>Error!</div>
       ) : (
-        <>
+        <div className="image-container">
           {!imageUrl ? (
             <Blurhash
               hash="LKO2?U%2Tw=w]~RBVZRi};RPxuwH"
@@ -53,7 +53,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
               onLoad={handleLoad}
             />
           )}
-        </>
+        </div>
       )}
       <div className="book-details">
         <h4 className="book-title">{book?.title}</h4>
