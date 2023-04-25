@@ -7,18 +7,31 @@
   width: 90%;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   transition: width 0.3s ease;
+
+  @media only screen and (max-width: 768px) {
+    padding: 10px;
+    width: 100%;
+  }
 }
 
 .navigation__logo {
   font-size: 24px;
   font-weight: bold;
   color: #333;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 }
 
 .navigation__menu {
   display: flex;
   align-items: center;
   padding-left: 10%;
+
+  @media only screen and (max-width: 768px) {
+    // display: none;
+  }
 }
 
 .navigation__menu-item {
@@ -27,20 +40,28 @@
   color: #333;
   cursor: pointer;
   position: relative;
-}
 
-.navigation__menu-item.active {
-  font-weight: 700;
-}
+  &:last-child {
+    margin-right: 0;
+  }
 
-.navigation__menu-item.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #4a80f0;
+  &.active {
+    font-weight: 700;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #4a80f0;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    margin-right: 10px;
+  }
 }
 
 .navigation__search {
@@ -48,7 +69,13 @@
   align-items: center;
   background-color: #f0f0f0;
   border-radius: 20px;
+
+  @media only screen and (max-width: 768px) {
+    margin-top: 20px;
+    margin-right: 1rem;
+  }
 }
+
 .navigation__search-input {
   padding: 15px 15px 15px 20px;
   flex-grow: 1;
@@ -57,11 +84,17 @@
   background-color: transparent;
   width: 200px;
   margin-right: 8px;
-}
 
-.navigation__search-input::placeholder {
-  color: #a3a2a2;
-  text-align: left;
+  &::placeholder {
+    color: #a3a2a2;
+    text-align: left;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 10px;
+    width: 100%;
+    margin-right: 0;
+  }
 }
 
 .navigation__search-button {
@@ -70,6 +103,10 @@
   outline: none;
   cursor: pointer;
   padding-right: 20px;
+
+  @media only screen and (max-width: 768px) {
+    padding: 10px;
+  }
 }
 
 .navigation li {
@@ -78,10 +115,18 @@
 
 .open-sidebar {
   margin-right: 20px;
+
+  @media only screen and (max-width: 768px) {
+    margin-right: 10px;
+  }
 }
 
 .open-right-sidebar {
   width: 75%;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .disable-decorations {
