@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import styles from "./BookCard.module.scss";
+import { useAppSelector } from "../../../hooks/hooks";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   id: string;
@@ -19,10 +21,23 @@ function BookCard({
   isActiveBook,
   onSetActiveBook,
 }: Props) {
+  const isRightSidebarOpen = useAppSelector(
+    (state) => state.sidebar.isRightSidebarOpen
+  );
   const { getImageUrl, imageUrl } = useFirebaseImage();
+  const history = useHistory();
 
   const handleToggleActiveBook = () => {
+    if (!isRightSidebarOpen) {
+      handleOpenDetailsPage();
+      return;
+    }
+
     onSetActiveBook(id);
+  };
+
+  const handleOpenDetailsPage = () => {
+    history.push(`/book/${id}`);
   };
 
   useEffect(() => {

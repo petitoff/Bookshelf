@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import BasicInfoSection from "../common/BookCardStats/BookCardStats";
 import WideButton from "../common/WideButton/WideButton";
 import styles from "./BookInfoRightSidebar.module.scss";
@@ -43,8 +43,30 @@ const BookInfoRightSidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1200px)");
+
+    const handleMediaChange: any = (e: MediaQueryList) => {
+      if (e.matches) {
+        dispatch(closeRightSidebar());
+      } else {
+        dispatch(openRightSidebar());
+      }
+    };
+
+    handleMediaChange(mediaQuery);
+    // eslint-disable-next-line
+    mediaQuery.addListener(handleMediaChange);
+
+    return () => {
+      mediaQuery.removeListener(handleMediaChange);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleOpenDetailsPage = () => {
-    history.push(`/books/${activeBook?.id}`);
+    history.push(`/book/${activeBook?.id}`);
   };
 
   return (

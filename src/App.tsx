@@ -37,7 +37,7 @@ function App() {
           <ProtectedRoute exact path="/books">
             <Books />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/books/:id">
+          <ProtectedRoute exact path="/book/:id">
             <Book />
           </ProtectedRoute>
           <Route exact path="/login">
