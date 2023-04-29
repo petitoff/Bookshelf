@@ -34,9 +34,9 @@ function App() {
           <Route exact path="/">
             <Redirect to="/books" />
           </Route>
-          <ProtectedRoute exact path="/books">
+          <Route exact path="/books">
             <Books />
-          </ProtectedRoute>
+          </Route>
           <ProtectedRoute exact path="/book/:id">
             <Book />
           </ProtectedRoute>
