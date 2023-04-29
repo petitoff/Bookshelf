@@ -11,8 +11,6 @@ export function useBooks() {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (!user?.UID) return;
-
     dispatch(fetchBooksStart());
 
     const booksCollection = query(collection(db, "books"));
