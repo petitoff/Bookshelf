@@ -6,27 +6,37 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { setBooks } from "../store/slices/bookSlice";
 
 export function useBooks() {
-  // const [books, setBooks] = useState<any>([]);
   const user = useAppSelector((state) => state.auth.user);
-
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    const booksCollection = query(collection(db, "books"));
+    let unsubscribe: () => void;
 
-    const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
-      const bookList = snapshot.docs.map((doc) => {
-        const bookData = doc.data();
-        const book: Book = {
-          id: doc.id,
-          ...bookData,
-        };
+    const fetchBooks = async () => {
+      const booksCollection = query(collection(db, "books"));
+      unsubscribe = onSnapshot(booksCollection, (snapshot) => {
+        const bookList = snapshot.docs.map((doc) => {
+          const bookData = doc.data();
+          const book: Book = {
+            id: doc.id,
+            ...bookData,
+          };
 
-        return book;
+          return book;
+        });
+        dispatch(setBooks(bookList));
       });
-      setBooks(bookList);
-      dispatch(setBooks(bookList));
-    });
-    return () => unsubscribe();
+    };
+
+    if (user?.UID) {
+      fetchBooks();
+    }
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.UID]);
