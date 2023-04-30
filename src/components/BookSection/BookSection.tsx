@@ -26,7 +26,7 @@ const BookSection = ({ titleOfSection, books }: Props) => {
 
   return (
     <section>
-      <h2>{titleOfSection}</h2>
+      <h2 className={styles.titleOfSection}>{titleOfSection}</h2>
       <div className={styles.bookList}>
         {books.map((book) => {
           const {

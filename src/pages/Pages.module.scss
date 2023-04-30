@@ -17,4 +17,17 @@
       margin-left: 10%;
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+
+    .booksLeftContainer {
+      width: 100%;
+
+      .booksContainer {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
 }
