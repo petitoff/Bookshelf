@@ -3,7 +3,10 @@ import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import useBookSearch from "../../hooks/useBookSearch";
+
+const RouteToExclude = ["/book/:id", "/login", "/signup"];
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState("books");
@@ -14,8 +17,11 @@ const Navigation = () => {
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
+  const { setSearchTerm } = useBookSearch();
 
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const isSearchBarActive = !RouteToExclude.includes(location.pathname);
 
   const handleMenuItemClick = (item: any) => {
     setActiveItem(item);
@@ -23,6 +29,7 @@ const Navigation = () => {
 
   const handleSearchInputChange = (event: any) => {
     setSearchQuery(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   const handleSearchSubmit = (event: any) => {
@@ -85,17 +92,21 @@ const Navigation = () => {
         </li> */}
       </ul>
       <form onSubmit={handleSearchSubmit} className="navigation__search">
-        <input
-          type="text"
-          placeholder="Genre, author or book name"
-          value={searchQuery}
-          onChange={handleSearchInputChange}
-          className="navigation__search-input"
-          // autoComplete="off"
-        />
-        <button type="submit" className="navigation__search-button">
-          <FaSearch color="#aaa" size={15} />
-        </button>
+        {isSearchBarActive && (
+          <>
+            <input
+              type="text"
+              placeholder="Genre, author or book name"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              className="navigation__search-input"
+              // autoComplete="off"
+            />
+            <button type="submit" className="navigation__search-button">
+              <FaSearch color="#aaa" size={15} />
+            </button>
+          </>
+        )}
       </form>
     </nav>
   );

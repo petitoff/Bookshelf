@@ -6,10 +6,10 @@ import { setActiveBook, setActiveBookNull } from "../../store/slices/bookSlice";
 
 interface Props {
   titleOfSection: string;
+  books: Book[];
 }
 
-const BookSection = ({ titleOfSection }: Props) => {
-  const books = useAppSelector((state) => state.books.books);
+const BookSection = ({ titleOfSection, books }: Props) => {
   const activeBook = useAppSelector((state) => state.books.activeBook);
 
   const dispatch = useAppDispatch();

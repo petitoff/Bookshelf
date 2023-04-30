@@ -4,15 +4,13 @@ import { Book } from "../../types/Book";
 interface BooksState {
   books: Book[];
   activeBook: Book | null;
-  loading: boolean;
-  error: string | null;
+  booksSearch: Book[] | null;
 }
 
 const initialState: BooksState = {
   books: [],
   activeBook: null,
-  loading: false,
-  error: null,
+  booksSearch: null,
 };
 
 const booksSlice = createSlice({
@@ -25,18 +23,11 @@ const booksSlice = createSlice({
     setActiveBookNull(state) {
       state.activeBook = null;
     },
-    fetchBooksStart(state) {
-      state.loading = true;
-    },
     fetchBooksSuccess(state, action: PayloadAction<Book[]>) {
-      state.loading = false;
-      state.error = null;
       state.books = action.payload;
     },
-
-    fetchBooksFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    setBooksSearch(state, action: PayloadAction<Book[] | null>) {
+      state.booksSearch = action.payload;
     },
   },
 });
@@ -44,9 +35,8 @@ const booksSlice = createSlice({
 export const {
   setActiveBook,
   setActiveBookNull,
-  fetchBooksStart,
   fetchBooksSuccess,
-  fetchBooksFailure,
+  setBooksSearch,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

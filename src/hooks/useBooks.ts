@@ -3,7 +3,7 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Book } from "../types/Book";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import { fetchBooksStart, fetchBooksSuccess } from "../store/slices/bookSlice";
+import { fetchBooksSuccess } from "../store/slices/bookSlice";
 
 export function useBooks() {
   const [books, setBooks] = useState<any>([]);
@@ -11,8 +11,6 @@ export function useBooks() {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchBooksStart());
-
     const booksCollection = query(collection(db, "books"));
 
     const unsubscribe = onSnapshot(booksCollection, (snapshot) => {

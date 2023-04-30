@@ -5,3 +5,16 @@
   justify-content: center;
   align-items: center;
 }
+
+.books {
+  display: flex;
+
+  .booksLeftContainer {
+    width: 75vw;
+
+    .booksContainer {
+      margin-right: 20%;
+      margin-left: 10%;
+    }
+  }
+}
