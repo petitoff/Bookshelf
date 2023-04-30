@@ -9,6 +9,7 @@ interface Props {
   altText: string;
   altLink: string;
   confirmPassword?: boolean;
+  isLoading?: boolean;
   onSubmit: (email: string, password: string) => void;
 }
 
@@ -18,6 +19,7 @@ const AuthForm = ({
   altText,
   altLink,
   confirmPassword,
+  isLoading,
   onSubmit,
 }: Props) => {
   const [email, setEmail] = useState("");
@@ -74,7 +76,7 @@ const AuthForm = ({
         <Link to={altLink} className={styles.link}>
           <p>{altText}</p>
         </Link>
-        <button type="submit" className={styles.btn}>
+        <button type="submit" className={styles.btn} disabled={isLoading}>
           {buttonText}
         </button>
       </form>

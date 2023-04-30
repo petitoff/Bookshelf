@@ -62,7 +62,7 @@ const useLogin = () => {
     setIsLoggingIn(true);
   };
 
-  return { login };
+  return { login, isLoggingIn };
 };
 
 export default useLogin;
