@@ -5,16 +5,24 @@ import { Book } from "../types/Book";
 import { useAppDispatch } from "./hooks";
 import { setBooksSearch } from "../store/slices/bookSlice";
 
-const useBookSearch = () => {
+interface UseBookSearchResult {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  searchResults: Book[];
+  isLoading: boolean;
+  error: any;
+}
+
+const useBookSearch = (): UseBookSearchResult => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function fetchBooks() {
+    const fetchBooks = async () => {
       if (!searchTerm) {
         setSearchResults([]);
         dispatch(setBooksSearch(null));
@@ -40,15 +48,16 @@ const useBookSearch = () => {
         dispatch(setBooksSearch(results));
         setSearchResults(results);
         setError(null);
-      } catch (error: any) {
+      } catch (err) {
         setSearchResults([]);
-        setError(error);
+        setError(err);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
     fetchBooks();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
