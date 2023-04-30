@@ -6,15 +6,18 @@ import { useBooks } from "../hooks/useBooks";
 import styles from "./Pages.module.scss";
 
 const Books = () => {
+  useBooks();
+
   const booksSearch = useAppSelector((state) => state.books.booksSearch);
   const books = useAppSelector((state) => state.books.books);
-  useBooks();
+
+  const isSearchResults = booksSearch && booksSearch.length > 0;
 
   return (
     <div className={styles.books}>
       <BookInfoRightSidebar />
       <div className={styles.booksLeftContainer}>
-        {booksSearch && booksSearch.length > 0 ? (
+        {isSearchResults ? (
           <div className={styles.booksContainer}>
             <BookSection
               titleOfSection={"Search Results"}
