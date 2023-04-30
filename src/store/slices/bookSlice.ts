@@ -17,13 +17,10 @@ const booksSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    setActiveBook(state, action: PayloadAction<Book>) {
+    setActiveBook(state, action: PayloadAction<Book | null>) {
       state.activeBook = action.payload;
     },
-    setActiveBookNull(state) {
-      state.activeBook = null;
-    },
-    fetchBooksSuccess(state, action: PayloadAction<Book[]>) {
+    setBooks(state, action: PayloadAction<Book[]>) {
       state.books = action.payload;
     },
     setBooksSearch(state, action: PayloadAction<Book[] | null>) {
@@ -32,11 +29,6 @@ const booksSlice = createSlice({
   },
 });
 
-export const {
-  setActiveBook,
-  setActiveBookNull,
-  fetchBooksSuccess,
-  setBooksSearch,
-} = booksSlice.actions;
+export const { setActiveBook, setBooks, setBooksSearch } = booksSlice.actions;
 
 export default booksSlice.reducer;

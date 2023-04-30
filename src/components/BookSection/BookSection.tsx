@@ -2,7 +2,7 @@ import BookCard from "../common/BookCard/BookCard";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./BookSection.module.css";
 import { Book } from "../../types/Book";
-import { setActiveBook, setActiveBookNull } from "../../store/slices/bookSlice";
+import { setActiveBook } from "../../store/slices/bookSlice";
 
 interface Props {
   titleOfSection: string;
@@ -15,7 +15,7 @@ const BookSection = ({ titleOfSection, books }: Props) => {
 
   const handleSetActiveBook = (id: string) => {
     if (activeBook?.id === id) {
-      dispatch(setActiveBookNull());
+      dispatch(setActiveBook(null));
     } else {
       const localActiveBook = books.find(
         (book: Book) => book.id === id

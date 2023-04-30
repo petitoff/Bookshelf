@@ -1,12 +1,12 @@
 import { db } from "../firebase/config";
 import { collection, onSnapshot, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Book } from "../types/Book";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import { fetchBooksSuccess } from "../store/slices/bookSlice";
+import { setBooks } from "../store/slices/bookSlice";
 
 export function useBooks() {
-  const [books, setBooks] = useState<any>([]);
+  // const [books, setBooks] = useState<any>([]);
   const user = useAppSelector((state) => state.auth.user);
 
   const dispatch = useAppDispatch();
@@ -24,12 +24,12 @@ export function useBooks() {
         return book;
       });
       setBooks(bookList);
-      dispatch(fetchBooksSuccess(bookList));
+      dispatch(setBooks(bookList));
     });
     return () => unsubscribe();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.UID]);
 
-  return { books };
+  return {};
 }
