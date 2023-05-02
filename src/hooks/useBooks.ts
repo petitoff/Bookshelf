@@ -24,13 +24,12 @@ export function useBooks() {
 
           return book;
         });
+
         dispatch(setBooks(bookList));
       });
     };
 
-    if (user?.UID) {
-      fetchBooks();
-    }
+    fetchBooks();
 
     return () => {
       if (unsubscribe) {
