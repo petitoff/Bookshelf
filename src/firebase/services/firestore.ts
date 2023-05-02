@@ -6,11 +6,12 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../config";
+import { auth, db } from "../config";
 import { Book } from "../../types/Book";
 import { User } from "../../types/User";
 import { AppDispatch } from "../../store/store";
-import { setUser } from "../../store/slices/authSlice";
+import { updateUser } from "../../store/slices/authSlice";
+import { updateEmail } from "firebase/auth";
 
 /** Function to fetch all books from Firestore */
 export const getBooksFromFirestore = async (): Promise<Book[]> => {
@@ -51,17 +52,27 @@ export const addBook = async (book: Book): Promise<string> => {
   }
 };
 
-export const updateUser = async (
+export const updateUserPartial = async (
   dispatch: AppDispatch,
   UID: string,
-  data: User
+  data: Partial<User>
 ) => {
   try {
-    dispatch(setUser(data));
+    // Update user in Firestore
+    dispatch(updateUser(data));
     await updateDoc(doc(db, "users", UID), data);
+
+    // Update email in Firebase Authentication
+    if (data.email) {
+      const user = auth.currentUser;
+      if (user) {
+        await updateEmail(user, data.email);
+      } else {
+        throw new Error("User not found in Firebase Authentication");
+      }
+    }
   } catch (error: any) {
     throw new Error("Error updating user");
   }
 };
-
 export {}; // add an empty export statement to make it a module

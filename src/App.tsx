@@ -1,7 +1,8 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { useAppSelector } from "./hooks/hooks";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { useAppSelector } from "./hooks/hooks";
 import "./App.css";
 
 // components
@@ -13,15 +14,12 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoute from "./ProtectedRoute";
 import Books from "./pages/Books";
 import Book from "./pages/Book";
-import useUserData from "./hooks/useUserData";
 import Settings from "./pages/Settings";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
     (state) => state.auth.user !== undefined
   );
-
-  useUserData();
 
   return (
     <div>
@@ -34,21 +32,21 @@ function App() {
           <Route exact path="/">
             <Redirect to="/books" />
           </Route>
-          <ProtectedRoute exact path="/books">
+          <Route exact path="/books">
             <Books />
-          </ProtectedRoute>
-          <ProtectedRoute exact path="/book/:id">
+          </Route>
+          <Route exact path="/book/:id">
             <Book />
-          </ProtectedRoute>
+          </Route>
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
           </Route>
-          <Route exact path="/settings">
+          <ProtectedRoute exact path="/settings">
             <Settings />
-          </Route>
+          </ProtectedRoute>
           <Route path="/*" component={ErrorPage} />
         </Switch>
       </BrowserRouter>

@@ -1,39 +1,44 @@
 import { db } from "../firebase/config";
 import { collection, onSnapshot, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Book } from "../types/Book";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import { fetchBooksStart, fetchBooksSuccess } from "../store/slices/bookSlice";
+import { setBooks } from "../store/slices/bookSlice";
 
 export function useBooks() {
-  const [books, setBooks] = useState<any>([]);
   const user = useAppSelector((state) => state.auth.user);
-
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (!user?.UID) return;
+    let unsubscribe: () => void;
 
-    dispatch(fetchBooksStart());
+    const fetchBooks = async () => {
+      const booksCollection = query(collection(db, "books"));
+      unsubscribe = onSnapshot(booksCollection, (snapshot) => {
+        const bookList = snapshot.docs.map((doc) => {
+          const bookData = doc.data();
+          const book: Book = {
+            id: doc.id,
+            ...bookData,
+          };
 
-    const booksCollection = query(collection(db, "books"));
+          return book;
+        });
 
-    const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
-      const bookList = snapshot.docs.map((doc) => {
-        const bookData = doc.data();
-        const book: Book = {
-          id: doc.id,
-          ...bookData,
-        };
-
-        return book;
+        dispatch(setBooks(bookList));
       });
-      setBooks(bookList);
-      dispatch(fetchBooksSuccess(bookList));
-    });
-    return () => unsubscribe();
+    };
+
+    fetchBooks();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.UID]);
 
-  return { books };
+  return {};
 }

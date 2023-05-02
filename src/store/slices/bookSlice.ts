@@ -4,49 +4,31 @@ import { Book } from "../../types/Book";
 interface BooksState {
   books: Book[];
   activeBook: Book | null;
-  loading: boolean;
-  error: string | null;
+  booksSearch: Book[] | null;
 }
 
 const initialState: BooksState = {
   books: [],
   activeBook: null,
-  loading: false,
-  error: null,
+  booksSearch: null,
 };
 
 const booksSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    setActiveBook(state, action: PayloadAction<Book>) {
+    setActiveBook(state, action: PayloadAction<Book | null>) {
       state.activeBook = action.payload;
     },
-    setActiveBookNull(state) {
-      state.activeBook = null;
-    },
-    fetchBooksStart(state) {
-      state.loading = true;
-    },
-    fetchBooksSuccess(state, action: PayloadAction<Book[]>) {
-      state.loading = false;
-      state.error = null;
+    setBooks(state, action: PayloadAction<Book[]>) {
       state.books = action.payload;
     },
-
-    fetchBooksFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+    setBooksSearch(state, action: PayloadAction<Book[] | null>) {
+      state.booksSearch = action.payload;
     },
   },
 });
 
-export const {
-  setActiveBook,
-  setActiveBookNull,
-  fetchBooksStart,
-  fetchBooksSuccess,
-  fetchBooksFailure,
-} = booksSlice.actions;
+export const { setActiveBook, setBooks, setBooksSearch } = booksSlice.actions;
 
 export default booksSlice.reducer;

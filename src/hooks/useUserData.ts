@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { doc, getDoc } from "firebase/firestore";
 import useFirebaseImage from "./useFirebaseImage";
-import { setUser } from "../store/slices/authSlice";
+import { setUser, updateUser } from "../store/slices/authSlice";
 
 const useUserData = () => {
   const [error, setError] = useState<Error | null>(null);
@@ -40,17 +40,14 @@ const useUserData = () => {
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
-    if (!imageUrl || !auth?.UID) return;
-    
-    dispatch(
-      setUser({
-        imageUrl,
-        UID: auth?.UID,
-      })
-    );
+    if (!imageUrl) return;
+
+    const partialUser: Partial<User> = { imageUrl };
+    dispatch(updateUser(partialUser));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl]);
 

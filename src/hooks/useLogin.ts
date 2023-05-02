@@ -10,6 +10,7 @@ const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isloginSuccessful, setIsLoginSuccessful] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -38,6 +39,8 @@ const useLogin = () => {
             autoClose: 1000,
             hideProgressBar: true,
           });
+
+          setIsLoginSuccessful(true);
         } catch (error: any) {
           setIsLoggingIn(false);
 
@@ -62,7 +65,7 @@ const useLogin = () => {
     setIsLoggingIn(true);
   };
 
-  return { login };
+  return { login, isLoggingIn, isloginSuccessful };
 };
 
 export default useLogin;
