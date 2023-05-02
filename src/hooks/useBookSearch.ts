@@ -4,6 +4,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { Book } from "../types/Book";
 import { useAppDispatch } from "./hooks";
 import { setBooksSearch } from "../store/slices/bookSlice";
+import useDebounce from "./useDebounce";
 
 interface UseBookSearchResult {
   searchTerm: string;
@@ -15,6 +16,7 @@ interface UseBookSearchResult {
 
 const useBookSearch = (): UseBookSearchResult => {
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Adjust the delay as needed
   const [searchResults, setSearchResults] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -23,7 +25,7 @@ const useBookSearch = (): UseBookSearchResult => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      if (!searchTerm) {
+      if (!debouncedSearchTerm) {
         setSearchResults([]);
         dispatch(setBooksSearch(null));
         return;
@@ -34,8 +36,8 @@ const useBookSearch = (): UseBookSearchResult => {
       try {
         const q = query(
           collection(db, "books"),
-          where("title", ">=", searchTerm),
-          where("title", "<=", searchTerm + "\uf8ff")
+          where("title", ">=", debouncedSearchTerm),
+          where("title", "<=", debouncedSearchTerm + "\uf8ff")
         );
 
         const querySnapshot = await getDocs(q);
@@ -59,7 +61,7 @@ const useBookSearch = (): UseBookSearchResult => {
     fetchBooks();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
   return { searchTerm, setSearchTerm, searchResults, isLoading, error };
 };
