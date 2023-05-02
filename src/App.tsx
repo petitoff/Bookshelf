@@ -35,9 +35,9 @@ function App() {
           <Route exact path="/books">
             <Books />
           </Route>
-          <ProtectedRoute exact path="/book/:id">
+          <Route exact path="/book/:id">
             <Book />
-          </ProtectedRoute>
+          </Route>
           <Route exact path="/login">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Login />}
           </Route>
