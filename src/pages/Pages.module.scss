@@ -20,9 +20,12 @@
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;
+    width: 80vw;
+    margin: auto;
 
     .booksLeftContainer {
       width: 100%;
+      margin: 0;
 
       .booksContainer {
         margin-right: 0;
