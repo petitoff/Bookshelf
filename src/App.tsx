@@ -1,7 +1,8 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { useAppSelector } from "./hooks/hooks";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { useAppSelector } from "./hooks/hooks";
 import "./App.css";
 
 // components
@@ -43,9 +44,9 @@ function App() {
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
           </Route>
-          <Route exact path="/settings">
+          <ProtectedRoute exact path="/settings">
             <Settings />
-          </Route>
+          </ProtectedRoute>
           <Route path="/*" component={ErrorPage} />
         </Switch>
       </BrowserRouter>
