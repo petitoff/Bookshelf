@@ -3,10 +3,12 @@ import BookSection from "../components/BookSection/BookSection";
 import ForYouSection from "../components/ForYouSection/ForYouSection";
 import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/useBooks";
+import useUserData from "../hooks/useUserData";
 import styles from "./Pages.module.scss";
 
 const Books = () => {
   useBooks();
+  useUserData();
 
   const booksSearch = useAppSelector((state) => state.books.booksSearch);
   const books = useAppSelector((state) => state.books.books);

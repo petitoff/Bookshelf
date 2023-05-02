@@ -43,7 +43,7 @@ const useUserData = () => {
   }, []);
 
   useEffect(() => {
-    if (!imageUrl || !auth?.UID) return;
+    if (!imageUrl) return;
 
     const partialUser: Partial<User> = { imageUrl };
     dispatch(updateUser(partialUser));

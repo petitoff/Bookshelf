@@ -24,10 +24,19 @@ export const authSlice = createSlice({
      * Sets the authenticated user in the state.
      */
     setUser: (state, action: PayloadAction<User>) => {
-      state.user = {
-        ...state.user,
-        ...action.payload,
-      };
+      state.user = action.payload;
+    },
+
+    /**
+     * Updates the user with partial data.
+     */
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+        };
+      }
     },
 
     /**
@@ -53,5 +62,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setLoading, setError, logoutUser } = authSlice.actions;
+export const { setUser, updateUser, setLoading, setError, logoutUser } =
+  authSlice.actions;
 export default authSlice.reducer;
