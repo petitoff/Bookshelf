@@ -9,6 +9,7 @@ import {
 } from "../../store/slices/sidebarSlice";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
 import { useHistory } from "react-router-dom";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 /**
  * The BookInfoRightSidebar component displays information and details about a book in the right sidebar.
@@ -16,8 +17,8 @@ import { useHistory } from "react-router-dom";
  * @returns JSX.Element
  */
 const BookInfoRightSidebar = () => {
-  const isOpen = useAppSelector((state) => state.sidebar.isRightSidebarOpen);
-  const activeBook = useAppSelector((state) => state.books.activeBook);
+  const { isRightSidebarOpen } = useAppSelector((state) => state.sidebar);
+  const { activeBook } = useAppSelector((state) => state.books);
 
   const { getImageUrl, imageUrl } = useFirebaseImage();
   const history = useHistory();
@@ -39,69 +40,54 @@ const BookInfoRightSidebar = () => {
     return () => {
       dispatch(closeRightSidebar());
     };
+  }, [dispatch]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1200px)");
-
-    const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      if (e.matches) {
-        dispatch(closeRightSidebar());
-      } else {
-        dispatch(openRightSidebar());
-      }
-    };
-
-    handleMediaChange(mediaQuery);
-    mediaQuery.addEventListener("change", handleMediaChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleMediaChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useMediaQuery("(max-width: 1200px)", (matches: boolean) => {
+    if (matches) {
+      dispatch(closeRightSidebar());
+    } else {
+      dispatch(openRightSidebar());
+    }
+  });
 
   const handleOpenDetailsPage = () => {
     history.push(`/book/${activeBook?.id}`);
   };
 
+  const renderBookInfo = () => (
+    <>
+      {imageUrl ? (
+        <img src={imageUrl} alt={activeBook?.title} className={styles.image} />
+      ) : (
+        <div className={styles.image}></div>
+      )}
+      <h3>{activeBook?.title}</h3>
+      <h5>{activeBook?.authorName}</h5>
+
+      {activeBook && <BasicInfoSection book={activeBook} isDarkMode />}
+
+      <div className={styles.plot}>
+        <h2>Plot</h2>
+        <p>{activeBook?.summary ?? "No summary available for this book."}</p>
+      </div>
+    </>
+  );
+
+  const renderNoBookSelected = () => (
+    <div className={styles.noBook}>
+      <h3>No book selected</h3>
+    </div>
+  );
+
   return (
-    <div className={`${styles.bookInfo} ${isOpen ? styles.show : ""}`}>
+    <div
+      className={`${styles.bookInfo} ${isRightSidebarOpen ? styles.show : ""}`}
+    >
       <h2>About the book</h2>
 
-      {activeBook ? (
-        <>
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={activeBook.title}
-              className={styles.image}
-            />
-          ) : (
-            <div className={styles.image}></div>
-          )}
-          <h3>{activeBook.title}</h3>
-          <h5>{activeBook.authorName}</h5>
+      {activeBook ? renderBookInfo() : renderNoBookSelected()}
 
-          <BasicInfoSection book={activeBook} isDarkMode={true} />
-
-          <div className={styles.plot}>
-            <h2>Plot</h2>
-            <p>{activeBook.summary ?? "No summary available for this book."}</p>
-          </div>
-        </>
-      ) : (
-        <div className={styles.noBook}>
-          <h3>No book selected</h3>
-        </div>
-      )}
-
-      <WideButton
-        isActive={activeBook !== null}
-        onClick={handleOpenDetailsPage}
-      >
+      <WideButton isActive={!!activeBook} onClick={handleOpenDetailsPage}>
         <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>
       </WideButton>
     </div>
