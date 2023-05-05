@@ -5,7 +5,7 @@ import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/useBooks";
 import useUserData from "../hooks/useUserData";
 import styles from "./Pages.module.scss";
-import mainStyles from "../styles/MainStyles.module.scss";
+import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 
 const Books = () => {
   const { fetchingStatus } = useBooks();
@@ -20,9 +20,7 @@ const Books = () => {
       <BookInfoRightSidebar />
       <div className={styles.booksLeftContainer}>
         {fetchingStatus === "loading" ? (
-          <div className={mainStyles.loadingContainer}>
-            <div className={mainStyles.loading} />
-          </div>
+          <LoadingIndicator />
         ) : (
           <>
             {isSearchResults ? (

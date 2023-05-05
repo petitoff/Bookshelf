@@ -1,12 +1,14 @@
 import { useParams } from "react-router";
 import { useSingleBook } from "../../hooks/useSingleBook";
 import styles from "./DetailsBook.module.scss";
+import mainStyles from "../../styles/MainStyles.module.scss";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
 import { useEffect } from "react";
 import WideButton from "../common/WideButton/WideButton";
 import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +25,7 @@ const DetailsBook = () => {
 
   // if the book is loading, return a loading message
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingIndicator />;
   }
 
   if (!book) {
