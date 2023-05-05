@@ -1,7 +1,6 @@
 import { useParams } from "react-router";
 import { useSingleBook } from "../../hooks/useSingleBook";
 import styles from "./DetailsBook.module.scss";
-import mainStyles from "../../styles/MainStyles.module.scss";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
 import { useEffect } from "react";
 import WideButton from "../common/WideButton/WideButton";
