@@ -17,7 +17,9 @@ const Books = () => {
 
   return (
     <div className={styles.books}>
-      <BookInfoRightSidebar />
+      <div className={styles.booksRightContainer}>
+        <BookInfoRightSidebar />
+      </div>
       <div className={styles.booksLeftContainer}>
         {isSearchResults ? (
           <div className={styles.booksContainer}>

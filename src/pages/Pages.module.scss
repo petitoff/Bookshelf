@@ -18,6 +18,10 @@
     }
   }
 
+  .booksRightContainer {
+    height: 100vh;
+  }
+
   @media only screen and (max-width: 768px) {
     flex-direction: column;
     width: 80vw;
