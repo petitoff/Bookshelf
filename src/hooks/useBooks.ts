@@ -13,12 +13,10 @@ export function useBooks() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    let unsubscribe: () => void;
-
     const fetchBooks = async () => {
       setFetchingStatus("loading");
       const booksCollection = query(collection(db, "books"));
-      unsubscribe = onSnapshot(booksCollection, (snapshot) => {
+      const unsubscribe = onSnapshot(booksCollection, (snapshot) => {
         const bookList = snapshot.docs.map((doc) => {
           const bookData = doc.data();
           const book: Book = {
@@ -32,15 +30,13 @@ export function useBooks() {
         dispatch(setBooks(bookList));
         setFetchingStatus("succeeded");
       });
+
+      return () => {
+        unsubscribe();
+      };
     };
 
     fetchBooks();
-
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.UID]);
