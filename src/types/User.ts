@@ -7,4 +7,5 @@ export type User = {
   imageId?: string;
   imageUrl?: string;
   favoriteBooks?: Book[];
+  readingListBooks?: Book[];
 };

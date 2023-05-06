@@ -8,7 +8,7 @@ import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
-import { addFavoriteBookId } from "../../firebase/services/firestore";
+import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
 
 const DetailsBook = () => {
@@ -20,7 +20,7 @@ const DetailsBook = () => {
   const handleAddBookToReadingList = async () => {
     if (!user?.UID || !book?.id) return;
 
-    addFavoriteBookId(user?.UID, book?.id);
+    await addReadingListBookId(user?.UID, book?.id);
   };
 
   useEffect(() => {

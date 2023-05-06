@@ -39,6 +39,14 @@ export const authSlice = createSlice({
       }
     },
 
+    removeBookFromReadingListById: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.readingListBooks = state.user.readingListBooks?.filter(
+          (book) => book.id !== action.payload
+        );
+      }
+    },
+
     /**
      * Sets the loading state in the state.
      */
@@ -62,6 +70,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, updateUser, setLoading, setError, logoutUser } =
-  authSlice.actions;
+export const {
+  setUser,
+  updateUser,
+  removeBookFromReadingListById,
+  setLoading,
+  setError,
+  logoutUser,
+} = authSlice.actions;
 export default authSlice.reducer;

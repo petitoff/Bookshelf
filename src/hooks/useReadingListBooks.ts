@@ -6,8 +6,8 @@ import { useAppDispatch } from "./hooks";
 import { updateUser } from "../store/slices/authSlice";
 import { getBookFromFirestore } from "../firebase/services/firestore";
 
-const useFavoriteBooks = () => {
-  const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
+const useReadingListBooks = () => {
+  const [readingListBooks, setReadingListBooks] = useState<Book[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [fetchingStatus, setFetchingStatus] = useState<
     "idle" | "loading" | "error"
@@ -20,7 +20,7 @@ const useFavoriteBooks = () => {
   }, []);
 
   useEffect(() => {
-    const fetchFavoriteBooks = async () => {
+    const fetchReadingListBooks = async () => {
       setFetchingStatus("loading");
 
       try {
@@ -35,15 +35,15 @@ const useFavoriteBooks = () => {
 
         if (!userDocData) throw new Error("User data is undefined");
 
-        const favoriteBooksId = userDocData.favoriteBooksId || [];
-        const booksPromises: Book[] = favoriteBooksId.map((bookId: string) =>
+        const readingListBooksId = userDocData.readingListBooksId || [];
+        const booksPromises: Book[] = readingListBooksId.map((bookId: string) =>
           getBookFromFirestore(bookId)
         );
 
         const fetchedBooks = await Promise.all(booksPromises);
 
-        setFavoriteBooks(fetchedBooks);
-        dispatch(updateUser({ favoriteBooks: fetchedBooks }));
+        setReadingListBooks(fetchedBooks);
+        dispatch(updateUser({ readingListBooks: fetchedBooks }));
 
         setFetchingStatus("idle");
       } catch (error) {
@@ -53,12 +53,12 @@ const useFavoriteBooks = () => {
     };
 
     if (userId) {
-      fetchFavoriteBooks();
+      fetchReadingListBooks();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  return { favoriteBooks, fetchingStatus, updateUserId };
+  return { readingListBooks, fetchingStatus, updateUserId };
 };
 
-export default useFavoriteBooks;
+export default useReadingListBooks;
