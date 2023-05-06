@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 interface SignupState {
   isLoading: boolean;
@@ -14,6 +15,8 @@ const useSignup = () => {
     isLoading: false,
     error: null,
   });
+
+  const history = useHistory();
 
   const signup = async (email: string, password: string): Promise<void> => {
     setSignupState({ isLoading: true, error: null });
@@ -45,6 +48,7 @@ const useSignup = () => {
       setSignupState({ isLoading: false, error });
     } finally {
       setSignupState({ isLoading: false, error: null });
+      history.push("/login");
     }
   };
 
