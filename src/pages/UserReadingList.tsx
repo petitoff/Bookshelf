@@ -40,7 +40,10 @@ const UserReadingList = () => {
 
   return (
     <div className={styles.userReadingList}>
-      <h1>User Reading List</h1>
+      <h1>
+        <span className={styles.usernameHightlight}>@{username}</span> reading
+        list
+      </h1>
       <div>
         {favoriteBooks.map((book) => (
           <BookCard key={book.id} book={book} />
