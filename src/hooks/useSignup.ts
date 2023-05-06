@@ -10,6 +10,9 @@ interface SignupState {
   error: string | null;
 }
 
+const USERS_COLLECTION = "users";
+const USERNAMES_COLLECTION = "usernames";
+
 const useSignup = () => {
   const [signupState, setSignupState] = useState<SignupState>({
     isLoading: false,
@@ -29,12 +32,12 @@ const useSignup = () => {
       );
 
       if (result.user) {
-        await setDoc(doc(db, "users", result.user.uid), {
+        await setDoc(doc(db, USERS_COLLECTION, result.user.uid), {
           email: result.user.email,
           // Add any additional user data you want to store in the document
         });
 
-        await setDoc(doc(db, "usernames", result.user.uid), {});
+        await setDoc(doc(db, USERNAMES_COLLECTION, result.user.uid), {});
 
         toast.success("User created successfully");
       }
