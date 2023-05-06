@@ -25,14 +25,13 @@ const useSignup = () => {
         password
       );
 
-      console.log(result);
-
       if (result.user) {
         await setDoc(doc(db, "users", result.user.uid), {
-          UID: result.user.uid,
           email: result.user.email,
           // Add any additional user data you want to store in the document
         });
+
+        await setDoc(doc(db, "usernames", result.user.uid), {});
 
         toast.success("User created successfully");
       }
