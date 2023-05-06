@@ -39,10 +39,7 @@ const BookSection = ({ titleOfSection, books }: Props) => {
           return (
             <BookCard
               key={id}
-              id={id}
-              title={title}
-              author={authorName}
-              imageId={imageId}
+              book={{ id, title, authorName, imageId }}
               isActiveBook={isActiveBook}
               onSetActiveBook={handleSetActiveBook}
             />

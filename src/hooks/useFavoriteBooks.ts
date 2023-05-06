@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useAppDispatch } from "./hooks";
 import { updateUser } from "../store/slices/authSlice";
+import { getBookFromFirestore } from "../firebase/services/firestore";
 
 const useFavoriteBooks = () => {
   const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
@@ -25,16 +26,28 @@ const useFavoriteBooks = () => {
       try {
         if (!userId) throw new Error("User id is not defined");
 
-        const userDocRef = doc(db, "users", userId);
-        const userDocSnap = await getDoc(userDocRef);
+        const usernamesDocRef = doc(db, "usernames", userId);
+        const usernamesDocSnap = await getDoc(usernamesDocRef);
 
-        if (!userDocSnap.exists()) throw new Error("User does not exist");
+        if (!usernamesDocSnap.exists()) throw new Error("User does not exist");
 
-        const userDocData = userDocSnap.data();
+        const userDocData = usernamesDocSnap.data();
 
         if (!userDocData) throw new Error("User data is undefined");
-        setFavoriteBooks(userDocData.favoriteBooks || []);
-        dispatch(updateUser({ favoriteBooks: userDocData.favoriteBooks }));
+        // setFavoriteBooks(userDocData.favoriteBooks || []);
+        // dispatch(updateUser({ favoriteBooks: userDocData.favoriteBooks }));
+
+        const favoriteBooksId = userDocData.favoriteBooksId || [];
+        const booksPromises: Book[] = favoriteBooksId.map((bookId: string) =>
+          getBookFromFirestore(bookId)
+        );
+
+        const fetchedBooks = await Promise.all(booksPromises);
+
+        setFavoriteBooks(fetchedBooks);
+        dispatch(updateUser({ favoriteBooks: fetchedBooks }));
+
+        setFetchingStatus("idle");
       } catch (error) {
         setFetchingStatus("error");
         console.log(error);

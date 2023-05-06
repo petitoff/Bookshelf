@@ -12,6 +12,7 @@ import { User } from "../../types/User";
 import { AppDispatch } from "../../store/store";
 import { updateUser } from "../../store/slices/authSlice";
 import { updateEmail } from "firebase/auth";
+import { toast } from "react-toastify";
 
 /** Function to fetch all books from Firestore */
 export const getBooksFromFirestore = async (): Promise<Book[]> => {
@@ -75,4 +76,32 @@ export const updateUserPartial = async (
     throw new Error("Error updating user");
   }
 };
-export {}; // add an empty export statement to make it a module
+
+export const addFavoriteBookId = async (UID: string, bookId: string) => {
+  try {
+    const userDocRef = doc(db, "usernames", UID);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (!userDocSnap.exists()) throw new Error("User does not exist");
+
+    const userDocData = userDocSnap.data();
+
+    if (!userDocData) throw new Error("User data is undefined");
+
+    const favoriteBooksId = userDocData.favoriteBooksId || [];
+
+    if (favoriteBooksId.includes(bookId)) {
+      throw new Error("Book already in favorites");
+    }
+
+    favoriteBooksId.push(bookId);
+
+    await updateDoc(userDocRef, { favoriteBooksId });
+  } catch (error: Error | any) {
+    console.error(error);
+
+    if (error.message === "Book already in favorites") {
+      toast.warn("Book already in favorites");
+    }
+  }
+};

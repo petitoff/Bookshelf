@@ -3,28 +3,20 @@ import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import styles from "./BookCard.module.scss";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
+import { Book } from "../../../types/Book";
 
 interface Props {
-  id: string;
-  title: string;
-  author: string;
-  imageId: string;
-  isActiveBook: boolean;
-  onSetActiveBook: (id: string) => void;
+  book: Book;
+  isActiveBook?: boolean;
+  onSetActiveBook?: (id: string) => void;
 }
 
-function BookCard({
-  id,
-  title,
-  author,
-  imageId,
-  isActiveBook,
-  onSetActiveBook,
-}: Props) {
+function BookCard({ book, isActiveBook = false, onSetActiveBook }: Props) {
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
   const { getImageUrl, imageUrl } = useFirebaseImage();
+  const { id, imageId, title, authorName: author } = book;
   const history = useHistory();
 
   const handleToggleActiveBook = () => {
@@ -33,7 +25,9 @@ function BookCard({
       return;
     }
 
-    onSetActiveBook(id);
+    if (!id) return;
+
+    onSetActiveBook && onSetActiveBook(id);
   };
 
   const handleOpenDetailsPage = () => {

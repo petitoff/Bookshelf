@@ -6,14 +6,15 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import styles from "./Navbar.module.scss";
 
-const EXCLUDED_ROUTES = ["/book/:id", "/login", "/signup"];
+// Routes that should display the search bar in the navbar
+const INCLUDED_ROUTES = ["/books"];
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState("books");
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const isSearchBarActive = !EXCLUDED_ROUTES.includes(location.pathname);
+  const isSearchBarActive = INCLUDED_ROUTES.includes(location.pathname);
   const isLeftSidebarOpen = useAppSelector(
     (state) => state.sidebar.isLeftSidebarOpen
   );

@@ -47,7 +47,7 @@ const Sidebar = () => {
 
         {user && (
           <li>
-            <Link to="/mylist" onClick={handleLinkClick}>
+            <Link to={`/${user?.name}/reading-list`} onClick={handleLinkClick}>
               <FaList className={styles.icon} /> My List
             </Link>
           </li>

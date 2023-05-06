@@ -8,11 +8,20 @@ import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
+import { addFavoriteBookId } from "../../firebase/services/firestore";
+import { useAppSelector } from "../../hooks/hooks";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
   const { book, loading } = useSingleBook(id);
+  const user = useAppSelector((state) => state.auth.user);
   const { getImageUrl, imageUrl } = useFirebaseImage();
+
+  const handleAddBookToReadingList = async () => {
+    if (!user?.UID || !book?.id) return;
+
+    addFavoriteBookId(user?.UID, book?.id);
+  };
 
   useEffect(() => {
     if (!book?.imageId) return;
@@ -52,7 +61,11 @@ const DetailsBook = () => {
               <div className={styles.rightItem}></div>
             </div>
           </WideButton>
-          <WideButton isActive={true} className={styles.button}>
+          <WideButton
+            isActive={true}
+            className={styles.button}
+            onClick={handleAddBookToReadingList}
+          >
             <div className={styles.innerContainer}>
               <div className={styles.leftItem}>
                 <AiOutlineBook size={32} color="#fff" />
