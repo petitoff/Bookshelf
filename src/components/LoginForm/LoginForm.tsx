@@ -2,7 +2,7 @@ import useLogin from "../../hooks/useLogin";
 import AuthForm from "../common/AuthForm/AuthForm";
 
 const LoginForm = () => {
-  const { login, isLoggingIn } = useLogin();
+  const { login, loggingInStatus } = useLogin();
 
   return (
     <AuthForm
@@ -10,7 +10,7 @@ const LoginForm = () => {
       buttonText="Login in"
       altText="Don't have an account? Create here!"
       altLink="/signup"
-      isLoading={isLoggingIn}
+      isLoading={loggingInStatus === "fetching"}
       onSubmit={(email, password) => login(email, password)}
     />
   );
