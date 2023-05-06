@@ -27,7 +27,7 @@ const useUserIdFromUsername = () => {
 
         if (usernameSnap.empty) throw new Error("User does not exist");
 
-        setUserId(usernameSnap.docs[0].data().uid);
+        setUserId(usernameSnap.docs[0].id);
         setFetchingStatus("idle");
       } catch (error) {
         setFetchingStatus("error");

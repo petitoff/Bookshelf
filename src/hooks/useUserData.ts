@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { doc, getDoc } from "firebase/firestore";
 import useFirebaseImage from "./useFirebaseImage";
-import { setUser, updateUser } from "../store/slices/authSlice";
+import {updateUser } from "../store/slices/authSlice";
 
 const useUserData = () => {
   const [error, setError] = useState<Error | null>(null);
@@ -29,7 +29,7 @@ const useUserData = () => {
           }
 
           setIsUserLoaded(true);
-          dispatch(setUser(userData));
+          dispatch(updateUser(userData));
         } else {
           console.log("No such document!");
         }
