@@ -15,6 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Books from "./pages/Books";
 import Book from "./pages/Book";
 import Settings from "./pages/Settings";
+import UserReadingList from "./pages/UserReadingList";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -43,6 +44,9 @@ function App() {
           </Route>
           <Route exact path="/signup">
             {userIsAuthenticated ? <Redirect to="/books" /> : <Signup />}
+          </Route>
+          <Route exact path="/:username/reading-list">
+            <UserReadingList />
           </Route>
           <ProtectedRoute exact path="/settings">
             <Settings />

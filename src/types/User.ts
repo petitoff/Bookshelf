@@ -4,4 +4,5 @@ export type User = {
   email?: string;
   imageId?: string;
   imageUrl?: string;
+  favoriteBooks?: string[];
 };
