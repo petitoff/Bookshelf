@@ -3,12 +3,14 @@ import { User } from "../../types/User";
 
 export interface AuthState {
   user?: User;
+  isNewUser: boolean;
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: undefined,
+  isNewUser: false,
   isLoading: false,
   error: null,
 };
@@ -39,12 +41,28 @@ export const authSlice = createSlice({
       }
     },
 
+    /**
+     * Removes a book from the reading list by its id.
+     * @param state The current state.
+     * @param action The action containing the id of the book to remove.
+     * @returns The new state.
+     */
     removeBookFromReadingListById: (state, action: PayloadAction<string>) => {
       if (state.user) {
         state.user.readingListBooks = state.user.readingListBooks?.filter(
           (book) => book.id !== action.payload
         );
       }
+    },
+
+    /**
+     * Sets the isNewUser state in the state.
+     * @param state The current state.
+     * @param action The action containing the isNewUser value.
+     * @returns The new state.
+     */
+    setIsNewUser: (state, action: PayloadAction<boolean>) => {
+      state.isNewUser = action.payload;
     },
 
     /**
@@ -74,6 +92,7 @@ export const {
   setUser,
   updateUser,
   removeBookFromReadingListById,
+  setIsNewUser,
   setLoading,
   setError,
   logoutUser,

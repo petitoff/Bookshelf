@@ -8,12 +8,11 @@ import styles from "./Pages.module.scss";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 
 const Books = () => {
+  const { books, booksSearch } = useAppSelector((state) => state.books);
+  const isSearchResults = booksSearch && booksSearch.length > 0;
+
   const { fetchingStatus } = useBooks();
   useUserData();
-
-  const { books, booksSearch } = useAppSelector((state) => state.books);
-
-  const isSearchResults = booksSearch && booksSearch.length > 0;
 
   return (
     <div className={styles.books}>

@@ -16,6 +16,8 @@ import Books from "./pages/Books";
 import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
+import WelcomeView from "./pages/WelcomeView";
+import NewUserRedirect from "./components/NewUserRedirect/NewUserRedirect";
 
 function App() {
   const userIsAuthenticated = useAppSelector(
@@ -25,6 +27,8 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+        <NewUserRedirect />
+
         <Navbar />
         <Sidebar />
         <ToastContainer position="top-center" />
@@ -50,6 +54,9 @@ function App() {
           </Route>
           <ProtectedRoute exact path="/settings">
             <Settings />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/welcome">
+            <WelcomeView />
           </ProtectedRoute>
           <Route path="/*" component={ErrorPage} />
         </Switch>
