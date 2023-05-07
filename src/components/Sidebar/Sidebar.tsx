@@ -46,18 +46,24 @@ const Sidebar = () => {
         </li>
 
         {user && (
-          <li>
-            <Link to={`/${user?.name}/reading-list`} onClick={handleLinkClick}>
-              <FaList className={styles.icon} /> My List
-            </Link>
-          </li>
-        )}
+          <>
+            <li>
+              <Link
+                to={`/${user?.name}/reading-list`}
+                onClick={handleLinkClick}
+              >
+                <FaList className={styles.icon} /> My List
+              </Link>
+            </li>
 
-        <li>
-          <Link to="/favourites" onClick={handleLinkClick}>
-            <FaHeart className={styles.icon} /> Favourites
-          </Link>
-        </li>
+            {/* This feature is disabled for now */}
+            {/* <li>
+              <Link to="/favourites" onClick={handleLinkClick}>
+                <FaHeart className={styles.icon} /> Favourites
+              </Link>
+            </li> */}
+          </>
+        )}
 
         <hr />
 
