@@ -1,4 +1,4 @@
-import { FaHome, FaList, FaHeart, FaCog } from "react-icons/fa";
+import { FaHome, FaList, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
