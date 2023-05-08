@@ -18,7 +18,7 @@ const AccountSettings = () => {
   const [name, setName] = useState(user?.username ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
 
-  const {updateUserPartial} = useUpdateUser()
+  const { updateUserPartial } = useUpdateUser();
 
   const handleSaveClick = async () => {
     if (isEditing && user?.UID) {
@@ -32,8 +32,7 @@ const AccountSettings = () => {
         updatedUserData.email = email;
       }
       try {
-        await updateUserPartial(updatedUserData)
-
+        await updateUserPartial(updatedUserData);
       } catch (error) {
         console.error("Error updating user: ", error);
         // Wyświetl powiadomienie o błędzie dla użytkownika

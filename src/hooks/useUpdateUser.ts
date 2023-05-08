@@ -18,7 +18,6 @@ const useUpdateUser = () => {
       console.log(data);
 
       if (data?.username) {
-        console.log(user);
         await updateUsernamesInFirestore(user.UID, data);
       }
 

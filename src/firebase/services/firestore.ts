@@ -4,7 +4,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { auth, db } from "../config";
 import { Book } from "../../types/Book";
@@ -59,8 +61,22 @@ export const updateUsernamesInFirestore = async (
   data: Partial<User>
 ) => {
   try {
-    console.log(data);
     if (!data) return;
+
+    // Check if the username is unique
+    if (data.username) {
+      const usernameQuery = query(
+        collection(db, "usernames"),
+        where("username", "==", data.username)
+      );
+
+      const usernameQuerySnapshot = await getDocs(usernameQuery);
+
+      if (!usernameQuerySnapshot.empty) {
+        data.username = undefined;
+        toast.error("Username already exists");
+      }
+    }
 
     // Update user in Firestore
     await updateDoc(doc(db, "usernames", UID), data);
