@@ -18,7 +18,11 @@ const BookList = ({
   onDeleteBook,
 }: Props) => {
   return (
-    <div className={customClassName}>
+    <div
+      className={customClassName}
+      style={customStyle}
+      data-testid="book-list"
+    >
       {books.map((book) => (
         <BookCard
           key={book.id}
@@ -30,5 +34,4 @@ const BookList = ({
     </div>
   );
 };
-
 export default BookList;

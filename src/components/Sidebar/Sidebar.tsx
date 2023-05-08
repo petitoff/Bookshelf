@@ -50,7 +50,7 @@ const Sidebar = () => {
   }, [dispatch, getImageUrl, imageUrl, user]);
 
   return (
-    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
+    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`} data-testid="sidebar">
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>

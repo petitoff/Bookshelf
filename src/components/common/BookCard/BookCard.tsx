@@ -56,7 +56,7 @@ function BookCard({
   }, [imageId]);
 
   return (
-    <div className={`${styles.card} ${isActiveBook && styles.active}`}>
+    <div className={`${styles.card} ${isActiveBook && styles.active}`} data-testid="book-card">
       <div onClick={handleToggleActiveBook}>
         <img src={imageUrl ?? ""} alt={title} className={styles.imageStyle} />
         <div className="cardBody">

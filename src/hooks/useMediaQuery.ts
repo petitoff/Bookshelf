@@ -9,6 +9,18 @@ const useMediaQuery = (
   deps?: DependencyList
 ) => {
   useEffect(() => {
+    // Check if window is defined
+    if (typeof window === "undefined") {
+      // You can decide how to handle this case, for example:
+      callback(false);
+      return;
+    }
+
+    if (!window.matchMedia) {
+      callback(false);
+      return;
+    }
+
     const mediaQuery = window.matchMedia(query);
 
     const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
