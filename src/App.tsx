@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,6 +30,10 @@ function App() {
       return <Component />;
     }
   };
+
+  useEffect(() => {
+    document.title = "Bookshelf";
+  }, []);
 
   return (
     <div>
