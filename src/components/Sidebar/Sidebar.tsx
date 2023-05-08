@@ -6,7 +6,7 @@ import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {updateUser} from "../../store/slices/authSlice";
 
 const Sidebar = () => {
@@ -15,6 +15,7 @@ const Sidebar = () => {
     (state) => state.sidebar.isLeftSidebarOpen
   );
   const user = useAppSelector((state) => state.auth.user);
+  const [image, setImage] = useState(user?.imageUrl);
   
   const { logout } = useLogout();
   const {getImageUrl, imageUrl} = useFirebaseImage();
@@ -29,7 +30,14 @@ const Sidebar = () => {
   };
   
   useEffect(() => {
-    if(!user || user?.imageUrl) return;
+    if(!user){
+      setImage("");
+      return;
+    }
+
+    if(user?.imageUrl) {
+      return;
+    }
 
     if(user?.imageId){
       getImageUrl(user?.imageId);
@@ -37,17 +45,17 @@ const Sidebar = () => {
     
     if(imageUrl){
       dispatch((updateUser({imageUrl: imageUrl})))
+      setImage(imageUrl)
     }
   }, [dispatch, getImageUrl, imageUrl, user])
-
 
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>
-            {user?.imageUrl ? (
-              <img src={user?.imageUrl} alt="user" />
+            {image ? (
+              <img src={image} alt="user" />
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}

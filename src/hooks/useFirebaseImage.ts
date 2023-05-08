@@ -16,6 +16,7 @@ const useFirebaseImage = () => {
       const imageRef = ref(storage, `images/${imageId}`);
       const url = await getDownloadURL(imageRef);
       setImageUrl(url);
+      return url;
     } catch (error: any) {
       console.log(error);
       setError(error);
