@@ -6,8 +6,8 @@ import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
-import {useEffect, useState} from "react";
-import {updateUser} from "../../store/slices/authSlice";
+import { useEffect, useState } from "react";
+import { updateUser } from "../../store/slices/authSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -16,9 +16,9 @@ const Sidebar = () => {
   );
   const user = useAppSelector((state) => state.auth.user);
   const [image, setImage] = useState(user?.imageUrl);
-  
+
   const { logout } = useLogout();
-  const {getImageUrl, imageUrl} = useFirebaseImage();
+  const { getImageUrl, imageUrl } = useFirebaseImage();
 
   const handleLogout = () => {
     handleLinkClick();
@@ -28,26 +28,26 @@ const Sidebar = () => {
   const handleLinkClick = () => {
     dispatch(toggleLeftSidebar());
   };
-  
+
   useEffect(() => {
-    if(!user){
+    if (!user) {
       setImage("");
       return;
     }
 
-    if(user?.imageUrl) {
+    if (user?.imageUrl) {
       return;
     }
 
-    if(user?.imageId){
+    if (user?.imageId) {
       getImageUrl(user?.imageId);
     }
-    
-    if(imageUrl){
-      dispatch((updateUser({imageUrl: imageUrl})))
-      setImage(imageUrl)
+
+    if (imageUrl) {
+      dispatch(updateUser({ imageUrl: imageUrl }));
+      setImage(imageUrl);
     }
-  }, [dispatch, getImageUrl, imageUrl, user])
+  }, [dispatch, getImageUrl, imageUrl, user]);
 
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
@@ -59,7 +59,11 @@ const Sidebar = () => {
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}
-            <span>{`@${user?.username}`}</span>
+            {user?.username ? (
+              <span>{`${user.username}`}</span>
+            ) : (
+              <span>Guest</span>
+            )}
           </div>
         </li>
 
