@@ -1,3 +1,4 @@
+import React from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,18 +17,24 @@ import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
 import WelcomeView from "./pages/WelcomeView";
-import NewUserRedirect from "./components/NewUserRedirect/NewUserRedirect";
 
 function App() {
-    const userIsAuthenticated = useAppSelector(
-        (state) => state.auth.user !== undefined
-    );
-    const isNewUser = useAppSelector(state => state.auth.user)
+    const user = useAppSelector((state) => state.auth.user);
+    const userIsAuthenticated = Boolean(user);
+    const isNewUser = user && !user.username;
+
+    const renderRouteWithRedirect = (Component: React.ComponentType) => {
+        if (isNewUser) {
+            return <Redirect to="/welcome"/>;
+        } else {
+            return <Component/>;
+        }
+    };
 
     return (
         <div>
             <BrowserRouter>
-                <NewUserRedirect/>
+                {/*<NewUserRedirect user={user} isNewUser={isNewUser}/>*/}
 
                 <Navbar/>
                 <Sidebar/>
@@ -35,17 +42,17 @@ function App() {
 
                 <Switch>
                     <ProtectedRoute exact path="/welcome">
-                        <WelcomeView/>
+                        <WelcomeView isNewUser={isNewUser}/>
                     </ProtectedRoute>
 
                     <Route exact path="/">
                         <Redirect to="/books"/>
                     </Route>
                     <Route exact path="/books">
-                        <Books/>
+                        {renderRouteWithRedirect(Books)}
                     </Route>
                     <Route exact path="/book/:id">
-                        <Book/>
+                        {renderRouteWithRedirect(Book)}
                     </Route>
                     <Route exact path="/login">
                         {userIsAuthenticated ? <Redirect to="/books"/> : <Login/>}
@@ -54,10 +61,10 @@ function App() {
                         {userIsAuthenticated ? <Redirect to="/books"/> : <Signup/>}
                     </Route>
                     <Route exact path="/:username/reading-list">
-                        <UserReadingListView/>
+                        {renderRouteWithRedirect(UserReadingListView)}
                     </Route>
                     <ProtectedRoute exact path="/settings">
-                        {isNewUser ? <Redirect to="/welcome"/> : <Settings/>}
+                        {renderRouteWithRedirect(Settings)}
                     </ProtectedRoute>
 
                     {/*<Route path="/*" component={ErrorPage} />*/}

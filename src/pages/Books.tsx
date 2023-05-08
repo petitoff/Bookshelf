@@ -3,7 +3,6 @@ import BookSection from "../components/BookSection/BookSection";
 import ForYouSection from "../components/ForYouSection/ForYouSection";
 import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/useBooks";
-import useUserData from "../hooks/useUserData";
 import styles from "./Pages.module.scss";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 
@@ -12,7 +11,6 @@ const Books = () => {
   const isSearchResults = booksSearch && booksSearch.length > 0;
 
   const { fetchingStatus } = useBooks();
-  useUserData();
 
   return (
     <div className={styles.books}>

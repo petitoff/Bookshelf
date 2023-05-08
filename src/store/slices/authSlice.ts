@@ -3,14 +3,12 @@ import { User } from "../../types/User";
 
 export interface AuthState {
   user?: User;
-  isNewUser: boolean;
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: undefined,
-  isNewUser: false,
   isLoading: false,
   error: null,
 };
@@ -25,8 +23,8 @@ export const authSlice = createSlice({
     /**
      * Sets the authenticated user in the state.
      */
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    setUser: (state, action: PayloadAction<User | Partial<User>>) => {
+      state.user = action.payload as User;
     },
 
     /**
@@ -56,16 +54,6 @@ export const authSlice = createSlice({
     },
 
     /**
-     * Sets the isNewUser state in the state.
-     * @param state The current state.
-     * @param action The action containing the isNewUser value.
-     * @returns The new state.
-     */
-    setIsNewUser: (state, action: PayloadAction<boolean>) => {
-      state.isNewUser = action.payload;
-    },
-
-    /**
      * Sets the loading state in the state.
      */
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -92,7 +80,6 @@ export const {
   setUser,
   updateUser,
   removeBookFromReadingListById,
-  setIsNewUser,
   setLoading,
   setError,
   logoutUser,

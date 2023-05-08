@@ -1,22 +1,22 @@
-import {useEffect} from "react";
-import {useHistory} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {setIsNewUser} from "../../store/slices/authSlice";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import {User} from "../../types/User";
 
-const NewUserRedirect = () => {
-    const user = useAppSelector((state) => state.auth.user);
-    const isNewUser = useAppSelector((state) => state.auth.isNewUser);
+interface Props {
+    user?: User;
+    isNewUser?: boolean;
+}
+
+const NewUserRedirect = ({ user, isNewUser }: Props) => {
     const history = useHistory();
-    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (user && !user?.name) {
-            dispatch(setIsNewUser(true))
+        if (isNewUser) {
             history.push("/welcome");
         } else {
-            dispatch(setIsNewUser(false))
+            history.push("/")
         }
-    }, [user, isNewUser, history, dispatch]);
+    }, [history, isNewUser]);
 
     return null;
 };

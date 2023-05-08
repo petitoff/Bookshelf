@@ -15,7 +15,7 @@ const AccountSettings = () => {
   const [activeButton, setActiveButton] = useState<ActiveButton>("My Profile");
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const [name, setName] = useState(user?.name ?? "");
+  const [name, setName] = useState(user?.username ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
 
   const {updateUserPartial} = useUpdateUser()
@@ -25,8 +25,8 @@ const AccountSettings = () => {
       const updatedUserData: Partial<User> = {};
       // updatedUserData.UID = user.UID;
 
-      if (name !== user.name || name !== "") {
-        updatedUserData.name = name;
+      if (name !== user.username || name !== "") {
+        updatedUserData.username = name;
       }
       if (email !== user.email || email !== "") {
         updatedUserData.email = email;

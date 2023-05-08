@@ -64,6 +64,45 @@ export const updateUserInFirestore = async (
     }
 };
 
+export const fetchUserData = async (
+    userUID: string,
+    getImageUrl: (imageId: string) => void,
+    setError: (error: Error | null) => void
+): Promise<Partial<User>> => {
+    const userRef = doc(db, 'users', userUID);
+    const usernamesRef = doc(db, 'usernames', userUID);
+
+    const docs = [
+        { ref: userRef, name: 'user' },
+        { ref: usernamesRef, name: 'usernames' },
+    ];
+
+    let updatedUserData: Partial<User> = {};
+
+    for (const { ref, name } of docs) {
+        try {
+            const docSnapshot = await getDoc(ref);
+
+            if (docSnapshot.exists()) {
+                const userData = docSnapshot.data() as Partial<User>;
+
+                if (name === 'user' && userData.imageId) {
+                    getImageUrl(userData.imageId);
+                }
+
+                updatedUserData = { ...updatedUserData, ...userData };
+            } else {
+                console.log(`No such document in ${name} collection!`);
+            }
+        } catch (error: any) {
+            console.log(`Error getting document from ${name} collection:`, error);
+            setError(error);
+        }
+    }
+
+    return updatedUserData;
+};
+
 export const updateUserEmailInAuth = async (email: string) => {
     const user = auth.currentUser;
     if (user) {

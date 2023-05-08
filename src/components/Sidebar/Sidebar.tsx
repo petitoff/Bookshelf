@@ -33,7 +33,7 @@ const Sidebar = () => {
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}
-            <span>{`@${user?.name}`}</span>
+            <span>{`@${user?.username}`}</span>
           </div>
         </li>
 
@@ -49,7 +49,7 @@ const Sidebar = () => {
           <>
             <li>
               <Link
-                to={`/${user?.name}/reading-list`}
+                to={`/${user?.username}/reading-list`}
                 onClick={handleLinkClick}
               >
                 <FaList className={styles.icon} /> My List

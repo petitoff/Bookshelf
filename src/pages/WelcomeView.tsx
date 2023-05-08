@@ -1,20 +1,29 @@
+import {useEffect} from "react";
 import FormCard from "../components/common/FormCard/FormCard";
 import useUpdateUser from "../hooks/useUpdateUser";
-import {useAppSelector} from "../hooks/hooks";
+import {useHistory} from "react-router-dom";
 
-const WelcomeView = () => {
-    const user = useAppSelector(state => state.auth.user)
+interface Props {
+    isNewUser?: boolean;
+}
+
+const WelcomeView = ({isNewUser}: Props) => {
     const {updateUserPartial} = useUpdateUser();
+    const history = useHistory();
 
     const handleFormSubmit = (values: Record<string, string>) => {
         console.debug(values)
 
         if('name' in values){
-            updateUserPartial({name: values.name});
+            updateUserPartial({username: values.name});
         }
     };
 
-    console.log(user)
+    useEffect((() => {
+        if(!isNewUser){
+            history.push("/");
+        }
+    }), [history, isNewUser])
 
     return (
         <div>

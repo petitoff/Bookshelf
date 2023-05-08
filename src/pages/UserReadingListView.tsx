@@ -22,7 +22,7 @@ const UserReadingListView = () => {
     fetchingStatus: userIdFetchingStatus,
     updateUsername,
   } = useUserIdFromUsername();
-  const isOwner = user?.name === username;
+  const isOwner = user?.username === username;
 
   const dispatch = useAppDispatch();
 

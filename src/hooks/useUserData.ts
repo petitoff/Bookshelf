@@ -1,57 +1,49 @@
-import { useState, useEffect } from "react";
-import "firebase/firestore";
-import { User } from "../types/User";
-import { db } from "../firebase/config";
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { doc, getDoc } from "firebase/firestore";
-import useFirebaseImage from "./useFirebaseImage";
-import {updateUser } from "../store/slices/authSlice";
+import {useState, useEffect, useRef} from 'react';
+import {User} from '../types/User';
+import {db} from '../firebase/config';
+import {useAppDispatch, useAppSelector} from './hooks';
+import {doc, getDoc} from 'firebase/firestore';
+import useFirebaseImage from './useFirebaseImage';
+import {updateUser} from '../store/slices/authSlice';
+import {fetchUserData} from "../firebase/services/firestore";
 
-const useUserData = () => {
-  const [error, setError] = useState<Error | null>(null);
-  const auth = useAppSelector((state) => state.auth.user);
-  const { getImageUrl, imageUrl } = useFirebaseImage();
-  const [isUserLoaded, setIsUserLoaded] = useState(false);
+const useUserData = (reloadDependency: any) => {
+    const [error, setError] = useState<Error | null>(null);
+    const user = useAppSelector((state) => state.auth.user);
+    const {getImageUrl, imageUrl} = useFirebaseImage();
+    const isMounted = useRef(true);
 
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!auth?.UID || isUserLoaded) return;
+    const fetchData = async () => {
+        if (!user?.UID) return;
 
-    const userRef = doc(db, "users", auth?.UID);
+        const userData = await fetchUserData(user.UID, getImageUrl, setError);
 
-    getDoc(userRef)
-      .then((doc) => {
-        if (doc.exists()) {
-          const userData = doc.data() as User;
-          if (userData.imageId) {
-            getImageUrl(userData?.imageId);
-          }
-
-          setIsUserLoaded(true);
-          dispatch(updateUser(userData));
-        } else {
-          console.log("No such document!");
+        if (isMounted.current) {
+            dispatch(updateUser(userData));
         }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-        setError(error);
-      });
+    };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    useEffect(() => {
+        fetchData();
 
-  useEffect(() => {
-    if (!imageUrl) return;
+        return () => {
+            isMounted.current = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [reloadDependency]);
 
-    const partialUser: Partial<User> = { imageUrl };
-    dispatch(updateUser(partialUser));
+    useEffect(() => {
+        if (!imageUrl) return;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageUrl]);
+        const partialUser: Partial<User> = {imageUrl};
+        dispatch(updateUser(partialUser));
 
-  return { error };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [imageUrl]);
+
+    return {error};
 };
 
 export default useUserData;
