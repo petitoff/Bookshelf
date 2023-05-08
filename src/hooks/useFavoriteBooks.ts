@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useAppDispatch } from "./hooks";
 import { updateUser } from "../store/slices/authSlice";
-import { getBookFromFirestore } from "../firebase/services/firestore";
+import { getBookByIdFromFirestore } from "../firebase/services/firestore";
 
 const useFavoriteBooks = () => {
   const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
@@ -37,7 +37,7 @@ const useFavoriteBooks = () => {
 
         const favoriteBooksId = userDocData.favoriteBooksId || [];
         const booksPromises: Book[] = favoriteBooksId.map((bookId: string) =>
-          getBookFromFirestore(bookId)
+          getBookByIdFromFirestore(bookId)
         );
 
         const fetchedBooks = await Promise.all(booksPromises);

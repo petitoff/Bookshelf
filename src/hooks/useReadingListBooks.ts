@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useAppDispatch } from "./hooks";
 import { updateUser } from "../store/slices/authSlice";
-import { getBookFromFirestore } from "../firebase/services/firestore";
+import { getBookByIdFromFirestore } from "../firebase/services/firestore";
 
 const useReadingListBooks = () => {
   const [readingListBooks, setReadingListBooks] = useState<Book[]>([]);
@@ -37,7 +37,7 @@ const useReadingListBooks = () => {
 
         const readingListBooksId = userDocData.readingListBooksId || [];
         const booksPromises: Book[] = readingListBooksId.map((bookId: string) =>
-          getBookFromFirestore(bookId)
+          getBookByIdFromFirestore(bookId)
         );
 
         const fetchedBooks = await Promise.all(booksPromises);
