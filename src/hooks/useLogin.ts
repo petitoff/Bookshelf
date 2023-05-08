@@ -6,15 +6,14 @@ import {setUser} from "../store/slices/authSlice";
 import {toast} from "react-toastify";
 import {successToast} from "../utils/toastHelper";
 import {fetchUserData} from "../firebase/services/firestore";
-import useFirebaseImage from "./useFirebaseImage";
 
 const useLogin = () => {
     const [loggingInStatus, setLoggingInStatus] = useState<
         "idle" | "fetching" | "error" | "success"
     >("idle");
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-    const {getImageUrl, imageUrl} = useFirebaseImage();
     const [error, setError] = useState<any>(null);
+
     const dispatch = useAppDispatch();
 
     const login = async (email: string, password: string) => {
@@ -31,17 +30,13 @@ const useLogin = () => {
                 throw new Error("User not found!");
             }
 
-            // const userProfile: User = {
-            //     UID: userCredential.user?.uid,
-            //     email: userCredential.user?.email || undefined,
-            // };
+            const userData = await fetchUserData(userCredential.user?.uid, setError);
 
-            const userData = await fetchUserData(userCredential.user?.uid, getImageUrl, setError)
-
-            setIsUserLoggedIn(true);
             dispatch(setUser(userData));
+            // dispatch((updateUser({imageUrl: imageUrl})))
             setLoggingInStatus("success");
             successToast("Logged in successfully!");
+            setIsUserLoggedIn(true);
 
         } catch (error: any) {
             setLoggingInStatus("error");

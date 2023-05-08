@@ -5,6 +5,9 @@ import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
+import useFirebaseImage from "../../hooks/useFirebaseImage";
+import {useEffect} from "react";
+import {updateUser} from "../../store/slices/authSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +15,9 @@ const Sidebar = () => {
     (state) => state.sidebar.isLeftSidebarOpen
   );
   const user = useAppSelector((state) => state.auth.user);
+  
   const { logout } = useLogout();
+  const {getImageUrl, imageUrl} = useFirebaseImage();
 
   const handleLogout = () => {
     handleLinkClick();
@@ -22,6 +27,19 @@ const Sidebar = () => {
   const handleLinkClick = () => {
     dispatch(toggleLeftSidebar());
   };
+  
+  useEffect(() => {
+    if(!user || user?.imageUrl) return;
+
+    if(user?.imageId){
+      getImageUrl(user?.imageId);
+    }
+    
+    if(imageUrl){
+      dispatch((updateUser({imageUrl: imageUrl})))
+    }
+  }, [dispatch, getImageUrl, imageUrl, user])
+
 
   return (
     <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>

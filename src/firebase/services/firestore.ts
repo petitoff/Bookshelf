@@ -52,7 +52,7 @@ export const addBook = async (book: Book): Promise<string> => {
     }
 };
 
-export const updateUserInFirestore = async (
+export const updateUsernamesInFirestore = async (
     UID: string,
     data: Partial<User>
 ) => {
@@ -60,37 +60,55 @@ export const updateUserInFirestore = async (
         // Update user in Firestore
         await updateDoc(doc(db, "usernames", UID), data);
     } catch (error: any) {
+        console.log(error)
         throw new Error("Error updating user");
     }
 };
 
+export const updateUserInFirestore = async (UID: string, data: Partial<User>) => {
+    try {
+        // Update user in Firestore
+        await updateDoc(doc(db, "users", UID), data);
+    } catch (error: any) {
+        throw new Error("Error updating user");
+    }
+}
+
+export const updateUserEmailInAuth = async (email: string) => {
+    const user = auth.currentUser;
+    if (user) {
+        await updateEmail(user, email);
+    } else {
+        throw new Error("User not found in Firebase Authentication");
+    }
+}
+
 export const fetchUserData = async (
     userUID: string,
-    getImageUrl: (imageId: string) => void,
     setError: (error: Error | null) => void
 ): Promise<Partial<User>> => {
     const userRef = doc(db, 'users', userUID);
     const usernamesRef = doc(db, 'usernames', userUID);
 
     const docs = [
-        { ref: userRef, name: 'user' },
-        { ref: usernamesRef, name: 'usernames' },
+        {ref: userRef, name: 'user'},
+        {ref: usernamesRef, name: 'usernames'},
     ];
 
     let updatedUserData: Partial<User> = {};
 
-    for (const { ref, name } of docs) {
+    for (const {ref, name} of docs) {
         try {
             const docSnapshot = await getDoc(ref);
 
             if (docSnapshot.exists()) {
                 const userData = docSnapshot.data() as Partial<User>;
 
-                if (name === 'user' && userData.imageId) {
-                    getImageUrl(userData.imageId);
-                }
+                // if (name === 'user' && userData.imageId) {
+                //     getImageUrl(userData.imageId);
+                // }
 
-                updatedUserData = { ...updatedUserData, ...userData };
+                updatedUserData = {...updatedUserData, ...userData};
             } else {
                 console.log(`No such document in ${name} collection!`);
             }
@@ -102,15 +120,6 @@ export const fetchUserData = async (
 
     return updatedUserData;
 };
-
-export const updateUserEmailInAuth = async (email: string) => {
-    const user = auth.currentUser;
-    if (user) {
-        await updateEmail(user, email);
-    } else {
-        throw new Error("User not found in Firebase Authentication");
-    }
-}
 
 export const addFavoriteBookId = async (UID: string, bookId: string) => {
     try {

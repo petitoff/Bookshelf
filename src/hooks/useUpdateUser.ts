@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "./hooks";
 import {User} from "../types/User";
-import {updateUserEmailInAuth, updateUserInFirestore} from "../firebase/services/firestore";
+import {updateUserEmailInAuth, updateUserInFirestore, updateUsernamesInFirestore} from "../firebase/services/firestore";
 import {updateUser} from "../store/slices/authSlice";
 import {successToast} from "../utils/toastHelper";
 
@@ -10,17 +10,24 @@ const useUpdateUser = () => {
 
     const updateUserPartial = async (data: Partial<User>): Promise<void> => {
         try {
-            if (!user) return;
+            if (!user || !data) return;
+            console.log(data)
 
-            data?.username && await updateUserInFirestore(user.UID, data)
-            data?.email && await updateUserEmailInAuth(data?.email)
+            data?.username && await updateUsernamesInFirestore(user.UID, data)
+
+            if(data?.email){
+                await updateUserEmailInAuth(data?.email)
+                await updateUserInFirestore(user.UID, {email: data.email})
+            }
 
 
             dispatch(updateUser(data))
 
             successToast("Success user update")
-        } catch (error: any) {
-            throw new Error("Error updating error")
+        } catch (error: Error | any) {
+            // throw new Error("Error updating user")
+
+            console.log(error.mesage)
         }
     }
 

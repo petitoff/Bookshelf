@@ -18,7 +18,7 @@ const useUserData = (reloadDependency: any) => {
     const fetchData = async () => {
         if (!user?.UID) return;
 
-        const userData = await fetchUserData(user.UID, getImageUrl, setError);
+        const userData = await fetchUserData(user.UID, setError);
 
         if (isMounted.current) {
             dispatch(updateUser(userData));
