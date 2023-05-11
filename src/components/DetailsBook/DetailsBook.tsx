@@ -10,6 +10,7 @@ import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
 import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
+import { toast } from "react-toastify";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +19,10 @@ const DetailsBook = () => {
   const { getImageUrl, imageUrl } = useFirebaseImage();
 
   const handleAddBookToReadingList = async () => {
-    if (!user?.UID || !book?.id) return;
+    if (!user?.UID || !book?.id) {
+      toast.error("You must be logged in to add a book to your reading list");
+      return;
+    }
 
     await addReadingListBookId(user?.UID, book?.id);
   };
