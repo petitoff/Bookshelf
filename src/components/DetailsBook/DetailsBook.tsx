@@ -74,6 +74,7 @@ const DetailsBook = () => {
               <div className={styles.centerItem}>
                 <p className={styles.buttonText}>Read online</p>
               </div>
+              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
           <WideButton
@@ -88,6 +89,7 @@ const DetailsBook = () => {
               <div className={styles.centerItem}>
                 <p className={styles.buttonText}>Save to reading list</p>
               </div>
+              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
         </div>
