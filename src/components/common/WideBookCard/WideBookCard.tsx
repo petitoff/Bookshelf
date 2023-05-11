@@ -35,7 +35,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
         <div>Error!</div>
       ) : (
         <div className="image-container">
-          {!imageUrl ? (
+          {!book?.imageUrl ? (
             <Blurhash
               hash="LKO2?U%2Tw=w]~RBVZRi};RPxuwH"
               width="100px"
@@ -43,7 +43,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
             />
           ) : (
             <img
-              src={imageUrl ?? ""}
+              src={book?.imageUrl ?? ""}
               alt="Book cover"
               style={{
                 maxWidth: "100%",

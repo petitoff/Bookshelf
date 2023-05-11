@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useSingleBook } from "../../hooks/useSingleBook";
 import styles from "./DetailsBook.module.scss";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import WideButton from "../common/WideButton/WideButton";
 import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,9 +14,13 @@ import { toast } from "react-toastify";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
-  const { book, loading } = useSingleBook(id);
   const user = useAppSelector((state) => state.auth.user);
-  const { getImageUrl, imageUrl } = useFirebaseImage();
+  const books = useAppSelector((state) => state.books.books);
+
+  const { book, loading } = useSingleBook(id);
+  const [bookLocal, setBookLocal] = useState(book);
+  const [imageUrl, setImageUrl] = useState<string | null>();
+  const { getImageUrl } = useFirebaseImage();
 
   const handleAddBookToReadingList = async () => {
     if (!user?.UID || !book?.id) {
@@ -28,14 +32,23 @@ const DetailsBook = () => {
   };
 
   useEffect(() => {
-    if (!book?.imageId) return;
+    if (!books.length) {
+      (async () => {
+        const fetchedImageUrl = await getImageUrl(book?.imageId);
+        fetchedImageUrl && setImageUrl(fetchedImageUrl);
+      })();
+      return;
+    }
 
-    getImageUrl(book?.imageId);
+    if (!book) return;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [book?.imageId]);
+    const bookInBooks = books.find((b) => b.id === book.id);
 
-  // if the book is loading, return a loading message
+    if (!bookInBooks) return;
+
+    setBookLocal(bookInBooks);
+  }, [book, books, getImageUrl]);
+
   if (loading) {
     return <LoadingIndicator isFullHeightOfSite />;
   }
@@ -44,12 +57,11 @@ const DetailsBook = () => {
     return <p>Book not found</p>;
   }
 
-  // create a return statement with the book details
   return (
     <div className={styles.pageContainer}>
       <div className={styles.leftContainer}>
         <img
-          src={imageUrl ?? ""}
+          src={bookLocal?.imageUrl ?? imageUrl ?? ""}
           alt={book.title}
           className={styles.imageContainer}
         />
@@ -60,9 +72,8 @@ const DetailsBook = () => {
                 <FontAwesomeIcon icon={faBookOpen} size="2x" />
               </div>
               <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Read online</p>
+                <p className={styles.buttonText}>Read online</p>
               </div>
-              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
           <WideButton
@@ -75,9 +86,8 @@ const DetailsBook = () => {
                 <AiOutlineBook size={32} color="#fff" />
               </div>
               <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Save to reading list</p>
+                <p className={styles.buttonText}>Save to reading list</p>
               </div>
-              <div className={styles.rightItem}></div>
             </div>
           </WideButton>
         </div>

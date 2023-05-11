@@ -9,6 +9,7 @@ export interface Book {
   reviews?: string[];
 
   imageId?: string;
+  imageUrl?: string;
 }
 
 export interface BookCollection {
