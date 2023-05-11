@@ -44,7 +44,7 @@ const UserReadingListView = () => {
     readingListBooksFetchingStatus === "loading" ||
     userIdFetchingStatus === "loading"
   ) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator isFullHeightOfSite />;
   }
 
   if (

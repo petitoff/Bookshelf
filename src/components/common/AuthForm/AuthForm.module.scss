@@ -45,10 +45,17 @@ $box-shadow: rgba(0, 0, 0, 0.4) 1px 2px 2px;
         background: #ffffff;
         box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
       }
+
+      &:disabled {
+        background-color: #969696;
+        color: white;
+        cursor: not-allowed;
+      }
     }
 
     button.btn {
       margin-top: 2em;
+      margin-bottom: 1rem;
       align-self: center;
       padding: 0.7em 1em;
       border-radius: 10px;

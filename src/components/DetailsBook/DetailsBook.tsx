@@ -33,7 +33,7 @@ const DetailsBook = () => {
 
   // if the book is loading, return a loading message
   if (loading) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator isFullHeightOfSite />;
   }
 
   if (!book) {

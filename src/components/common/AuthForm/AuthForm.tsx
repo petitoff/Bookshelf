@@ -3,6 +3,7 @@ import styles from "./AuthForm.module.scss";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isPasswordValid } from "../../../utils/passwordValidation";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 
 interface Props {
   heading: string;
@@ -76,6 +77,9 @@ const AuthForm = ({
         <Link to={altLink} className={styles.link}>
           <p>{altText}</p>
         </Link>
+
+        {isLoading && <LoadingIndicator />}
+
         <button type="submit" className={styles.btn} disabled={isLoading}>
           {buttonText}
         </button>

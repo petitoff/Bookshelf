@@ -17,7 +17,7 @@ const Books = () => {
       <BookInfoRightSidebar />
       <div className={styles.booksLeftContainer}>
         {fetchingStatus === "loading" ? (
-          <LoadingIndicator />
+          <LoadingIndicator isFullHeightOfSite />
         ) : (
           <>
             {isSearchResults ? (
