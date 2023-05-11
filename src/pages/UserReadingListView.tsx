@@ -8,7 +8,6 @@ import BookList from "../components/common/BookList/BookList";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import useReadingListBooks from "../hooks/useReadingListBooks";
 import { deleteBookFromReadingList } from "../utils/readingListHelpers";
-import { toast } from "react-toastify";
 
 const UserReadingListView = () => {
   const { username } = useParams<{ username: string }>();
