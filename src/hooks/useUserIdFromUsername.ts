@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { db } from "../firebase/config";
+import { toast } from "react-toastify";
 
 const useUserIdFromUsername = () => {
   const [username, setUsername] = useState<string | null>(null);
@@ -29,8 +30,9 @@ const useUserIdFromUsername = () => {
 
         setUserId(usernameSnap.docs[0].id);
         setFetchingStatus("idle");
-      } catch (error) {
+      } catch (error: any) {
         setFetchingStatus("error");
+        toast.error(error.message);
         console.log(error);
       }
     };

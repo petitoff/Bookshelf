@@ -8,6 +8,7 @@ import BookList from "../components/common/BookList/BookList";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import useReadingListBooks from "../hooks/useReadingListBooks";
 import { deleteBookFromReadingList } from "../utils/readingListHelpers";
+import { toast } from "react-toastify";
 
 const UserReadingListView = () => {
   const { username } = useParams<{ username: string }>();
@@ -51,7 +52,11 @@ const UserReadingListView = () => {
     readingListBooksFetchingStatus === "error" ||
     userIdFetchingStatus === "error"
   ) {
-    return <p>Something went wrong. Please try again.</p>;
+    return (
+      <div className={styles.userReadingList}>
+        <p>Something went wrong. Please try again.</p>
+      </div>
+    );
   }
 
   const hasBooks =
