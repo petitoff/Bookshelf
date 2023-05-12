@@ -23,8 +23,8 @@ export const authSlice = createSlice({
     /**
      * Sets the authenticated user in the state.
      */
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    setUser: (state, action: PayloadAction<User | Partial<User>>) => {
+      state.user = action.payload as User;
     },
 
     /**
@@ -36,6 +36,20 @@ export const authSlice = createSlice({
           ...state.user,
           ...action.payload,
         };
+      }
+    },
+
+    /**
+     * Removes a book from the reading list by its id.
+     * @param state The current state.
+     * @param action The action containing the id of the book to remove.
+     * @returns The new state.
+     */
+    removeBookFromReadingListById: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.readingListBooks = state.user.readingListBooks?.filter(
+          (book) => book.id !== action.payload
+        );
       }
     },
 
@@ -62,6 +76,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, updateUser, setLoading, setError, logoutUser } =
-  authSlice.actions;
+export const {
+  setUser,
+  updateUser,
+  removeBookFromReadingListById,
+  setLoading,
+  setError,
+  logoutUser,
+} = authSlice.actions;
 export default authSlice.reducer;

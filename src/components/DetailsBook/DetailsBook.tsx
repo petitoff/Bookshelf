@@ -7,11 +7,25 @@ import WideButton from "../common/WideButton/WideButton";
 import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
+import { addReadingListBookId } from "../../firebase/services/firestore";
+import { useAppSelector } from "../../hooks/hooks";
+import { toast } from "react-toastify";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
   const { book, loading } = useSingleBook(id);
+  const user = useAppSelector((state) => state.auth.user);
   const { getImageUrl, imageUrl } = useFirebaseImage();
+
+  const handleAddBookToReadingList = async () => {
+    if (!user?.UID || !book?.id) {
+      toast.error("You must be logged in to add a book to your reading list");
+      return;
+    }
+
+    await addReadingListBookId(user?.UID, book?.id);
+  };
 
   useEffect(() => {
     if (!book?.imageId) return;
@@ -23,7 +37,7 @@ const DetailsBook = () => {
 
   // if the book is loading, return a loading message
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingIndicator isFullHeightOfSite />;
   }
 
   if (!book) {
@@ -51,7 +65,11 @@ const DetailsBook = () => {
               <div className={styles.rightItem}></div>
             </div>
           </WideButton>
-          <WideButton isActive={true} className={styles.button}>
+          <WideButton
+            isActive={true}
+            className={styles.button}
+            onClick={handleAddBookToReadingList}
+          >
             <div className={styles.innerContainer}>
               <div className={styles.leftItem}>
                 <AiOutlineBook size={32} color="#fff" />

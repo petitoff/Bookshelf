@@ -76,14 +76,10 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
         </div>
       </div>
       <div className="book-button-container">
-        {/* <a href="#" className="book-button">
-          See details
-        </a> */}
-
         <FiChevronRight
           onClick={handleOpenDetails}
           className="book-button"
-          size={20}
+          size={30}
         />
       </div>
     </div>

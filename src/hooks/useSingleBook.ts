@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBookFromFirestore } from "../firebase/services/firestore";
+import { getBookByIdFromFirestore } from "../firebase/services/firestore";
 import { Book } from "../types/Book";
 
 export const useSingleBook = (bookId: string) => {
@@ -9,7 +9,7 @@ export const useSingleBook = (bookId: string) => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const fetchedBook: Book = await getBookFromFirestore(bookId);
+        const fetchedBook: Book | null = await getBookByIdFromFirestore(bookId);
         if (!fetchedBook) {
           throw new Error("Book not found!");
         } else {

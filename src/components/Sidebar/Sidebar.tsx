@@ -1,10 +1,13 @@
-import { FaHome, FaList, FaHeart, FaCog } from "react-icons/fa";
+import { FaHome, FaList, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useLogout from "../../hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
+import useFirebaseImage from "../../hooks/useFirebaseImage";
+import { useEffect, useState } from "react";
+import { updateUser } from "../../store/slices/authSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +15,10 @@ const Sidebar = () => {
     (state) => state.sidebar.isLeftSidebarOpen
   );
   const user = useAppSelector((state) => state.auth.user);
+  const [image, setImage] = useState(user?.imageUrl);
+
   const { logout } = useLogout();
+  const { getImageUrl, imageUrl } = useFirebaseImage();
 
   const handleLogout = () => {
     handleLinkClick();
@@ -23,17 +29,41 @@ const Sidebar = () => {
     dispatch(toggleLeftSidebar());
   };
 
+  useEffect(() => {
+    if (!user) {
+      setImage("");
+      return;
+    }
+
+    if (user?.imageUrl) {
+      return;
+    }
+
+    if (user?.imageId) {
+      getImageUrl(user?.imageId);
+    }
+
+    if (imageUrl) {
+      dispatch(updateUser({ imageUrl: imageUrl }));
+      setImage(imageUrl);
+    }
+  }, [dispatch, getImageUrl, imageUrl, user]);
+
   return (
-    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}>
+    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`} data-testid="sidebar">
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>
-            {user?.imageUrl ? (
-              <img src={user?.imageUrl} alt="user" />
+            {image ? (
+              <img src={image} alt="user" />
             ) : (
               <img src="https://i.imgur.com/6VBx3io.png" alt="user" />
             )}
-            <span>{`@${user?.name}`}</span>
+            {user?.username ? (
+              <span>{`${user.username}`}</span>
+            ) : (
+              <span>Guest</span>
+            )}
           </div>
         </li>
 
@@ -44,16 +74,26 @@ const Sidebar = () => {
             <FaHome className={styles.icon} /> Home
           </Link>
         </li>
-        <li>
-          <Link to="/mylist" onClick={handleLinkClick}>
-            <FaList className={styles.icon} /> My List
-          </Link>
-        </li>
-        <li>
-          <Link to="/favourites" onClick={handleLinkClick}>
-            <FaHeart className={styles.icon} /> Favourites
-          </Link>
-        </li>
+
+        {user && (
+          <>
+            <li>
+              <Link
+                to={`/${user?.username}/reading-list`}
+                onClick={handleLinkClick}
+              >
+                <FaList className={styles.icon} /> My List
+              </Link>
+            </li>
+
+            {/* This feature is disabled for now */}
+            {/* <li>
+              <Link to="/favourites" onClick={handleLinkClick}>
+                <FaHeart className={styles.icon} /> Favourites
+              </Link>
+            </li> */}
+          </>
+        )}
 
         <hr />
 

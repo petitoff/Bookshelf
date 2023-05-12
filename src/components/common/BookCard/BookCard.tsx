@@ -3,28 +3,29 @@ import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import styles from "./BookCard.module.scss";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
+import { Book } from "../../../types/Book";
+import WideButton from "../WideButton/WideButton";
 
 interface Props {
-  id: string;
-  title: string;
-  author: string;
-  imageId: string;
-  isActiveBook: boolean;
-  onSetActiveBook: (id: string) => void;
+  book: Book;
+  isActiveBook?: boolean;
+  isAllowedToDelete?: boolean;
+  onSetActiveBook?: (id: string) => void;
+  onDeleteBook?: (id: string) => void;
 }
 
 function BookCard({
-  id,
-  title,
-  author,
-  imageId,
-  isActiveBook,
+  book,
+  isActiveBook = false,
+  isAllowedToDelete = false,
   onSetActiveBook,
+  onDeleteBook,
 }: Props) {
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
   const { getImageUrl, imageUrl } = useFirebaseImage();
+  const { id, imageId, title, authorName: author } = book;
   const history = useHistory();
 
   const handleToggleActiveBook = () => {
@@ -33,11 +34,19 @@ function BookCard({
       return;
     }
 
-    onSetActiveBook(id);
+    if (!id) return;
+
+    onSetActiveBook && onSetActiveBook(id);
   };
 
   const handleOpenDetailsPage = () => {
     history.push(`/book/${id}`);
+  };
+
+  const handleDeleteBook = () => {
+    if (!id) return;
+
+    onDeleteBook && onDeleteBook(id);
   };
 
   useEffect(() => {
@@ -47,15 +56,19 @@ function BookCard({
   }, [imageId]);
 
   return (
-    <div
-      className={`${styles.card} ${isActiveBook && styles.active}`}
-      onClick={handleToggleActiveBook}
-    >
-      <img src={imageUrl ?? ""} alt={title} className={styles.imageStyle} />
-      <div className="cardBody">
-        <h5 className={styles.title}>{title}</h5>
-        <p className="text">{author}</p>
+    <div className={`${styles.card} ${isActiveBook && styles.active}`} data-testid="book-card">
+      <div onClick={handleToggleActiveBook}>
+        <img src={imageUrl ?? ""} alt={title} className={styles.imageStyle} />
+        <div className="cardBody">
+          <h5 className={styles.title}>{title}</h5>
+          <p className="text">{author}</p>
+        </div>
       </div>
+      {isAllowedToDelete && (
+        <WideButton colorOfButton="#e74c3c" isActive onClick={handleDeleteBook}>
+          <p>Delete from your reading list</p>
+        </WideButton>
+      )}
     </div>
   );
 }

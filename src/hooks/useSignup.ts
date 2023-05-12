@@ -3,17 +3,23 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 interface SignupState {
   isLoading: boolean;
   error: string | null;
 }
 
+const USERS_COLLECTION = "users";
+const USERNAMES_COLLECTION = "usernames";
+
 const useSignup = () => {
   const [signupState, setSignupState] = useState<SignupState>({
     isLoading: false,
     error: null,
   });
+
+  const history = useHistory();
 
   const signup = async (email: string, password: string): Promise<void> => {
     setSignupState({ isLoading: true, error: null });
@@ -25,14 +31,13 @@ const useSignup = () => {
         password
       );
 
-      console.log(result);
-
       if (result.user) {
-        await setDoc(doc(db, "users", result.user.uid), {
-          UID: result.user.uid,
+        await setDoc(doc(db, USERS_COLLECTION, result.user.uid), {
           email: result.user.email,
           // Add any additional user data you want to store in the document
         });
+
+        await setDoc(doc(db, USERNAMES_COLLECTION, result.user.uid), {});
 
         toast.success("User created successfully");
       }
@@ -46,6 +51,7 @@ const useSignup = () => {
       setSignupState({ isLoading: false, error });
     } finally {
       setSignupState({ isLoading: false, error: null });
+      history.push("/login");
     }
   };
 

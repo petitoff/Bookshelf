@@ -3,35 +3,38 @@ import BookSection from "../components/BookSection/BookSection";
 import ForYouSection from "../components/ForYouSection/ForYouSection";
 import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/useBooks";
-import useUserData from "../hooks/useUserData";
 import styles from "./Pages.module.scss";
+import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 
 const Books = () => {
-  useBooks();
-  useUserData();
-
-  const booksSearch = useAppSelector((state) => state.books.booksSearch);
-  const books = useAppSelector((state) => state.books.books);
-
+  const { books, booksSearch } = useAppSelector((state) => state.books);
   const isSearchResults = booksSearch && booksSearch.length > 0;
+
+  const { fetchingStatus } = useBooks();
 
   return (
     <div className={styles.books}>
       <BookInfoRightSidebar />
       <div className={styles.booksLeftContainer}>
-        {isSearchResults ? (
-          <div className={styles.booksContainer}>
-            <BookSection
-              titleOfSection={"Search Results"}
-              books={booksSearch}
-            />
-          </div>
+        {fetchingStatus === "loading" ? (
+          <LoadingIndicator isFullHeightOfSite />
         ) : (
           <>
-            <ForYouSection />
-            <div className={styles.booksContainer}>
-              <BookSection titleOfSection={"Popular Books"} books={books} />
-            </div>
+            {isSearchResults ? (
+              <div className={styles.booksContainer}>
+                <BookSection
+                  titleOfSection="Search Results"
+                  books={booksSearch}
+                />
+              </div>
+            ) : (
+              <>
+                <ForYouSection />
+                <div className={styles.booksContainer}>
+                  <BookSection titleOfSection="Popular Books" books={books} />
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

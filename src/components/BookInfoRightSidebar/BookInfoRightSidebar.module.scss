@@ -1,9 +1,16 @@
 $bookInfoWidth: 18vw;
 
+@mixin headingStyles {
+  color: #fff;
+  margin: 0;
+  width: 90%;
+}
+
 .bookInfo {
   background-color: #121421;
   width: clamp(300px, $bookInfoWidth, 400px);
-  height: 100vh;
+  height: 100%;
+
   position: fixed;
   top: 0;
   right: -$bookInfoWidth;
@@ -13,31 +20,38 @@ $bookInfoWidth: 18vw;
   align-items: center;
   padding: 10px;
   color: #fff;
-  transition: right 0.3s ease;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+
+  /* Ukryj pasek przewijania */
+  scrollbar-width: none; /* Dla przeglądarek opartych na Firefox */
+  -ms-overflow-style: none; /* Dla przeglądarek opartych na Internet Explorer i Edge */
+
+  /* Dla przeglądarek opartych na WebKit (Chrome, Safari, Opera) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &.show {
     right: 0;
   }
 
   h2 {
-    color: #fff;
-    margin: 0;
+    @include headingStyles;
     padding-top: 20px;
     margin-bottom: 20px;
     font-size: 1.3rem;
   }
 
   h3 {
-    color: #fff;
-    margin: 0;
+    @include headingStyles;
     padding-top: 20px;
-    width: 90%;
   }
 
   h5 {
+    @include headingStyles;
     color: rgba(255, 255, 255, 0.7);
     margin: 0.4rem 0px;
-    width: 90%;
   }
 
   .bookCover {
@@ -54,6 +68,7 @@ $bookInfoWidth: 18vw;
     justify-content: flex-start;
     flex-direction: column;
     width: 90%;
+    height: 100%;
 
     h2 {
       margin-bottom: 0.4rem;
@@ -69,25 +84,29 @@ $bookInfoWidth: 18vw;
       -webkit-line-clamp: 6;
       line-height: 1.4;
       margin-top: 0;
-      margin-bottom: 0.9rem;
+      // margin-bottom: 0.9rem;
     }
   }
 
   .image {
     width: 80%;
-    height: auto;
     margin: 10px 0px;
   }
 
   .noBook {
-    margin: 100% 0px;
+    margin: 60% 0px;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
-  @media (max-width: 1200px) {
-    display: none;
+  .buttonContainer {
+    // margin: 10% 0px;
+    margin-bottom: 7%;
+    width: 100%;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1200px), (max-width: 768px) {
     display: none;
   }
 }

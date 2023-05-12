@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./AuthForm.module.scss";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { isPasswordValid } from "../../../utils/passwordValidation";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 
 interface Props {
   heading: string;
@@ -26,11 +28,10 @@ const AuthForm = ({
   const [password, setPassword] = useState("");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
-  const isPasswordValid = (password: string, minLength: number): boolean => {
-    return password.length >= minLength;
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (isLoading)
+      return toast.error("Please wait for the current action to finish");
+
     e.preventDefault();
     if (confirmPassword && password !== confirmPasswordValue) {
       toast.error("Passwords do not match");
@@ -53,7 +54,7 @@ const AuthForm = ({
           required
           className={styles.input}
           placeholder="Email"
-          type="text"
+          type="email"
         />
         <input
           value={password}
@@ -76,6 +77,9 @@ const AuthForm = ({
         <Link to={altLink} className={styles.link}>
           <p>{altText}</p>
         </Link>
+
+        {isLoading && <LoadingIndicator />}
+
         <button type="submit" className={styles.btn} disabled={isLoading}>
           {buttonText}
         </button>

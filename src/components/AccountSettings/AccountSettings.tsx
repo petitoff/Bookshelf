@@ -1,38 +1,38 @@
 import { useState } from "react";
 import styles from "./AccountSettings.module.scss";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
-import { updateUserPartial } from "../../firebase/services/firestore";
 import { User } from "../../types/User";
 import { ChangeEvent } from "react";
+import useUpdateUser from "../../hooks/useUpdateUser";
 
 type ActiveButton = "My Profile" | "Security";
 
 const AccountSettings = () => {
-  const dispatch = useAppDispatch();
-
   const user = useAppSelector((state) => state.auth.user);
 
   const [activeButton, setActiveButton] = useState<ActiveButton>("My Profile");
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const [name, setName] = useState(user?.name ?? "");
+  const [name, setName] = useState(user?.username ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
+
+  const { updateUserPartial } = useUpdateUser();
 
   const handleSaveClick = async () => {
     if (isEditing && user?.UID) {
       const updatedUserData: Partial<User> = {};
       // updatedUserData.UID = user.UID;
 
-      if (name !== user.name || name !== "") {
-        updatedUserData.name = name;
+      if (name !== user.username || name !== "") {
+        updatedUserData.username = name;
       }
       if (email !== user.email || email !== "") {
         updatedUserData.email = email;
       }
       try {
-        await updateUserPartial(dispatch, user.UID, updatedUserData);
+        await updateUserPartial(updatedUserData);
       } catch (error) {
         console.error("Error updating user: ", error);
         // Wyświetl powiadomienie o błędzie dla użytkownika
