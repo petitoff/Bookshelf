@@ -7,7 +7,6 @@ import {
   closeRightSidebar,
   openRightSidebar,
 } from "../../store/slices/sidebarSlice";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
 import { useHistory } from "react-router-dom";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
@@ -20,19 +19,8 @@ const BookInfoRightSidebar = () => {
   const { isRightSidebarOpen } = useAppSelector((state) => state.sidebar);
   const { activeBook } = useAppSelector((state) => state.books);
 
-  const { getImageUrl, imageUrl } = useFirebaseImage();
   const history = useHistory();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchImageUrl = async () => {
-      if (activeBook?.imageId) {
-        await getImageUrl(activeBook.imageId);
-      }
-    };
-
-    fetchImageUrl();
-  }, [activeBook, getImageUrl]);
 
   useEffect(() => {
     dispatch(openRightSidebar());
@@ -56,10 +44,16 @@ const BookInfoRightSidebar = () => {
 
   const renderBookInfo = () => (
     <>
-      {imageUrl ? (
-        <img src={imageUrl} alt={activeBook?.title} className={styles.image} />
+      {activeBook?.imageUrl ? (
+        <img
+          src={activeBook.imageUrl}
+          alt={activeBook?.title}
+          className={styles.image}
+        />
       ) : (
-        <div className={styles.image}></div>
+        <div className={styles.image}>
+          <p>No image available</p>
+        </div>
       )}
       <h3>{activeBook?.title}</h3>
       <h5>{activeBook?.authorName}</h5>

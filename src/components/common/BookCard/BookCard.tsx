@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./BookCard.module.scss";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";

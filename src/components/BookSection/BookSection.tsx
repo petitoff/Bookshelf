@@ -20,6 +20,7 @@ const BookSection = ({ titleOfSection, books }: Props) => {
       const localActiveBook = books.find(
         (book: Book) => book.id === id
       ) as Book;
+
       dispatch(setActiveBook(localActiveBook));
     }
   };
