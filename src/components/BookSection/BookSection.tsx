@@ -20,6 +20,7 @@ const BookSection = ({ titleOfSection, books }: Props) => {
       const localActiveBook = books.find(
         (book: Book) => book.id === id
       ) as Book;
+
       dispatch(setActiveBook(localActiveBook));
     }
   };
@@ -33,13 +34,13 @@ const BookSection = ({ titleOfSection, books }: Props) => {
             id = "",
             title = "No title",
             authorName = "No author",
-            imageId = "No image",
+            imageUrl = "",
           } = book;
           const isActiveBook = activeBook?.id === id;
           return (
             <BookCard
               key={id}
-              book={{ id, title, authorName, imageId }}
+              book={{ id, title, authorName, imageUrl }}
               isActiveBook={isActiveBook}
               onSetActiveBook={handleSetActiveBook}
             />

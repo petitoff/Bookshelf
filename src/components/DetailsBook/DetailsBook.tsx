@@ -1,8 +1,5 @@
 import { useParams } from "react-router";
-import { useSingleBook } from "../../hooks/useSingleBook";
 import styles from "./DetailsBook.module.scss";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
-import { useEffect } from "react";
 import WideButton from "../common/WideButton/WideButton";
 import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,12 +8,15 @@ import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
 import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
 import { toast } from "react-toastify";
+import useBookWithImage from "../../hooks/useBookWithImage";
 
 const DetailsBook = () => {
   const { id } = useParams<{ id: string }>();
-  const { book, loading } = useSingleBook(id);
   const user = useAppSelector((state) => state.auth.user);
-  const { getImageUrl, imageUrl } = useFirebaseImage();
+
+  const { book, imageUrl, isLoading } = useBookWithImage({
+    bookId: id,
+  });
 
   const handleAddBookToReadingList = async () => {
     if (!user?.UID || !book?.id) {
@@ -27,16 +27,25 @@ const DetailsBook = () => {
     await addReadingListBookId(user?.UID, book?.id);
   };
 
-  useEffect(() => {
-    if (!book?.imageId) return;
+  const renderButtonText = (text: string) => (
+    <p className={styles.buttonText}>{text}</p>
+  );
 
-    getImageUrl(book?.imageId);
+  const renderWideButton = (
+    icon: React.ReactNode,
+    text: string,
+    onClick?: () => void
+  ) => (
+    <WideButton isActive={true} className={styles.button} onClick={onClick}>
+      <div className={styles.innerContainer}>
+        <div className={styles.leftItem}>{icon}</div>
+        <div className={styles.centerItem}>{renderButtonText(text)}</div>
+        <div className={styles.rightItem}></div>
+      </div>
+    </WideButton>
+  );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [book?.imageId]);
-
-  // if the book is loading, return a loading message
-  if (loading) {
+  if (isLoading) {
     return <LoadingIndicator isFullHeightOfSite />;
   }
 
@@ -44,42 +53,24 @@ const DetailsBook = () => {
     return <p>Book not found</p>;
   }
 
-  // create a return statement with the book details
   return (
     <div className={styles.pageContainer}>
       <div className={styles.leftContainer}>
         <img
-          src={imageUrl ?? ""}
+          src={book?.imageUrl ?? imageUrl ?? ""}
           alt={book.title}
           className={styles.imageContainer}
         />
         <div className={styles.buttonGroup}>
-          <WideButton isActive={true} className={styles.button}>
-            <div className={styles.innerContainer}>
-              <div className={styles.leftItem}>
-                <FontAwesomeIcon icon={faBookOpen} size="2x" />
-              </div>
-              <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Read online</p>
-              </div>
-              <div className={styles.rightItem}></div>
-            </div>
-          </WideButton>
-          <WideButton
-            isActive={true}
-            className={styles.button}
-            onClick={handleAddBookToReadingList}
-          >
-            <div className={styles.innerContainer}>
-              <div className={styles.leftItem}>
-                <AiOutlineBook size={32} color="#fff" />
-              </div>
-              <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Save to reading list</p>
-              </div>
-              <div className={styles.rightItem}></div>
-            </div>
-          </WideButton>
+          {renderWideButton(
+            <FontAwesomeIcon icon={faBookOpen} size="2x" />,
+            "Read online"
+          )}
+          {renderWideButton(
+            <AiOutlineBook size={32} color="#fff" />,
+            "Save to reading list",
+            handleAddBookToReadingList
+          )}
         </div>
       </div>
       <div className={styles.rightContainer}>

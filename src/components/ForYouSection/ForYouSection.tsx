@@ -11,7 +11,7 @@ const ForYouSection = () => {
       <h2 className="section-title">For you</h2>
       <div className="books-container">
         {books.map((book: Book) => (
-          <WideBookCard key={book?.id} book={book ?? book} />
+          <WideBookCard key={book?.id} book={book} />
         ))}
       </div>
     </section>

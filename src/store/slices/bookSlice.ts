@@ -26,9 +26,20 @@ const booksSlice = createSlice({
     setBooksSearch(state, action: PayloadAction<Book[] | null>) {
       state.booksSearch = action.payload;
     },
+    setBookImageUrlById(
+      state,
+      action: PayloadAction<{ bookId: string; imageUrl: string }>
+    ) {
+      const { bookId, imageUrl } = action.payload;
+      const book = state.books.find((book) => book.id === bookId);
+      if (book) {
+        book.imageUrl = imageUrl;
+      }
+    },
   },
 });
 
-export const { setActiveBook, setBooks, setBooksSearch } = booksSlice.actions;
+export const { setActiveBook, setBooks, setBooksSearch, setBookImageUrlById } =
+  booksSlice.actions;
 
 export default booksSlice.reducer;
