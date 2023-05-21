@@ -18,6 +18,10 @@ const DetailsBook = () => {
     bookId: id,
   });
 
+  const handleReadOnline = () => {
+    toast.info("This book is not available to read online");
+  };
+
   const handleAddBookToReadingList = async () => {
     if (!user?.UID || !book?.id) {
       toast.error("You must be logged in to add a book to your reading list");
@@ -64,7 +68,8 @@ const DetailsBook = () => {
         <div className={styles.buttonGroup}>
           {renderWideButton(
             <FontAwesomeIcon icon={faBookOpen} size="2x" />,
-            "Read online"
+            "Read online",
+            handleReadOnline
           )}
           {renderWideButton(
             <AiOutlineBook size={32} color="#fff" />,
