@@ -5,11 +5,22 @@ $primary-color: #0069d9;
   padding: 20px 15px;
   border-radius: 1rem;
   transition: all 0.2s ease;
+  margin-right: 1rem;
 
   &:hover,
   &.active {
     background-color: $primary-color;
     color: #fff;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0 0 1rem 0;
+    padding: 0;
   }
 }
 
