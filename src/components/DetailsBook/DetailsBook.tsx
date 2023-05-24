@@ -1,3 +1,4 @@
+// DetailsBook.tsx
 import { useParams } from "react-router";
 import styles from "./DetailsBook.module.scss";
 import WideButton from "../common/WideButton/WideButton";
@@ -50,7 +51,7 @@ const DetailsBook = () => {
   );
 
   const renderWideButton = (
-    icon: React.ReactNode,
+    icon: JSX.Element,
     text: string,
     onClick?: () => void
   ) => (
@@ -102,13 +103,18 @@ const DetailsBook = () => {
       <div className={styles.rightContainer}>
         <h1>{book.title}</h1>
         <p>{book.authorName}</p>
+
+        <h3>Plot</h3>
         <p>{book.summary}</p>
 
-        <StarRatingDistribution ratings={ratings ?? []} />
-        <ReviewsSection
-          bookId={id}
-          reviews={activeDetailsBook?.reviews ?? book.reviews ?? []}
-        />
+        <div className={styles.reviewSection}>
+          <h2>Review section</h2>
+          <StarRatingDistribution ratings={ratings} />
+          <ReviewsSection
+            bookId={id}
+            reviews={activeDetailsBook?.reviews ?? book.reviews ?? []}
+          />
+        </div>
       </div>
     </div>
   );
