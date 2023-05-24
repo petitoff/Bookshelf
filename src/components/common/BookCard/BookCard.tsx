@@ -3,6 +3,8 @@ import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
 import { Book } from "../../../types/Book";
 import WideButton from "../WideButton/WideButton";
+import useFirebaseImage from "../../../hooks/useFirebaseImage";
+import { useEffect } from "react";
 
 interface Props {
   book: Book;
@@ -22,8 +24,17 @@ function BookCard({
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
-  const { id, imageUrl, title, authorName: author } = book;
+  const { id, imageId, imageUrl, title, authorName: author } = book;
+
   const history = useHistory();
+
+  const { getImageUrl, imageUrl: imageUrlFromHook, error } = useFirebaseImage();
+
+  useEffect(() => {
+    if (!imageUrl && imageId) {
+      getImageUrl(imageId);
+    }
+  }, [imageId, imageUrl, getImageUrl]);
 
   const handleToggleActiveBook = () => {
     if (!isRightSidebarOpen) {
@@ -46,13 +57,19 @@ function BookCard({
     onDeleteBook && onDeleteBook(id);
   };
 
+  const displayImageUrl = imageUrl ?? imageUrlFromHook;
+
   return (
     <div
       className={`${styles.card} ${isActiveBook && styles.active}`}
       data-testid="book-card"
     >
       <div onClick={handleToggleActiveBook}>
-        <img src={imageUrl ?? ""} alt={title} className={styles.imageStyle} />
+        <img
+          src={displayImageUrl ?? ""}
+          alt={title}
+          className={styles.imageStyle}
+        />
         <div className="cardBody">
           <h5 className={styles.title}>{title}</h5>
           <p className="text">{author}</p>
