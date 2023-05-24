@@ -9,6 +9,7 @@ import {
 } from "../../store/slices/sidebarSlice";
 import { useHistory } from "react-router-dom";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import { setActiveBook } from "../../store/slices/bookSlice";
 
 /**
  * The BookInfoRightSidebar component displays information and details about a book in the right sidebar.
@@ -40,6 +41,8 @@ const BookInfoRightSidebar = () => {
 
   const handleOpenDetailsPage = () => {
     history.push(`/book/${activeBook?.id}`);
+
+    dispatch(setActiveBook(null));
   };
 
   const renderBookInfo = () => (

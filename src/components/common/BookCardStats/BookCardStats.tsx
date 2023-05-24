@@ -7,6 +7,19 @@ interface Props {
 }
 
 const BookCardStats = ({ book, isDarkMode }: Props) => {
+  const calcRatings = () => {
+    let sum = 0;
+    book.reviews?.forEach((review) => {
+      sum += review.rating;
+    });
+
+    if (sum === 0) {
+      return 0;
+    }
+
+    return sum / (book.reviews?.length ?? 1);
+  };
+
   return (
     <div
       className={`${styles.bookCard}`}
@@ -23,7 +36,7 @@ const BookCardStats = ({ book, isDarkMode }: Props) => {
       </p>
       <div className="separator" />
       <p>
-        <strong>{book.reviews?.length ?? 0}</strong>
+        <strong>{calcRatings()}</strong>
         <span className={`${styles.subtitle}`}>ratings</span>
       </p>
     </div>

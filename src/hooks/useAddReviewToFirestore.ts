@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Review } from "../types/Book";
 import { db } from "../firebase/config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { useAppDispatch, useAppSelector } from "./hooks";
+import { useAppSelector } from "./hooks";
 import { toast } from "react-toastify";
-import { addReviewToBook } from "../store/slices/bookSlice";
 import { successToast } from "../utils/toastHelper";
 
 const useAddReviewToFirestore = (bookId: string) => {
@@ -12,8 +11,6 @@ const useAddReviewToFirestore = (bookId: string) => {
   const [error, setError] = useState<any>(null);
 
   const user = useAppSelector((state) => state.auth.user);
-
-  const dispatch = useAppDispatch();
 
   const addReview = async (review: Partial<Review>) => {
     setIsLoading(true);
@@ -33,8 +30,6 @@ const useAddReviewToFirestore = (bookId: string) => {
         reviews: arrayUnion(review),
       });
 
-      dispatch(addReviewToBook({ review: review as Review, bookId }));
-
       successToast("Review added successfully");
     } catch (error: any) {
       setError(error);
@@ -44,8 +39,6 @@ const useAddReviewToFirestore = (bookId: string) => {
 
       if (error.message === "Review is not valid")
         toast.error("Review is not valid");
-
-      console.warn(error);
     } finally {
       setIsLoading(false);
     }
