@@ -23,7 +23,7 @@ const BookCardStats = ({ book, isDarkMode }: Props) => {
       </p>
       <div className="separator" />
       <p>
-        <strong>{book.ratings?.length ?? 0}</strong>
+        <strong>{book.reviews?.length ?? 0}</strong>
         <span className={`${styles.subtitle}`}>ratings</span>
       </p>
     </div>

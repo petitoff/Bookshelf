@@ -9,14 +9,28 @@ import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
 import { toast } from "react-toastify";
 import useBookWithImage from "../../hooks/useBookWithImage";
+import StarRatingDistribution from "../StarRatingDistribution/StarRatingDistribution";
+import ReviewsSection from "../ReviewsSection/ReviewsSection";
+import { useEffect, useState } from "react";
+import { Book } from "../../types/Book";
 
 const DetailsBook = () => {
+  const [activeDetailsBook, setActiveDetailsBook] = useState<Book>();
+
   const { id } = useParams<{ id: string }>();
   const user = useAppSelector((state) => state.auth.user);
+
+  const books = useAppSelector((state) => state.books.books);
 
   const { book, imageUrl, isLoading } = useBookWithImage({
     bookId: id,
   });
+
+  const ratings =
+    book?.reviews?.reduce((acc, review) => {
+      acc[review.rating - 1] = (acc[review.rating - 1] || 0) + 1;
+      return acc;
+    }, new Array(5).fill(0)) || [];
 
   const handleReadOnline = () => {
     toast.info("This book is not available to read online");
@@ -48,6 +62,13 @@ const DetailsBook = () => {
       </div>
     </WideButton>
   );
+
+  useEffect(() => {
+    if (books) {
+      const bookLocal = books.find((book) => book.id === id);
+      setActiveDetailsBook(bookLocal);
+    }
+  }, [books, id]);
 
   if (isLoading) {
     return <LoadingIndicator isFullHeightOfSite />;
@@ -82,6 +103,12 @@ const DetailsBook = () => {
         <h1>{book.title}</h1>
         <p>{book.authorName}</p>
         <p>{book.summary}</p>
+
+        <StarRatingDistribution ratings={ratings ?? []} />
+        <ReviewsSection
+          bookId={id}
+          reviews={activeDetailsBook?.reviews ?? book.reviews ?? []}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book } from "../../types/Book";
+import { Book, Review } from "../../types/Book";
 
 interface BooksState {
   books: Book[];
@@ -36,10 +36,28 @@ const booksSlice = createSlice({
         book.imageUrl = imageUrl;
       }
     },
+    addReviewToBook: (
+      state,
+      action: PayloadAction<{ review: Review; bookId: string }>
+    ) => {
+      const { review, bookId } = action.payload;
+      const book = state.books.find((book) => book.id === bookId);
+      if (book) {
+        if (!book.reviews) {
+          book.reviews = [];
+        }
+        book.reviews.push(review);
+      }
+    },
   },
 });
 
-export const { setActiveBook, setBooks, setBooksSearch, setBookImageUrlById } =
-  booksSlice.actions;
+export const {
+  setActiveBook,
+  setBooks,
+  setBooksSearch,
+  setBookImageUrlById,
+  addReviewToBook,
+} = booksSlice.actions;
 
 export default booksSlice.reducer;

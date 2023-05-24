@@ -8,10 +8,11 @@ $button-container-width: 80%;
   .leftContainer {
     grid-column: 1 / span 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-
+    margin-top: 0.5rem;
+   
     .buttonGroup {
       display: flex;
       justify-content: center;
