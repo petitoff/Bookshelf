@@ -14,6 +14,7 @@ export const useSingleBook = (bookId?: string) => {
         }
 
         const fetchedBook: Book | null = await getBookByIdFromFirestore(bookId);
+
         if (!fetchedBook) {
           throw new Error("Book not found!");
         } else {

@@ -11,7 +11,7 @@ interface WideBookCardProps {
 }
 
 const WideBookCard = ({ book }: WideBookCardProps) => {
-  const { getImageUrl, imageUrl, error } = useFirebaseImage();
+  const { getImageUrl, error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
   const history = useHistory();
@@ -70,7 +70,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
           </p>
           <div className="separator" />
           <p className="book-ratings">
-            <strong>{book?.ratings?.length ?? 0}</strong>
+            <strong>{book?.reviews?.length ?? 0}</strong>
             ratings
           </p>
         </div>
