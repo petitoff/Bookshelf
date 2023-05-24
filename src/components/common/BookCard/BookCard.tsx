@@ -58,6 +58,7 @@ function BookCard({
   };
 
   const displayImageUrl = imageUrl ?? imageUrlFromHook ?? "";
+  const noImageText = "No image";
 
   return (
     <div
@@ -65,10 +66,19 @@ function BookCard({
       data-testid="book-card"
     >
       <div onClick={handleToggleActiveBook}>
-        <img src={displayImageUrl} alt={title} className={styles.imageStyle} />
+        {error ? (
+          <div className={styles.noImage}>{noImageText}</div>
+        ) : (
+          <img
+            src={displayImageUrl}
+            alt={title}
+            className={styles.imageStyle}
+          />
+        )}
+
         <div className="cardBody">
           <h5 className={styles.title}>{title}</h5>
-          <p className="text">{author}</p>
+          <p className={styles.underTitle}>{author}</p>
         </div>
       </div>
       {isAllowedToDelete && (
