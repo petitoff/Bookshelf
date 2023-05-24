@@ -57,7 +57,7 @@ function BookCard({
     onDeleteBook && onDeleteBook(id);
   };
 
-  const displayImageUrl = imageUrl ?? imageUrlFromHook;
+  const displayImageUrl = imageUrl ?? imageUrlFromHook ?? "";
 
   return (
     <div
@@ -65,11 +65,7 @@ function BookCard({
       data-testid="book-card"
     >
       <div onClick={handleToggleActiveBook}>
-        <img
-          src={displayImageUrl ?? ""}
-          alt={title}
-          className={styles.imageStyle}
-        />
+        <img src={displayImageUrl} alt={title} className={styles.imageStyle} />
         <div className="cardBody">
           <h5 className={styles.title}>{title}</h5>
           <p className="text">{author}</p>
