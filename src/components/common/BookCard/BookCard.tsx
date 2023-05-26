@@ -76,7 +76,7 @@ function BookCard({
           />
         )}
 
-        <div className="cardBody">
+        <div className={styles.cardBody}>
           <h5 className={styles.title}>{title}</h5>
           <p className={styles.underTitle}>{author}</p>
         </div>
