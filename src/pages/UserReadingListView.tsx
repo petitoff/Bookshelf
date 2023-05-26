@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useUserIdFromUsername from "../hooks/useUserIdFromUsername";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 import styles from "./Pages.module.scss";
 import UserReadingListHeader from "../components/common/UserReadingListHeader/UserReadingListHeader";
@@ -26,6 +26,8 @@ const UserReadingListView = () => {
 
   const dispatch = useAppDispatch();
 
+  const [hasBooks, setHasBooks] = useState(false);
+
   const handleDeleteBookFromReadingList = async (bookId: string) => {
     deleteBookFromReadingList(bookId, user?.UID, dispatch);
   };
@@ -39,6 +41,12 @@ const UserReadingListView = () => {
       updateUserId(userId);
     }
   }, [username, updateUsername, userId, updateUserId]);
+
+  useEffect(() => {
+    if (user?.readingListBooks) {
+      setHasBooks(user?.readingListBooks?.length > 0);
+    }
+  }, [user?.readingListBooks]);
 
   if (
     readingListBooksFetchingStatus === "loading" ||
@@ -58,20 +66,17 @@ const UserReadingListView = () => {
     );
   }
 
-  const hasBooks =
-    (user?.readingListBooks && user.readingListBooks.length > 0) ||
-    (readingListBooks && readingListBooks.length > 0);
-
   return (
     <div className={styles.userReadingList}>
       <UserReadingListHeader username={username} />
       {!hasBooks ? (
         <p>
-          {isOwner ? "You" : "This user"} don't have any books in reading list
+          {isOwner ? "You" : "This user"} don't have any books in their reading
+          list
         </p>
       ) : (
         <BookList
-          books={user?.readingListBooks ?? readingListBooks}
+          books={readingListBooks}
           customClassName={styles.booksContainer}
           isAllowedToDelete={isOwner}
           onDeleteBook={handleDeleteBookFromReadingList}
