@@ -3,12 +3,15 @@ import ReviewCard from "../ReviewCard/ReviewCard";
 import { Review } from "../../types/Book";
 import CreateReview from "../CreateReview/CreateReview";
 import useAddReviewToFirestore from "../../hooks/useAddReviewToFirestore";
+import { useAppSelector } from "../../hooks/hooks";
 
 interface Props {
   bookId: string;
   reviews: Review[];
 }
 const ReviewsSection = ({ bookId, reviews }: Props) => {
+  const isUserLoggedIn = useAppSelector((state) => !!state.auth.user);
+
   const { addReview } = useAddReviewToFirestore(bookId);
   const handleCreateReview = (rating: number, content?: string) => {
     addReview({ rating, content });
@@ -27,7 +30,10 @@ const ReviewsSection = ({ bookId, reviews }: Props) => {
       )}
 
       <div className={"reviews-section__create-review"}>
-        <CreateReview onSubmit={handleCreateReview} />
+        <CreateReview
+          onSubmit={handleCreateReview}
+          isUserLoggedIn={isUserLoggedIn}
+        />
       </div>
     </div>
   );
