@@ -1,4 +1,3 @@
-// DetailsBook.tsx
 import { useParams } from "react-router";
 import styles from "./DetailsBook.module.scss";
 import WideButton from "../common/WideButton/WideButton";
