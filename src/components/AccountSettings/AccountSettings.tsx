@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import { User } from "../../types/User";
 import { ChangeEvent } from "react";
-import useUpdateUser from "../../hooks/useUpdateUser";
+import useUpdateUser from "../../hooks/dataHooks/userDataHooks/useUpdateUser";
 
 type ActiveButton = "My Profile" | "Security";
 

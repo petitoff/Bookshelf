@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
 import { Book } from "../../../types/Book";
 import WideButton from "../WideButton/WideButton";
-import useFirebaseImage from "../../../hooks/useFirebaseImage";
+import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
 import { useEffect } from "react";
 
 interface Props {

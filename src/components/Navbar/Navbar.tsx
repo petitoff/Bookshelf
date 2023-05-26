@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import useBookSearch from "../../hooks/useBookSearch";
+import useBookSearch from "../../hooks/dataHooks/booksHooks/useBookSearch";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import styles from "./Navbar.module.scss";

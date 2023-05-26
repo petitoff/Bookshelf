@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useFirebaseImage from "./useFirebaseImage";
-import { useAppSelector } from "./hooks";
+import useFirebaseImage from "../../firebaseHooks/useFirebaseImage";
+import { useAppSelector } from "../../hooks";
 import { useSingleBook } from "./useSingleBook";
 
 interface Props {

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Review } from "../types/Book";
-import { db } from "../firebase/config";
+import { Review } from "../../../types/Book";
+import { db } from "../../../firebase/config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { useAppSelector } from "./hooks";
+import { useAppSelector } from "../../hooks";
 import { toast } from "react-toastify";
-import { successToast } from "../utils/toastHelper";
+import { successToast } from "../../../utils/toastHelper";
 
-const useAddReviewToFirestore = (bookId: string) => {
+const useAddReview = (bookId: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -47,4 +47,4 @@ const useAddReviewToFirestore = (bookId: string) => {
   return { addReview, isLoading, error };
 };
 
-export default useAddReviewToFirestore;
+export default useAddReview;

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { addBook } from "../firebase/services/firestore";
-import { useAppSelector } from "./hooks";
+import { addBook } from "../../../firebase/services/firestore";
+import { useAppSelector } from "../../hooks";
 
 interface Props {
   addNewBookToFirestore: (bookData: string) => Promise<void>;

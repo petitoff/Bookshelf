@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getBookByIdFromFirestore } from "../firebase/services/firestore";
-import { Book } from "../types/Book";
+import { getBookByIdFromFirestore } from "../../../firebase/services/firestore";
+import { Book } from "../../../types/Book";
 
 export const useSingleBook = (bookId?: string) => {
   const [book, setBook] = useState<Book | null>(null);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase/config";
+import { db } from "../../../firebase/config";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { Book } from "../types/Book";
-import { useAppDispatch } from "./hooks";
-import { setBooksSearch } from "../store/slices/bookSlice";
-import useDebounce from "./useDebounce";
+import { Book } from "../../../types/Book";
+import { useAppDispatch } from "../../hooks";
+import { setBooksSearch } from "../../../store/slices/bookSlice";
+import useDebounce from "../../utilsHooks/useDebounce";
 
 interface UseBookSearchResult {
   searchTerm: string;

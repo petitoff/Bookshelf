@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import useUserIdFromUsername from "../hooks/useUserIdFromUsername";
+import useUserIdFromUsername from "../hooks/firebaseHooks/useUserIdFromUsername";
 import { useEffect, useState } from "react";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 import styles from "./Pages.module.scss";
 import UserReadingListHeader from "../components/common/UserReadingListHeader/UserReadingListHeader";
 import BookList from "../components/common/BookList/BookList";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import useReadingListBooks from "../hooks/useReadingListBooks";
+import useReadingListBooks from "../hooks/dataHooks/booksHooks/useReadingListBooks";
 import { deleteBookFromReadingList } from "../utils/readingListHelpers";
 
 const UserReadingListView = () => {

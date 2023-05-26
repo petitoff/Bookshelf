@@ -2,7 +2,7 @@ import "./ReviewsSection.scss";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import { Review } from "../../types/Book";
 import CreateReview from "../CreateReview/CreateReview";
-import useAddReviewToFirestore from "../../hooks/useAddReviewToFirestore";
+import useAddReview from "../../hooks/dataHooks/booksHooks/useAddReview";
 import { useAppSelector } from "../../hooks/hooks";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 const ReviewsSection = ({ bookId, reviews }: Props) => {
   const isUserLoggedIn = useAppSelector((state) => !!state.auth.user);
 
-  const { addReview } = useAddReviewToFirestore(bookId);
+  const { addReview } = useAddReview(bookId);
   const handleCreateReview = (rating: number, content?: string) => {
     addReview({ rating, content });
   };

@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import { db } from "../firebase/config";
+import { db } from "../../firebase/config";
 import { toast } from "react-toastify";
 
 const useUserIdFromUsername = () => {

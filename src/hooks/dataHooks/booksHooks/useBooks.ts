@@ -1,10 +1,10 @@
-import { db } from "../firebase/config";
+import { db } from "../../../firebase/config";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Book } from "../types/Book";
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { setBooks } from "../store/slices/bookSlice";
-import useFirebaseImage from "./useFirebaseImage";
+import { Book } from "../../../types/Book";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setBooks } from "../../../store/slices/bookSlice";
+import useFirebaseImage from "../../firebaseHooks/useFirebaseImage";
 
 export function useBooks() {
   const user = useAppSelector((state) => state.auth.user);
