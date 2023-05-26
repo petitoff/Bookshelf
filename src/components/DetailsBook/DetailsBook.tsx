@@ -22,7 +22,11 @@ const DetailsBook = () => {
 
   const books = useAppSelector((state) => state.books.books);
 
-  const { book, imageUrl, isLoading } = useBookWithImage({
+  const {
+    book,
+    imageUrl,
+    isLoading: isImageLoading,
+  } = useBookWithImage({
     bookId: id,
   });
 
@@ -70,17 +74,30 @@ const DetailsBook = () => {
     }
   }, [books, id]);
 
-  if (isLoading) {
+  if (!book) {
     return <LoadingIndicator isFullHeightOfSite />;
   }
 
-  if (!book) {
-    return <p>Book not found</p>;
-  }
+  const imagePlaceholder = (
+    <div
+      className={styles.imagePlaceholder}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#eee",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Loading...</p>
+    </div>
+  );
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.leftContainer}>
+        {isImageLoading && imagePlaceholder}
         <img
           src={book?.imageUrl ?? imageUrl ?? ""}
           alt={book.title}
