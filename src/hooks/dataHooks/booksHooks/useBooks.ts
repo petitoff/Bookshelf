@@ -1,5 +1,5 @@
 import { db } from "../../../firebase/config";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { Timestamp, collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Book } from "../../../types/Book";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -20,12 +20,18 @@ export function useBooks() {
       const booksCollection = query(collection(db, "books"));
       const unsubscribe = onSnapshot(booksCollection, async (snapshot) => {
         const bookListPromises = snapshot.docs.map(async (doc) => {
-          const bookData = doc.data();
-          const imageUrl = await getImageUrl(bookData.imageId);
+          const bookData: Book = doc.data();
+          // const imageUrl = await getImageUrl(bookData.imageId);
+
+          const createdAt =
+            bookData?.createdAt === undefined
+              ? undefined
+              : (bookData.createdAt as Timestamp).toDate();
 
           const book: Book = {
             id: doc.id,
-            imageUrl,
+            // imageUrl,
+            createdAt,
             ...bookData,
           };
 

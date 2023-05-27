@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/config";
+import { setLoading } from "../../store/slices/authSlice";
 
 const useFirebaseImage = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -8,9 +9,13 @@ const useFirebaseImage = () => {
 
   const getImageUrl = async (imageId: string | undefined | null) => {
     try {
-      if (!imageId) {
+      if (!imageId && !imageUrl) {
         setImageUrl(null);
         return;
+      }
+
+      if (imageUrl) {
+        return imageUrl;
       }
 
       const imageRef = ref(storage, `images/${imageId}`);
@@ -20,6 +25,8 @@ const useFirebaseImage = () => {
     } catch (error: any) {
       console.log(error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 

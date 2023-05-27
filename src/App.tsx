@@ -17,6 +17,7 @@ import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
 import WelcomeView from "./pages/WelcomeView";
+import AddBookView from "./pages/AddBookView";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -69,6 +70,9 @@ function App() {
           </Route>
           <ProtectedRoute exact path="/settings">
             {renderRouteWithRedirect(Settings)}
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/add-book">
+            {renderRouteWithRedirect(AddBookView)}
           </ProtectedRoute>
 
           {/*<Route path="/*" component={ErrorPage} />*/}

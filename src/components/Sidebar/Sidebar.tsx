@@ -98,6 +98,17 @@ const Sidebar = () => {
           </>
         )}
 
+        {user && user?.role === "admin" && (
+          <>
+            <hr className={styles.separator} />
+            <li>
+              <Link to="/add-book" onClick={handleLinkClick}>
+                <FaList className={styles.icon} /> Add Book
+              </Link>
+            </li>
+          </>
+        )}
+
         <hr />
 
         {user ? (
