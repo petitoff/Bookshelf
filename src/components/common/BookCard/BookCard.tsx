@@ -14,13 +14,13 @@ interface Props {
   onDeleteBook?: (id: string) => void;
 }
 
-function BookCard({
+const BookCard = ({
   book,
   isActiveBook = false,
   isAllowedToDelete = false,
   onSetActiveBook,
   onDeleteBook,
-}: Props) {
+}: Props) => {
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
@@ -89,6 +89,6 @@ function BookCard({
       )}
     </div>
   );
-}
+};
 
 export default memo(BookCard);
