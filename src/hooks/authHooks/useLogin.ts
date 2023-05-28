@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { useAppDispatch } from "./hooks";
-import { setUser } from "../store/slices/authSlice";
+import { auth } from "../../firebase/config";
+import { useAppDispatch } from "../hooks";
+import { setUser } from "../../store/slices/authSlice";
 import { toast } from "react-toastify";
-import { successToast } from "../utils/toastHelper";
-import { fetchUserData } from "../firebase/services/firestore";
+import { successToast } from "../../utils/toastHelper";
+import { fetchUserData } from "../../firebase/services/firestore";
 
 const useLogin = () => {
   const [loggingInStatus, setLoggingInStatus] = useState<

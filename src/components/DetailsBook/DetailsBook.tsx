@@ -8,7 +8,7 @@ import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
 import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
 import { toast } from "react-toastify";
-import useBookWithImage from "../../hooks/useBookWithImage";
+import useBookWithImage from "../../hooks/dataHooks/booksHooks/useBookWithImage";
 import StarRatingDistribution from "../StarRatingDistribution/StarRatingDistribution";
 import ReviewsSection from "../ReviewsSection/ReviewsSection";
 import { useEffect, useState } from "react";

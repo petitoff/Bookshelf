@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Book } from "../types/Book";
+import { Book } from "../../../types/Book";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
-import { useAppDispatch } from "./hooks";
-import { updateUser } from "../store/slices/authSlice";
-import { getBookByIdFromFirestore } from "../firebase/services/firestore";
+import { db } from "../../../firebase/config";
+import { useAppDispatch } from "../../hooks";
+import { updateUser } from "../../../store/slices/authSlice";
+import { getBookByIdFromFirestore } from "../../../firebase/services/firestore";
 
 const useReadingListBooks = () => {
   const [readingListBooks, setReadingListBooks] = useState<Book[]>([]);

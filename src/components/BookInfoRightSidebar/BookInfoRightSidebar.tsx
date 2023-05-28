@@ -8,7 +8,7 @@ import {
   openRightSidebar,
 } from "../../store/slices/sidebarSlice";
 import { useHistory } from "react-router-dom";
-import useMediaQuery from "../../hooks/useMediaQuery";
+import useMediaQuery from "../../hooks/utilsHooks/useMediaQuery";
 import { setActiveBook } from "../../store/slices/bookSlice";
 
 /**

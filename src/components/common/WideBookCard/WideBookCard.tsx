@@ -1,7 +1,7 @@
 import { FiChevronRight } from "react-icons/fi";
 import { Book } from "../../../types/Book";
 import "./WideBookCard.css";
-import useFirebaseImage from "../../../hooks/useFirebaseImage";
+import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
 import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 import { useHistory } from "react-router-dom";
@@ -24,10 +24,10 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
     history.push(`/book/${book.id}`);
   };
 
-  useEffect(() => {
-    getImageUrl(book?.imageId ?? "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [book]);
+  // useEffect(() => {
+  //   getImageUrl(book?.imageId ?? "");
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [book]);
 
   return (
     <div className="book-card">

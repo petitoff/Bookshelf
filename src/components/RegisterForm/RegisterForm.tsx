@@ -1,4 +1,4 @@
-import useSignup from "../../hooks/useSignup";
+import useSignup from "../../hooks/authHooks/useSignup";
 import AuthForm from "../common/AuthForm/AuthForm";
 
 const RegisterForm = () => {

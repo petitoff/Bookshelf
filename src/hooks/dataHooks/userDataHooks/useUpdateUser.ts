@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { User } from "../types/User";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { User } from "../../../types/User";
 import {
   updateUserEmailInAuth,
   updateUserInFirestore,
   updateUsernamesInFirestore,
-} from "../firebase/services/firestore";
-import { updateUser } from "../store/slices/authSlice";
-import { successToast } from "../utils/toastHelper";
+} from "../../../firebase/services/firestore";
+import { updateUser } from "../../../store/slices/authSlice";
+import { successToast } from "../../../utils/toastHelper";
 
 const useUpdateUser = () => {
   const user = useAppSelector((state) => state.auth.user);

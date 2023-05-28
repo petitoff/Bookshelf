@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import { Book } from "../../../types/Book";
 import BookCard from "../BookCard/BookCard";
 
@@ -7,14 +7,14 @@ interface Props {
   isAllowedToDelete?: boolean;
   customStyle?: React.CSSProperties;
   customClassName?: string;
-  onDeleteBook?: (id: string) => void;
+  onDeleteBook?: (id?: string) => void;
 }
 
 const BookList = ({
   books,
-  isAllowedToDelete,
-  customStyle,
-  customClassName,
+  isAllowedToDelete = false,
+  customStyle = {},
+  customClassName = "",
   onDeleteBook,
 }: Props) => {
   return (
@@ -34,4 +34,4 @@ const BookList = ({
     </div>
   );
 };
-export default BookList;
+export default memo(BookList);
