@@ -36,6 +36,10 @@ const BookCard = ({
     }
   }, [imageId, imageUrl, getImageUrl]);
 
+  const handleOpenDetailsPage = useCallback(() => {
+    history.push(`/book/${id}`);
+  }, [id, history]);
+
   const handleToggleActiveBook = useCallback(() => {
     if (!isRightSidebarOpen) {
       handleOpenDetailsPage();
@@ -45,12 +49,7 @@ const BookCard = ({
     if (!id) return;
 
     onSetActiveBook && onSetActiveBook(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, isRightSidebarOpen, onSetActiveBook]);
-
-  const handleOpenDetailsPage = useCallback(() => {
-    history.push(`/book/${id}`);
-  }, [id, history]);
+  }, [id, isRightSidebarOpen, onSetActiveBook, handleOpenDetailsPage]);
 
   const handleDeleteBook = useCallback(() => {
     if (!id) return;

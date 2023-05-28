@@ -28,7 +28,7 @@ const UserReadingListView = () => {
 
   const [hasBooks, setHasBooks] = useState(false);
 
-  const handleDeleteBookFromReadingList = async (bookId: string) => {
+  const handleDeleteBookFromReadingList = async (bookId?: string) => {
     deleteBookFromReadingList(bookId, user?.UID, dispatch);
   };
 

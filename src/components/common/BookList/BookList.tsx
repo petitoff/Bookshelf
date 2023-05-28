@@ -7,7 +7,7 @@ interface Props {
   isAllowedToDelete?: boolean;
   customStyle?: React.CSSProperties;
   customClassName?: string;
-  onDeleteBook?: (id: string) => void;
+  onDeleteBook?: (id?: string) => void;
 }
 
 const BookList = ({
