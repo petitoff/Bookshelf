@@ -2,7 +2,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { Book } from "../../../types/Book";
 import "./WideBookCard.css";
 import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Blurhash } from "react-blurhash";
 import { useHistory } from "react-router-dom";
 
@@ -11,7 +11,7 @@ interface WideBookCardProps {
 }
 
 const WideBookCard = ({ book }: WideBookCardProps) => {
-  const { getImageUrl, error } = useFirebaseImage();
+  const { error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
   const history = useHistory();

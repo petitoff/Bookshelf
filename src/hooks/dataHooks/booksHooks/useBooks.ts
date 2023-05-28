@@ -12,7 +12,7 @@ export function useBooks() {
     "idle" | "loading" | "succeeded" | "failed"
   >("idle");
   const dispatch = useAppDispatch();
-  const { getImageUrl } = useFirebaseImage();
+  useFirebaseImage();
 
   useEffect(() => {
     const fetchBooks = async () => {
