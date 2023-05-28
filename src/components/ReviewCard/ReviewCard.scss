@@ -1,0 +1,39 @@
+.review-card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__avatar {
+    background-color: #f4c150;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  &__username {
+    font-weight: bold;
+  }
+
+  &__content {
+    font-size: 0.9rem;
+  }
+}

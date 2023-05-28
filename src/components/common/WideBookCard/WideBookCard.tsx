@@ -1,8 +1,8 @@
 import { FiChevronRight } from "react-icons/fi";
 import { Book } from "../../../types/Book";
 import "./WideBookCard.css";
-import useFirebaseImage from "../../../hooks/useFirebaseImage";
-import { useEffect, useState } from "react";
+import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
+import { useState } from "react";
 import { Blurhash } from "react-blurhash";
 import { useHistory } from "react-router-dom";
 
@@ -11,7 +11,7 @@ interface WideBookCardProps {
 }
 
 const WideBookCard = ({ book }: WideBookCardProps) => {
-  const { getImageUrl, imageUrl, error } = useFirebaseImage();
+  const { error } = useFirebaseImage();
   const [loaded, setLoaded] = useState(false);
 
   const history = useHistory();
@@ -24,10 +24,10 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
     history.push(`/book/${book.id}`);
   };
 
-  useEffect(() => {
-    getImageUrl(book?.imageId ?? "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [book]);
+  // useEffect(() => {
+  //   getImageUrl(book?.imageId ?? "");
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [book]);
 
   return (
     <div className="book-card">
@@ -35,7 +35,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
         <div>Error!</div>
       ) : (
         <div className="image-container">
-          {!imageUrl ? (
+          {!book?.imageUrl ? (
             <Blurhash
               hash="LKO2?U%2Tw=w]~RBVZRi};RPxuwH"
               width="100px"
@@ -43,7 +43,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
             />
           ) : (
             <img
-              src={imageUrl ?? ""}
+              src={book?.imageUrl ?? ""}
               alt="Book cover"
               style={{
                 maxWidth: "100%",
@@ -70,7 +70,7 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
           </p>
           <div className="separator" />
           <p className="book-ratings">
-            <strong>{book?.ratings?.length ?? 0}</strong>
+            <strong>{book?.reviews?.length ?? 0}</strong>
             ratings
           </p>
         </div>

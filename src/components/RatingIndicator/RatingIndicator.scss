@@ -1,0 +1,12 @@
+.rating-indicator {
+  display: flex;
+  font-size: 1.2rem;
+
+  &__star {
+    color: #ccc;
+
+    &--filled {
+      color: #f4c150;
+    }
+  }
+}

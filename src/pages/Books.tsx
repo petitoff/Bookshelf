@@ -2,7 +2,7 @@ import BookInfoRightSidebar from "../components/BookInfoRightSidebar/BookInfoRig
 import BookSection from "../components/BookSection/BookSection";
 import ForYouSection from "../components/ForYouSection/ForYouSection";
 import { useAppSelector } from "../hooks/hooks";
-import { useBooks } from "../hooks/useBooks";
+import { useBooks } from "../hooks/dataHooks/booksHooks/useBooks";
 import styles from "./Pages.module.scss";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 

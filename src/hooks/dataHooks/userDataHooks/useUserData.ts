@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { User } from "../types/User";
-import { useAppDispatch, useAppSelector } from "./hooks";
-import useFirebaseImage from "./useFirebaseImage";
-import { updateUser } from "../store/slices/authSlice";
-import { fetchUserData } from "../firebase/services/firestore";
+import { User } from "../../../types/User";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import useFirebaseImage from "../../firebaseHooks/useFirebaseImage";
+import { updateUser } from "../../../store/slices/authSlice";
+import { fetchUserData } from "../../../firebase/services/firestore";
 
 const useUserData = (reloadDependency: any) => {
   const user = useAppSelector((state) => state.auth.user);

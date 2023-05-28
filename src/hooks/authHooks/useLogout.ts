@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { auth } from "../firebase/config";
+import { auth } from "../../firebase/config";
 import { signOut } from "firebase/auth";
-import { useAppDispatch } from "./hooks";
-import { logoutUser } from "../store/slices/authSlice";
+import { useAppDispatch } from "../hooks";
+import { logoutUser } from "../../store/slices/authSlice";
 
 const useLogout = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);

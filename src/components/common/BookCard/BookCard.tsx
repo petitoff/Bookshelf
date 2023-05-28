@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import useFirebaseImage from "../../../hooks/useFirebaseImage";
+import React, { memo, useEffect, useCallback } from "react";
 import styles from "./BookCard.module.scss";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
 import { Book } from "../../../types/Book";
 import WideButton from "../WideButton/WideButton";
+import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
 
 interface Props {
   book: Book;
@@ -14,21 +14,33 @@ interface Props {
   onDeleteBook?: (id: string) => void;
 }
 
-function BookCard({
+const BookCard = ({
   book,
   isActiveBook = false,
   isAllowedToDelete = false,
   onSetActiveBook,
   onDeleteBook,
-}: Props) {
+}: Props) => {
   const isRightSidebarOpen = useAppSelector(
     (state) => state.sidebar.isRightSidebarOpen
   );
-  const { getImageUrl, imageUrl } = useFirebaseImage();
-  const { id, imageId, title, authorName: author } = book;
+  const { id, imageId, imageUrl, title, authorName: author } = book;
+
   const history = useHistory();
 
-  const handleToggleActiveBook = () => {
+  const { getImageUrl, imageUrl: imageUrlFromHook, error } = useFirebaseImage();
+
+  useEffect(() => {
+    if (!imageUrl && imageId) {
+      getImageUrl(imageId);
+    }
+  }, [imageId, imageUrl, getImageUrl]);
+
+  const handleOpenDetailsPage = useCallback(() => {
+    history.push(`/book/${id}`);
+  }, [id, history]);
+
+  const handleToggleActiveBook = useCallback(() => {
     if (!isRightSidebarOpen) {
       handleOpenDetailsPage();
       return;
@@ -37,31 +49,36 @@ function BookCard({
     if (!id) return;
 
     onSetActiveBook && onSetActiveBook(id);
-  };
+  }, [id, isRightSidebarOpen, onSetActiveBook, handleOpenDetailsPage]);
 
-  const handleOpenDetailsPage = () => {
-    history.push(`/book/${id}`);
-  };
-
-  const handleDeleteBook = () => {
+  const handleDeleteBook = useCallback(() => {
     if (!id) return;
 
     onDeleteBook && onDeleteBook(id);
-  };
+  }, [id, onDeleteBook]);
 
-  useEffect(() => {
-    getImageUrl(imageId);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageId]);
+  const displayImageUrl = imageUrl ?? imageUrlFromHook ?? "";
+  const noImageText = "No image";
 
   return (
-    <div className={`${styles.card} ${isActiveBook && styles.active}`} data-testid="book-card">
+    <div
+      className={`${styles.card} ${isActiveBook && styles.active}`}
+      data-testid="book-card"
+    >
       <div onClick={handleToggleActiveBook}>
-        <img src={imageUrl ?? ""} alt={title} className={styles.imageStyle} />
-        <div className="cardBody">
+        {error ? (
+          <div className={styles.noImage}>{noImageText}</div>
+        ) : (
+          <img
+            src={displayImageUrl}
+            alt={title}
+            className={styles.imageStyle}
+          />
+        )}
+
+        <div className={styles.cardBody}>
           <h5 className={styles.title}>{title}</h5>
-          <p className="text">{author}</p>
+          <p className={styles.underTitle}>{author}</p>
         </div>
       </div>
       {isAllowedToDelete && (
@@ -71,6 +88,6 @@ function BookCard({
       )}
     </div>
   );
-}
+};
 
-export default BookCard;
+export default memo(BookCard);

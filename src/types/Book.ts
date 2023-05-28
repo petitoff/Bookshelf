@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Book {
   id?: string;
   title?: string;
@@ -5,16 +7,18 @@ export interface Book {
   authorName?: string;
   summary?: string;
   pages?: number;
-  ratings?: string[];
-  reviews?: string[];
+  reviews?: Review[];
 
   imageId?: string;
+  imageUrl?: string;
+
+  addedBy?: string;
+  createdAt?: Timestamp | Date;
 }
 
-export interface BookCollection {
-  // [key: string]: Book[];
-  forYouSection?: Book[];
-  popularSection?: Book[];
-  newSection?: Book[];
-  weekOfModernClassics?: Book[];
+export interface Review {
+  UID: string;
+  username: string;
+  rating: number;
+  content: string;
 }

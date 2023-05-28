@@ -1,71 +1,105 @@
+// DetailsBook.module.scss
 $button-container-width: 80%;
+$mobile-breakpoint: 768px;
 
 .pageContainer {
   display: grid;
   grid-template-columns: 1fr 2fr;
   column-gap: 5rem;
 
+  @media (max-width: $mobile-breakpoint) {
+    display: flex;
+    flex-direction: column;
+  }
+
   .leftContainer {
     grid-column: 1 / span 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    margin-top: 0.5rem;
+
+    .imageContainer {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 2rem;
+    }
 
     .buttonGroup {
       display: flex;
-      justify-content: center;
       flex-direction: column;
       align-items: center;
-      margin-top: 1rem;
-      width: $button-container-width;
+      gap: 1rem;
+    }
 
-      .button {
-        margin-bottom: 0.5rem;
-      }
-
-      .innerContainer {
-        width: 100%; /* container width */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .leftItem {
-          float: right; /* moves the left item to the right */
-          margin-left: 10px;
-          width: 25%; /* width of the left item */
-        }
-
-        .centerItem {
-          margin: 0 auto; /* centers the center item */
-          width: 70%; /* width of the center item */
-        }
-
-        .rightItem {
-          float: right; /* moves the right item to the right (next to the left item) */
-          width: 25%; /* width of the right item */
-        }
-      }
+    @media screen and (max-width: $mobile-breakpoint) {
+      margin-bottom: 2rem;
     }
   }
 
   .rightContainer {
     grid-column: 2 / span 1;
-    width: 80%;
-  }
+    margin-right: 2rem;
 
-  .imageContainer {
-    max-width: 60%;
-    max-height: 100%;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
+    @media screen and (max-width: $mobile-breakpoint) {
+      margin: 0 1rem;
+    }
 
-  @media only screen and (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
+    h1 {
+      margin: 0;
+    }
 
-    align-items: center;
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .reviewSection {
+      margin-top: 2rem;
+    }
   }
+}
+
+.button {
+  width: $button-container-width;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: #4a80f0;
+  color: white;
+}
+
+.innerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftItem {
+  flex-shrink: 0;
+}
+
+.centerItem {
+  flex-grow: 1;
+}
+
+.rightItem {
+  flex-shrink: 0;
+}
+
+.buttonText {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,37 @@
+.star-rating-distribution {
+  &__row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    width: 40px;
+    text-align: right;
+    margin-right: 0.5rem;
+  }
+
+  &__bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #f4f4f4;
+    position: relative;
+  }
+
+  &__bar-fill {
+    height: 8px;
+    background-color: #f4c150;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__percentage {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+}

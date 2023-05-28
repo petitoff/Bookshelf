@@ -1,8 +1,5 @@
 import { useParams } from "react-router";
-import { useSingleBook } from "../../hooks/useSingleBook";
 import styles from "./DetailsBook.module.scss";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
-import { useEffect } from "react";
 import WideButton from "../common/WideButton/WideButton";
 import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,12 +8,37 @@ import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
 import { addReadingListBookId } from "../../firebase/services/firestore";
 import { useAppSelector } from "../../hooks/hooks";
 import { toast } from "react-toastify";
+import useBookWithImage from "../../hooks/dataHooks/booksHooks/useBookWithImage";
+import StarRatingDistribution from "../StarRatingDistribution/StarRatingDistribution";
+import ReviewsSection from "../ReviewsSection/ReviewsSection";
+import { useEffect, useState } from "react";
+import { Book } from "../../types/Book";
 
 const DetailsBook = () => {
+  const [activeDetailsBook, setActiveDetailsBook] = useState<Book>();
+
   const { id } = useParams<{ id: string }>();
-  const { book, loading } = useSingleBook(id);
   const user = useAppSelector((state) => state.auth.user);
-  const { getImageUrl, imageUrl } = useFirebaseImage();
+
+  const books = useAppSelector((state) => state.books.books);
+
+  const {
+    book,
+    imageUrl,
+    isLoading: isImageLoading,
+  } = useBookWithImage({
+    bookId: id,
+  });
+
+  const ratings =
+    book?.reviews?.reduce((acc, review) => {
+      acc[review.rating - 1] = (acc[review.rating - 1] || 0) + 1;
+      return acc;
+    }, new Array(5).fill(0)) || [];
+
+  const handleReadOnline = () => {
+    toast.info("This book is not available to read online");
+  };
 
   const handleAddBookToReadingList = async () => {
     if (!user?.UID || !book?.id) {
@@ -27,65 +49,88 @@ const DetailsBook = () => {
     await addReadingListBookId(user?.UID, book?.id);
   };
 
+  const renderButtonText = (text: string) => (
+    <p className={styles.buttonText}>{text}</p>
+  );
+
+  const renderWideButton = (
+    icon: JSX.Element,
+    text: string,
+    onClick?: () => void
+  ) => (
+    <WideButton isActive={true} className={styles.button} onClick={onClick}>
+      <div className={styles.innerContainer}>
+        <div className={styles.leftItem}>{icon}</div>
+        <div className={styles.centerItem}>{renderButtonText(text)}</div>
+        <div className={styles.rightItem}></div>
+      </div>
+    </WideButton>
+  );
+
   useEffect(() => {
-    if (!book?.imageId) return;
+    if (books) {
+      const bookLocal = books.find((book) => book.id === id);
+      setActiveDetailsBook(bookLocal);
+    }
+  }, [books, id]);
 
-    getImageUrl(book?.imageId);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [book?.imageId]);
-
-  // if the book is loading, return a loading message
-  if (loading) {
+  if (!book) {
     return <LoadingIndicator isFullHeightOfSite />;
   }
 
-  if (!book) {
-    return <p>Book not found</p>;
-  }
+  const imagePlaceholder = (
+    <div
+      className={styles.imagePlaceholder}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#eee",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Loading...</p>
+    </div>
+  );
 
-  // create a return statement with the book details
   return (
     <div className={styles.pageContainer}>
       <div className={styles.leftContainer}>
+        {isImageLoading && imagePlaceholder}
         <img
-          src={imageUrl ?? ""}
+          src={book?.imageUrl ?? imageUrl ?? ""}
           alt={book.title}
           className={styles.imageContainer}
         />
         <div className={styles.buttonGroup}>
-          <WideButton isActive={true} className={styles.button}>
-            <div className={styles.innerContainer}>
-              <div className={styles.leftItem}>
-                <FontAwesomeIcon icon={faBookOpen} size="2x" />
-              </div>
-              <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Read online</p>
-              </div>
-              <div className={styles.rightItem}></div>
-            </div>
-          </WideButton>
-          <WideButton
-            isActive={true}
-            className={styles.button}
-            onClick={handleAddBookToReadingList}
-          >
-            <div className={styles.innerContainer}>
-              <div className={styles.leftItem}>
-                <AiOutlineBook size={32} color="#fff" />
-              </div>
-              <div className={styles.centerItem}>
-                <p style={{ color: "#fff" }}>Save to reading list</p>
-              </div>
-              <div className={styles.rightItem}></div>
-            </div>
-          </WideButton>
+          {renderWideButton(
+            <FontAwesomeIcon icon={faBookOpen} size="2x" />,
+            "Read online",
+            handleReadOnline
+          )}
+          {renderWideButton(
+            <AiOutlineBook size={32} color="#fff" />,
+            "Save to reading list",
+            handleAddBookToReadingList
+          )}
         </div>
       </div>
       <div className={styles.rightContainer}>
         <h1>{book.title}</h1>
         <p>{book.authorName}</p>
+
+        <h3>Plot</h3>
         <p>{book.summary}</p>
+
+        <div className={styles.reviewSection}>
+          <h2>Review section</h2>
+          <StarRatingDistribution ratings={ratings} />
+          <ReviewsSection
+            bookId={id}
+            reviews={activeDetailsBook?.reviews ?? book.reviews ?? []}
+          />
+        </div>
       </div>
     </div>
   );

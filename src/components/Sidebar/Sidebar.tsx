@@ -2,10 +2,10 @@ import { FaHome, FaList, FaCog } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
-import useLogout from "../../hooks/useLogout";
+import useLogout from "../../hooks/authHooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "./Sidebar.module.scss";
-import useFirebaseImage from "../../hooks/useFirebaseImage";
+import useFirebaseImage from "../../hooks/firebaseHooks/useFirebaseImage";
 import { useEffect, useState } from "react";
 import { updateUser } from "../../store/slices/authSlice";
 
@@ -50,7 +50,10 @@ const Sidebar = () => {
   }, [dispatch, getImageUrl, imageUrl, user]);
 
   return (
-    <div className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`} data-testid="sidebar">
+    <div
+      className={`${styles.sidebar} ${sidebarOpen ? `${styles.open}` : ""}`}
+      data-testid="sidebar"
+    >
       <ul className={styles.menu}>
         <li>
           <div className={styles.user}>
@@ -92,6 +95,17 @@ const Sidebar = () => {
                 <FaHeart className={styles.icon} /> Favourites
               </Link>
             </li> */}
+          </>
+        )}
+
+        {user && user?.role === "admin" && (
+          <>
+            <hr className={styles.separator} />
+            <li>
+              <Link to="/add-book" onClick={handleLinkClick}>
+                <FaList className={styles.icon} /> Add Book
+              </Link>
+            </li>
           </>
         )}
 
