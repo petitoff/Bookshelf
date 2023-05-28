@@ -7,11 +7,11 @@ https://bookshelf-petitoff.netlify.app/.
 
 ## Features
 
-- **Registration and login**: Users can create their own accounts, which grant them access to all the features of the website.
-- **Book browsing**: The website offers a rich catalog of books that can be browsed based on various criteria, such as genre, author, or popularity.
-- **Reviews and ratings**: Users can express their opinions about the books they've read, rate them, and browse the opinions of other readers.
-- **Reading lists**: Users can create their own lists of books they want to read and track their progress.
-- **Sharing books**: The website enables users to send books to friends, making it easier to share literary discoveries.
+- Registration and login: Users can create their own accounts, which grant them access to all the features of the website.
+- Book browsing: The website offers a rich catalog of books that can be browsed based on various criteria, such as genre, author, or title of book.
+- Reviews and ratings: Users can express their opinions about the books they've read, rate them, and browse the opinions of other readers.
+- Reading lists: Users can create their own lists of books they want to read.
+- Sharing books: The website enables users to send books to friends, making it easier to share literary discoveries.
 
 ## Technologies
 
