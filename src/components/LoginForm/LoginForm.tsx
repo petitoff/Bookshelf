@@ -7,7 +7,7 @@ const LoginForm = () => {
   return (
     <AuthForm
       heading="Login"
-      buttonText="Login in"
+      buttonText="Log in"
       altText="Don't have an account? Create here!"
       altLink="/signup"
       isLoading={loggingInStatus === "fetching"}
