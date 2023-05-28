@@ -1,10 +1,10 @@
+import React, { memo, useEffect, useCallback } from "react";
 import styles from "./BookCard.module.scss";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useHistory } from "react-router-dom";
 import { Book } from "../../../types/Book";
 import WideButton from "../WideButton/WideButton";
 import useFirebaseImage from "../../../hooks/firebaseHooks/useFirebaseImage";
-import { useEffect } from "react";
 
 interface Props {
   book: Book;
@@ -36,7 +36,7 @@ function BookCard({
     }
   }, [imageId, imageUrl, getImageUrl]);
 
-  const handleToggleActiveBook = () => {
+  const handleToggleActiveBook = useCallback(() => {
     if (!isRightSidebarOpen) {
       handleOpenDetailsPage();
       return;
@@ -45,17 +45,18 @@ function BookCard({
     if (!id) return;
 
     onSetActiveBook && onSetActiveBook(id);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, isRightSidebarOpen, onSetActiveBook]);
 
-  const handleOpenDetailsPage = () => {
+  const handleOpenDetailsPage = useCallback(() => {
     history.push(`/book/${id}`);
-  };
+  }, [id, history]);
 
-  const handleDeleteBook = () => {
+  const handleDeleteBook = useCallback(() => {
     if (!id) return;
 
     onDeleteBook && onDeleteBook(id);
-  };
+  }, [id, onDeleteBook]);
 
   const displayImageUrl = imageUrl ?? imageUrlFromHook ?? "";
   const noImageText = "No image";
@@ -90,4 +91,4 @@ function BookCard({
   );
 }
 
-export default BookCard;
+export default memo(BookCard);
