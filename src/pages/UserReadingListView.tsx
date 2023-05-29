@@ -5,9 +5,9 @@ import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndic
 import styles from "./Pages.module.scss";
 import UserReadingListHeader from "../components/common/UserReadingListHeader/UserReadingListHeader";
 import BookList from "../components/common/BookList/BookList";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/hooks";
 import useReadingListBooks from "../hooks/dataHooks/booksHooks/useReadingListBooks";
-import { deleteBookFromReadingList } from "../utils/readingListHelpers";
+import { useDeleteBookFromReadingList } from "../hooks/dataHooks/userDataHooks/useDeleteBookFromReadingList";
 
 const UserReadingListView = () => {
   const { username } = useParams<{ username: string }>();
@@ -24,12 +24,12 @@ const UserReadingListView = () => {
   } = useUserIdFromUsername();
   const isOwner = user?.username === username;
 
-  const dispatch = useAppDispatch();
+  const { deleteBookFromReadingList } = useDeleteBookFromReadingList(userId);
 
   const [hasBooks, setHasBooks] = useState(false);
 
   const handleDeleteBookFromReadingList = async (bookId?: string) => {
-    deleteBookFromReadingList(bookId, user?.UID, dispatch);
+    deleteBookFromReadingList(bookId);
   };
 
   useEffect(() => {
