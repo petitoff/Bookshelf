@@ -1,19 +1,13 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { storage, db } from "../../firebase/config";
+import { Timestamp } from "firebase/firestore";
+import { storage } from "../../firebase/config";
+import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
+import { Book, Review } from "../../types/Book";
 
 interface Props {
   isAdmin: boolean;
   userId: string;
-}
-
-interface Review {
-  id?: string;
-  reviewerId?: string;
-  reviewerName?: string;
-  rating?: number;
-  comment?: string;
 }
 
 const useBookForm = ({ isAdmin, userId }: Props) => {
@@ -24,6 +18,8 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { addNewBook } = useAddNewBook();
 
   const generateUniqueFileName = (originalFileName: string) => {
     const fileExtension = originalFileName.split(".").pop();
@@ -51,7 +47,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       }
 
       // Dodawanie książki do Firestore
-      const bookData = {
+      const bookData: Book = {
         title,
         authorName,
         summary,
@@ -63,11 +59,10 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
         createdAt: Timestamp.now(),
       };
 
-      await addDoc(collection(db, "books"), bookData);
+      addNewBook(bookData);
 
       // Resetowanie stanu formularza
       setTitle("");
-      //   setAuthorUid("");
       setAuthorName("");
       setSummary("");
       setPages("");
