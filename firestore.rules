@@ -1,13 +1,22 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /books/{bookId} {
-      allow read, write;
+    // Sprawdź, czy użytkownik jest administratorem
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
+
+    match /books/{bookId} {
+      allow read; // Pozwól na odczyt dla wszystkich użytkowników
+      allow create, update, delete: if isAdmin(); // Pozwól tylko adminom na dodawanie, aktualizację i usuwanie książek
+      allow write: if false; // Zablokuj inne operacje zapisu, które nie są utworzeniem, aktualizacją lub usuwaniem
+    }
+
     match /users/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow write: if request.auth.uid != null && request.auth.uid == userId;
     }
+
     match /usernames/{usernameId} {
       allow read;
       allow write: if request.auth.uid != null && request.auth.uid == usernameId;
