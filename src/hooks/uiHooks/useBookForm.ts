@@ -4,6 +4,7 @@ import { Timestamp } from "firebase/firestore";
 import { storage } from "../../firebase/config";
 import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
 import { Book, Review } from "../../types/Book";
+import { toast } from "react-toastify";
 
 interface Props {
   isAdmin: boolean;
@@ -30,7 +31,13 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isAdmin && title && authorName && coverImage) {
+
+    if (!isAdmin) {
+      toast.error("You don't have permission to add new book");
+      return;
+    }
+
+    if (title && authorName && coverImage) {
       setIsLoading(true);
 
       // Przesyłanie zdjęcia do Storage
