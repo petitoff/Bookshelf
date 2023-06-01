@@ -3,10 +3,10 @@ import styles from "./BookCardStats.module.css";
 
 interface Props {
   book: Book;
-  isDarkMode: boolean;
+  isDarkVersion?: boolean;
 }
 
-const BookCardStats = ({ book, isDarkMode }: Props) => {
+const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
   const calcRatings = () => {
     let sum = 0;
     book.reviews?.forEach((review) => {
@@ -23,7 +23,7 @@ const BookCardStats = ({ book, isDarkMode }: Props) => {
   return (
     <div
       className={`${styles.bookCard}`}
-      style={{ backgroundColor: `${isDarkMode ? "#1d1f2b" : "#fff"}` }}
+      style={{ backgroundColor: `${isDarkVersion ? "#1d1f2b" : "#f7f9fd"}` }}
     >
       <p>
         <strong>{book?.pages ?? 0}</strong>

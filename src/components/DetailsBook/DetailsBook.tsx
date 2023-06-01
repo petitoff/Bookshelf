@@ -13,6 +13,7 @@ import StarRatingDistribution from "../StarRatingDistribution/StarRatingDistribu
 import ReviewsSection from "../ReviewsSection/ReviewsSection";
 import { useEffect, useState } from "react";
 import { Book } from "../../types/Book";
+import BookCardStats from "../common/BookCardStats/BookCardStats";
 
 const DetailsBook = () => {
   const [activeDetailsBook, setActiveDetailsBook] = useState<Book>();
@@ -115,6 +116,8 @@ const DetailsBook = () => {
             handleAddBookToReadingList
           )}
         </div>
+
+        <BookCardStats book={book} isDarkVersion={false} />
       </div>
       <div className={styles.rightContainer}>
         <h1>{book.title}</h1>
