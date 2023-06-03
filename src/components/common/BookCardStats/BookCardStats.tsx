@@ -1,17 +1,44 @@
 import { Book } from "../../../types/Book";
-import styles from "./BookCardStats.module.css";
+import styled from "styled-components";
 
 interface Props {
   book: Book;
   isDarkVersion?: boolean;
 }
 
+const BookCard = styled.div<{ isDarkVersion?: boolean }>`
+  display: flex;
+  justify-content: space-evenly;
+  color: ${({ isDarkVersion }) => (isDarkVersion ? "#f7f9fd" : "#1d1f2b")};
+  background-color: ${({ isDarkVersion }) =>
+    isDarkVersion ? "#1d1f2b" : "#f7f9fd"};
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 0px 15px;
+  width: 90%;
+`;
+
+const BookCardParagraph = styled.p`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+`;
+
+const Subtitle = styled.span<{ isDarkVersion?: boolean }>`
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 1px 0;
+  color: ${({ isDarkVersion }) =>
+    isDarkVersion ? "rgba(255, 255, 255, 0.5)" : "#1d1f2b"};
+`;
+
 const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
   const calcRatings = () => {
-    let sum = 0;
-    book.reviews?.forEach((review) => {
-      sum += review.rating;
-    });
+    const sum =
+      book.reviews?.reduce((acc, review) => acc + review.rating, 0) || 0;
+    const averageRating = sum / (book.reviews?.length || 1);
 
     if (sum === 0) {
       return 0;
@@ -25,7 +52,7 @@ const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
           justifyContent: "center",
         }}
       >
-        {sum / (book.reviews?.length ?? 1)}
+        {averageRating}
         <h4
           style={{
             padding: 0,
@@ -41,47 +68,22 @@ const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
   };
 
   return (
-    <div
-      className={`${styles.bookCard}`}
-      style={{ backgroundColor: `${isDarkVersion ? "#1d1f2b" : "#f7f9fd"}` }}
-    >
-      <p>
-        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
-          {calcRatings()}
-        </strong>
-        <span
-          className={`${styles.subtitle}`}
-          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
-        >
-          ratings
-        </span>
-      </p>
+    <BookCard isDarkVersion={isDarkVersion}>
+      <BookCardParagraph>
+        <strong>{calcRatings()}</strong>
+        <Subtitle isDarkVersion={isDarkVersion}>ratings</Subtitle>
+      </BookCardParagraph>
       <div className="separator" />
-
-      <p>
-        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
-          {book?.pages ?? 0}
-        </strong>
-        <span
-          className={`${styles.subtitle}`}
-          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
-        >
-          pages
-        </span>
-      </p>
+      <BookCardParagraph>
+        <strong>{book.pages ?? 0}</strong>
+        <Subtitle isDarkVersion={isDarkVersion}>pages</Subtitle>
+      </BookCardParagraph>
       <div className="separator" />
-      <p>
-        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
-          {book.reviews?.length ?? 0}
-        </strong>
-        <span
-          className={`${styles.subtitle}`}
-          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
-        >
-          reviews
-        </span>
-      </p>
-    </div>
+      <BookCardParagraph>
+        <strong>{book.reviews?.length ?? 0}</strong>
+        <Subtitle isDarkVersion={isDarkVersion}>reviews</Subtitle>
+      </BookCardParagraph>
+    </BookCard>
   );
 };
 
