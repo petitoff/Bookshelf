@@ -30,3 +30,4 @@ firestore-rules/
 firestore-debug.log
 ui-debug.log
 firebase-debug.log
+firestore_data/
