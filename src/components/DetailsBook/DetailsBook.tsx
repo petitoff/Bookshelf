@@ -69,6 +69,8 @@ const DetailsBook = () => {
   );
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (books) {
       const bookLocal = books.find((book) => book.id === id);
       setActiveDetailsBook(bookLocal);
