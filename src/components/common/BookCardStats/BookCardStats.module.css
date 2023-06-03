@@ -1,12 +1,12 @@
 .bookCard {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   color: #fff;
   /* background-color: #1d1f2b; */
   border-radius: 10px;
   margin-top: 20px;
   padding: 0px 15px;
-  width: 80%;
+  width: 90%;
 }
 
 .bookCard p {

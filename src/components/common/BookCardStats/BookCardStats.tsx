@@ -17,7 +17,27 @@ const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
       return 0;
     }
 
-    return sum / (book.reviews?.length ?? 1);
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "center",
+        }}
+      >
+        {sum / (book.reviews?.length ?? 1)}
+        <h4
+          style={{
+            padding: 0,
+            margin: 0,
+            fontSize: "0.8rem",
+            paddingLeft: "0.2rem",
+          }}
+        >
+          /5
+        </h4>
+      </div>
+    );
   };
 
   return (
@@ -26,18 +46,40 @@ const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
       style={{ backgroundColor: `${isDarkVersion ? "#1d1f2b" : "#f7f9fd"}` }}
     >
       <p>
-        <strong>{book?.pages ?? 0}</strong>
-        <span className={`${styles.subtitle}`}>pages</span>
+        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
+          {calcRatings()}
+        </strong>
+        <span
+          className={`${styles.subtitle}`}
+          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
+        >
+          ratings
+        </span>
+      </p>
+      <div className="separator" />
+
+      <p>
+        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
+          {book?.pages ?? 0}
+        </strong>
+        <span
+          className={`${styles.subtitle}`}
+          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
+        >
+          pages
+        </span>
       </p>
       <div className="separator" />
       <p>
-        <strong>{book.reviews?.length ?? 0}</strong>
-        <span className={`${styles.subtitle}`}>reviews</span>
-      </p>
-      <div className="separator" />
-      <p>
-        <strong>{calcRatings()}</strong>
-        <span className={`${styles.subtitle}`}>ratings</span>
+        <strong style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}>
+          {book.reviews?.length ?? 0}
+        </strong>
+        <span
+          className={`${styles.subtitle}`}
+          style={{ color: isDarkVersion ? "#f7f9fd" : "#1d1f2b" }}
+        >
+          reviews
+        </span>
       </p>
     </div>
   );
