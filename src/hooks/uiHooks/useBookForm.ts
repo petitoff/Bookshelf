@@ -3,7 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Timestamp } from "firebase/firestore";
 import { storage } from "../../firebase/config";
 import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
-import { Book, Review } from "../../types/Book";
+import { Book, Category, Review } from "../../types/Book";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -18,6 +18,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
   const [pages, setPages] = useState("");
   const [reviews, setReviews] = useState<Review[]>([]);
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [category, setCategory] = useState<Category>("All");
   const [isLoading, setIsLoading] = useState(false);
 
   const { addNewBook } = useAddNewBook();
@@ -29,6 +30,10 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     return `photo_${timestamp}_${randomId}.${fileExtension}`;
   };
 
+  const isCategoryValid = (category: string): category is Category => {
+    return ["All", "Fantasy"].includes(category);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,10 +42,10 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       return;
     }
 
-    if (title && authorName && coverImage) {
+    if (title && authorName && coverImage && isCategoryValid(category)) {
       setIsLoading(true);
 
-      // Przesyłanie zdjęcia do Storage
+      // Upload image to Storage
       const uniqueFileName = generateUniqueFileName(coverImage.name);
       const coverImageRef = ref(storage, `coverImages/${uniqueFileName}`);
       await uploadBytes(coverImageRef, coverImage);
@@ -53,13 +58,14 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
         pageNumber = 1;
       }
 
-      // Dodawanie książki do Firestore
+      // Add book to Firestore
       const bookData: Book = {
         title,
         authorName,
         summary,
         pages: pageNumber,
         reviews,
+        category, // Added category to Book data
         imageId,
         imageUrl,
         addedBy: userId,
@@ -68,13 +74,14 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
 
       addNewBook(bookData);
 
-      // Resetowanie stanu formularza
+      // Reset form state
       setTitle("");
       setAuthorName("");
       setSummary("");
       setPages("");
       setReviews([]);
       setCoverImage(null);
+      setCategory("All");
       setIsLoading(false);
     }
   };
@@ -94,6 +101,8 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     setCoverImage,
     isLoading,
     handleSubmit,
+    category,
+    setCategory,
   };
 };
 export default useBookForm;

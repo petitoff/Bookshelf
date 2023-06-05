@@ -1,4 +1,5 @@
 import useBookForm from "../../hooks/uiHooks/useBookForm";
+import { Category } from "../../types/Book";
 import styles from "./AddBookForm.module.scss";
 
 interface Props {
@@ -19,6 +20,8 @@ const BookForm = ({ isAdmin, userId }: Props) => {
     setCoverImage,
     isLoading,
     handleSubmit,
+    category,
+    setCategory,
   } = useBookForm({ isAdmin, userId });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,12 +71,21 @@ const BookForm = ({ isAdmin, userId }: Props) => {
         onKeyDown={handleKeyDown}
         placeholder="Pages"
       />
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value as Category)}
+      >
+        <option value="All">All</option>
+        <option value="Fantasy">Fantasy</option>
+        {/* Add more categories here */}
+      </select>
       <input
         type="file"
         accept="image/*"
         onChange={handleImageChange}
         required
       />
+
       <button type="submit" disabled={isLoading}>
         {isLoading ? "Loading..." : "Add Book"}
       </button>
