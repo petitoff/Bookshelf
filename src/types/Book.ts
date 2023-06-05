@@ -8,6 +8,7 @@ export interface Book {
   summary?: string;
   pages?: number;
   reviews?: Review[];
+  category?: Category;
 
   imageId?: string;
   imageUrl?: string;
@@ -22,3 +23,5 @@ export interface Review {
   rating: number;
   content: string;
 }
+
+export type Category = "All" | "Fantasy";
