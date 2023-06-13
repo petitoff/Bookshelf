@@ -5,12 +5,22 @@ import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/dataHooks/booksHooks/useBooks";
 import styles from "./Pages.module.scss";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
+import CategoryList from "../components/common/CategoryList/CategoryList";
+import useFilterBooksByCategory from "../hooks/dataHooks/booksHooks/useFilterBooksByCategory";
 
 const Books = () => {
-  const { books, booksSearch } = useAppSelector((state) => state.books);
+  const { books, booksSearch, activeBookCategory } = useAppSelector(
+    (state) => state.books
+  );
+
+  const booksFilteredByCategory = useAppSelector(
+    (state) => state.books.booksFilteredByCategory
+  );
+
   const isSearchResults = booksSearch && booksSearch.length > 0;
 
   const { fetchingStatus } = useBooks();
+  useFilterBooksByCategory(books, activeBookCategory);
 
   return (
     <div className={styles.books}>
@@ -31,7 +41,11 @@ const Books = () => {
               <>
                 <ForYouSection />
                 <div className={styles.booksContainer}>
-                  <BookSection titleOfSection="Popular Books" books={books} />
+                  <CategoryList />
+                  <BookSection
+                    titleOfSection=""
+                    books={booksFilteredByCategory ?? books}
+                  />
                 </div>
               </>
             )}

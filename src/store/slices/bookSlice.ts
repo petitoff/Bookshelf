@@ -1,16 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book } from "../../types/Book";
+import { Book, BookCategory } from "../../types/Book";
 
 interface BooksState {
   books: Book[];
   activeBook: Book | null;
   booksSearch: Book[] | null;
+  activeBookCategory: BookCategory;
+  booksFilteredByCategory: Book[] | null;
 }
 
 const initialState: BooksState = {
   books: [],
   activeBook: null,
   booksSearch: null,
+  activeBookCategory: BookCategory.All,
+  booksFilteredByCategory: null,
 };
 
 const booksSlice = createSlice({
@@ -36,10 +40,22 @@ const booksSlice = createSlice({
         book.imageUrl = imageUrl;
       }
     },
+    setActiveBookCategory(state, action: PayloadAction<BookCategory>) {
+      state.activeBookCategory = action.payload;
+    },
+    setBooksFilteredByCategory(state, action: PayloadAction<Book[] | null>) {
+      state.booksFilteredByCategory = action.payload;
+    },
   },
 });
 
-export const { setActiveBook, setBooks, setBooksSearch, setBookImageUrlById } =
-  booksSlice.actions;
+export const {
+  setActiveBook,
+  setBooks,
+  setBooksSearch,
+  setBookImageUrlById,
+  setActiveBookCategory,
+  setBooksFilteredByCategory,
+} = booksSlice.actions;
 
 export default booksSlice.reducer;

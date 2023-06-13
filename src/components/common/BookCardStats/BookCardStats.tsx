@@ -1,45 +1,89 @@
 import { Book } from "../../../types/Book";
-import styles from "./BookCardStats.module.css";
+import styled from "styled-components";
 
 interface Props {
   book: Book;
-  isDarkMode: boolean;
+  isDarkVersion?: boolean;
 }
 
-const BookCardStats = ({ book, isDarkMode }: Props) => {
+const BookCard = styled.div<{ isDarkVersion?: boolean }>`
+  display: flex;
+  justify-content: space-evenly;
+  color: ${({ isDarkVersion }) => (isDarkVersion ? "#f7f9fd" : "#1d1f2b")};
+  background-color: ${({ isDarkVersion }) =>
+    isDarkVersion ? "#1d1f2b" : "#f7f9fd"};
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 0px 15px;
+  width: 90%;
+`;
+
+const BookCardParagraph = styled.p`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+`;
+
+const Subtitle = styled.span<{ isDarkVersion?: boolean }>`
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 1px 0;
+  color: ${({ isDarkVersion }) =>
+    isDarkVersion ? "rgba(255, 255, 255, 0.5)" : "#1d1f2b"};
+`;
+
+const BookCardStats = ({ book, isDarkVersion = false }: Props) => {
   const calcRatings = () => {
-    let sum = 0;
-    book.reviews?.forEach((review) => {
-      sum += review.rating;
-    });
+    const sum =
+      book.reviews?.reduce((acc, review) => acc + review.rating, 0) || 0;
+    const averageRating = sum / (book.reviews?.length || 1);
 
     if (sum === 0) {
       return 0;
     }
 
-    return sum / (book.reviews?.length ?? 1);
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "center",
+        }}
+      >
+        {averageRating}
+        <h4
+          style={{
+            padding: 0,
+            margin: 0,
+            fontSize: "0.8rem",
+            paddingLeft: "0.2rem",
+          }}
+        >
+          /5
+        </h4>
+      </div>
+    );
   };
 
   return (
-    <div
-      className={`${styles.bookCard}`}
-      style={{ backgroundColor: `${isDarkMode ? "#1d1f2b" : "#fff"}` }}
-    >
-      <p>
-        <strong>{book?.pages ?? 0}</strong>
-        <span className={`${styles.subtitle}`}>pages</span>
-      </p>
-      <div className="separator" />
-      <p>
-        <strong>{book.reviews?.length ?? 0}</strong>
-        <span className={`${styles.subtitle}`}>reviews</span>
-      </p>
-      <div className="separator" />
-      <p>
+    <BookCard isDarkVersion={isDarkVersion}>
+      <BookCardParagraph>
         <strong>{calcRatings()}</strong>
-        <span className={`${styles.subtitle}`}>ratings</span>
-      </p>
-    </div>
+        <Subtitle isDarkVersion={isDarkVersion}>ratings</Subtitle>
+      </BookCardParagraph>
+      <div className="separator" />
+      <BookCardParagraph>
+        <strong>{book.pages ?? 0}</strong>
+        <Subtitle isDarkVersion={isDarkVersion}>pages</Subtitle>
+      </BookCardParagraph>
+      <div className="separator" />
+      <BookCardParagraph>
+        <strong>{book.reviews?.length ?? 0}</strong>
+        <Subtitle isDarkVersion={isDarkVersion}>reviews</Subtitle>
+      </BookCardParagraph>
+    </BookCard>
   );
 };
 

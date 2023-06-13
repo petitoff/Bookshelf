@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import BasicInfoSection from "../common/BookCardStats/BookCardStats";
+import BookCardStats from "../common/BookCardStats/BookCardStats";
 import WideButton from "../common/WideButton/WideButton";
 import styles from "./BookInfoRightSidebar.module.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -61,7 +61,7 @@ const BookInfoRightSidebar = () => {
       <h3>{activeBook?.title}</h3>
       <h5>{activeBook?.authorName}</h5>
 
-      {activeBook && <BasicInfoSection book={activeBook} isDarkMode />}
+      {activeBook && <BookCardStats book={activeBook} isDarkVersion={true} />}
 
       <div className={styles.plot}>
         <h2>Plot</h2>

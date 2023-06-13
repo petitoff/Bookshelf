@@ -1,19 +1,14 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { storage, db } from "../../firebase/config";
+import { Timestamp } from "firebase/firestore";
+import { storage } from "../../firebase/config";
+import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
+import { Book, BookCategory, Review } from "../../types/Book";
+import { toast } from "react-toastify";
 
 interface Props {
   isAdmin: boolean;
   userId: string;
-}
-
-interface Review {
-  id?: string;
-  reviewerId?: string;
-  reviewerName?: string;
-  rating?: number;
-  comment?: string;
 }
 
 const useBookForm = ({ isAdmin, userId }: Props) => {
@@ -23,7 +18,10 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
   const [pages, setPages] = useState("");
   const [reviews, setReviews] = useState<Review[]>([]);
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [category, setCategory] = useState<BookCategory>(BookCategory.All);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { addNewBook } = useAddNewBook();
 
   const generateUniqueFileName = (originalFileName: string) => {
     const fileExtension = originalFileName.split(".").pop();
@@ -32,12 +30,22 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     return `photo_${timestamp}_${randomId}.${fileExtension}`;
   };
 
+  const isCategoryValid = (category: string): category is BookCategory => {
+    return ["All", "Fantasy"].includes(category);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isAdmin && title && authorName && coverImage) {
+
+    if (!isAdmin) {
+      toast.error("You don't have permission to add new book");
+      return;
+    }
+
+    if (title && authorName && coverImage && isCategoryValid(category)) {
       setIsLoading(true);
 
-      // Przesyłanie zdjęcia do Storage
+      // Upload image to Storage
       const uniqueFileName = generateUniqueFileName(coverImage.name);
       const coverImageRef = ref(storage, `coverImages/${uniqueFileName}`);
       await uploadBytes(coverImageRef, coverImage);
@@ -50,29 +58,30 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
         pageNumber = 1;
       }
 
-      // Dodawanie książki do Firestore
-      const bookData = {
+      // Add book to Firestore
+      const bookData: Book = {
         title,
         authorName,
         summary,
         pages: pageNumber,
         reviews,
+        category, // Added category to Book data
         imageId,
         imageUrl,
         addedBy: userId,
         createdAt: Timestamp.now(),
       };
 
-      await addDoc(collection(db, "books"), bookData);
+      addNewBook(bookData);
 
-      // Resetowanie stanu formularza
+      // Reset form state
       setTitle("");
-      //   setAuthorUid("");
       setAuthorName("");
       setSummary("");
       setPages("");
       setReviews([]);
       setCoverImage(null);
+      setCategory(BookCategory.All);
       setIsLoading(false);
     }
   };
@@ -92,6 +101,8 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     setCoverImage,
     isLoading,
     handleSubmit,
+    category,
+    setCategory,
   };
 };
 export default useBookForm;

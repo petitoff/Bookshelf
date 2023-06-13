@@ -27,3 +27,7 @@ firestore-rules/
 .env
 *.bkp
 .idea/*
+firestore-debug.log
+ui-debug.log
+firebase-debug.log
+firestore_data/
