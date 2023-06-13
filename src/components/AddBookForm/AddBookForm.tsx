@@ -1,5 +1,5 @@
 import useBookForm from "../../hooks/uiHooks/useBookForm";
-import { Category } from "../../types/Book";
+import { BookCategory } from "../../types/Book";
 import styles from "./AddBookForm.module.scss";
 
 interface Props {
@@ -73,11 +73,13 @@ const BookForm = ({ isAdmin, userId }: Props) => {
       />
       <select
         value={category}
-        onChange={(e) => setCategory(e.target.value as Category)}
+        onChange={(e) => setCategory(e.target.value as BookCategory)}
       >
-        <option value="All">All</option>
-        <option value="Fantasy">Fantasy</option>
-        {/* Add more categories here */}
+        {Object.values(BookCategory).map((categoryValue) => (
+          <option key={categoryValue} value={categoryValue}>
+            {categoryValue}
+          </option>
+        ))}
       </select>
       <input
         type="file"

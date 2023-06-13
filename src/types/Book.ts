@@ -8,7 +8,7 @@ export interface Book {
   summary?: string;
   pages?: number;
   reviews?: Review[];
-  category?: Category;
+  category?: BookCategory;
 
   imageId?: string;
   imageUrl?: string;
@@ -24,4 +24,22 @@ export interface Review {
   content: string;
 }
 
-export type Category = "All" | "Fantasy";
+export enum BookCategory {
+  All = "All",
+  Crime = "Crime",
+  Fantasy = "Fantasy",
+  ForChildren = "For children",
+  Horror = "Horror",
+  Romance = "Romance",
+  Technology = "Technology",
+}
+
+export const CATEGORIES: BookCategory[] = [
+  BookCategory.All,
+  BookCategory.Crime,
+  BookCategory.Fantasy,
+  BookCategory.ForChildren,
+  BookCategory.Horror,
+  BookCategory.Romance,
+  BookCategory.Technology,
+];

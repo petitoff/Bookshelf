@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Category } from "../../../types/Book";
+import { BookCategory } from "../../../types/Book";
 
 interface Props {
-  category: Category;
+  category: BookCategory;
   isActive: boolean;
-  onSetActiveBookCategory: (category: Category) => void;
+  onSetActiveBookCategory: (category: BookCategory) => void;
 }
 
 const CategoryCardMainContainer = styled.div<{ isActive: boolean }>`
@@ -22,6 +22,9 @@ const CategoryCardMainContainer = styled.div<{ isActive: boolean }>`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin: 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:hover {
     background-color: #213872;

@@ -3,7 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Timestamp } from "firebase/firestore";
 import { storage } from "../../firebase/config";
 import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
-import { Book, Category, Review } from "../../types/Book";
+import { Book, BookCategory, Review } from "../../types/Book";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -18,7 +18,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
   const [pages, setPages] = useState("");
   const [reviews, setReviews] = useState<Review[]>([]);
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [category, setCategory] = useState<Category>("All");
+  const [category, setCategory] = useState<BookCategory>(BookCategory.All);
   const [isLoading, setIsLoading] = useState(false);
 
   const { addNewBook } = useAddNewBook();
@@ -30,7 +30,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     return `photo_${timestamp}_${randomId}.${fileExtension}`;
   };
 
-  const isCategoryValid = (category: string): category is Category => {
+  const isCategoryValid = (category: string): category is BookCategory => {
     return ["All", "Fantasy"].includes(category);
   };
 
@@ -81,7 +81,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       setPages("");
       setReviews([]);
       setCoverImage(null);
-      setCategory("All");
+      setCategory(BookCategory.All);
       setIsLoading(false);
     }
   };

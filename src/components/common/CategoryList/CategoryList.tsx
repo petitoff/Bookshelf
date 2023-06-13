@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Category } from "../../../types/Book";
+import { BookCategory, CATEGORIES } from "../../../types/Book";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useDispatch } from "react-redux";
@@ -8,27 +8,33 @@ import { setActiveBookCategory } from "../../../store/slices/bookSlice";
 const CategoryListMainContainer = styled.div`
   display: flex;
   margin: 1rem 0;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
+  /* Ukryj pasek przewijania */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
-const CATEGORY: Category[] = ["All", "Fantasy"];
-
 const CategoryList = () => {
-  // const [activeCategory, setActiveCategory] = useState<Category>("All");
-
   const activeCategory = useAppSelector(
     (state) => state.books.activeBookCategory
   );
 
   const dispatch = useDispatch();
 
-  const handleSetActiveBookCategory = (category: Category) => {
+  const handleSetActiveBookCategory = (category: BookCategory) => {
     dispatch(setActiveBookCategory(category));
   };
 
   return (
     <div>
       <CategoryListMainContainer>
-        {CATEGORY.map((category) => (
+        {CATEGORIES.map((category) => (
           <CategoryCard
             key={category}
             category={category}

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Book, Category } from "../../../types/Book";
+import { Book, BookCategory } from "../../../types/Book";
 import { useDispatch } from "react-redux";
 import { setBooksFilteredByCategory } from "../../../store/slices/bookSlice";
 
-const useFilterBooksByCategory = (books: Book[], category: Category) => {
+const useFilterBooksByCategory = (books: Book[], category: BookCategory) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (category === "All") {
