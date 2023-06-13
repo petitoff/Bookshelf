@@ -32,6 +32,7 @@ export enum BookCategory {
   Horror = "Horror",
   Romance = "Romance",
   Technology = "Technology",
+  LiteraryFiction = "Literary Fiction",
 }
 
 export const CATEGORIES: BookCategory[] = [
@@ -40,6 +41,7 @@ export const CATEGORIES: BookCategory[] = [
   BookCategory.Fantasy,
   BookCategory.ForChildren,
   BookCategory.Horror,
+  BookCategory.LiteraryFiction,
   BookCategory.Romance,
   BookCategory.Technology,
 ];
