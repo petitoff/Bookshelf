@@ -48,7 +48,6 @@ export const addBook = async (book: Book): Promise<string> => {
   try {
     const booksCollectionRef = collection(db, "books");
     const docRef = await addDoc(booksCollectionRef, book);
-    console.log("New book added with ID: ", docRef.id);
     return docRef.id;
   } catch (error) {
     console.error("Error adding book: ", error);

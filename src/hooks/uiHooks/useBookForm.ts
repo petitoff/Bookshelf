@@ -3,7 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Timestamp } from "firebase/firestore";
 import { storage } from "../../firebase/config";
 import useAddNewBook from "../dataHooks/booksHooks/useAddNewBook";
-import { Book, BookCategory, Review } from "../../types/Book";
+import { Book, BookCategory, CATEGORIES, Review } from "../../types/Book";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -31,7 +31,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
   };
 
   const isCategoryValid = (category: string): category is BookCategory => {
-    return ["All", "Fantasy"].includes(category);
+    return CATEGORIES.includes(category as BookCategory);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,11 +46,19 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       setIsLoading(true);
 
       // Upload image to Storage
-      const uniqueFileName = generateUniqueFileName(coverImage.name);
-      const coverImageRef = ref(storage, `coverImages/${uniqueFileName}`);
-      await uploadBytes(coverImageRef, coverImage);
-      const imageUrl = await getDownloadURL(coverImageRef);
-      const imageId = coverImageRef.name;
+      let imageUrl = "";
+      let imageId = "";
+      try {
+        const uniqueFileName = generateUniqueFileName(coverImage.name);
+        const coverImageRef = ref(storage, `coverImages/${uniqueFileName}`);
+        await uploadBytes(coverImageRef, coverImage);
+        imageUrl = await getDownloadURL(coverImageRef);
+        imageId = coverImageRef.name;
+      } catch (err: any) {
+        toast.error(err.message);
+        setIsLoading(false);
+        return;
+      }
 
       let pageNumber = Number(pages);
       // Check for an error and set a default value
