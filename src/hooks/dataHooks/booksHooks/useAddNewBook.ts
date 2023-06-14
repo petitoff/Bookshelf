@@ -5,11 +5,6 @@ import { successToast } from "../../../utils/toastHelper";
 import { toast } from "react-toastify";
 import { Book } from "../../../types/Book";
 
-// interface BookData {
-//   title: string;
-//   authorUid: string;
-// }
-
 interface Props {
   addNewBook: (bookData: Book) => Promise<void>;
   isLoading: boolean;
