@@ -1,3 +1,4 @@
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { BookCategory, CATEGORIES } from "../../../types/Book";
 import CategoryCard from "../CategoryCard/CategoryCard";
@@ -6,13 +7,17 @@ import { useDispatch } from "react-redux";
 import { setActiveBookCategory } from "../../../store/slices/bookSlice";
 
 const CategoryListMainContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
+
+const CategoryListScrollContainer = styled.div`
   display: flex;
   margin: 1rem 0;
   overflow-x: scroll;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 
-  /* Ukryj pasek przewijania */
   &::-webkit-scrollbar {
     display: none;
   }
@@ -20,20 +25,86 @@ const CategoryListMainContainer = styled.div`
   scrollbar-width: none;
 `;
 
+const ScrollButton = styled.button`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
+
+const LeftScrollButton = styled(ScrollButton)`
+  left: 0;
+`;
+
+const RightScrollButton = styled(ScrollButton)`
+  right: 0;
+`;
+
 const CategoryList = () => {
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
   const activeCategory = useAppSelector(
     (state) => state.books.activeBookCategory
   );
 
   const dispatch = useDispatch();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        setCanScrollLeft(container.scrollLeft > 0);
+        setCanScrollRight(
+          container.scrollWidth - container.clientWidth - container.scrollLeft >
+            1
+        );
+      }
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      handleScroll();
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [scrollContainerRef]);
 
   const handleSetActiveBookCategory = (category: BookCategory) => {
     dispatch(setActiveBookCategory(category));
   };
 
+  const handleScrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div>
-      <CategoryListMainContainer>
+    <CategoryListMainContainer>
+      {canScrollLeft && (
+        <LeftScrollButton onClick={handleScrollLeft}>&lt;</LeftScrollButton>
+      )}
+      <CategoryListScrollContainer ref={scrollContainerRef}>
         {CATEGORIES.map((category) => (
           <CategoryCard
             key={category}
@@ -42,8 +113,11 @@ const CategoryList = () => {
             onSetActiveBookCategory={handleSetActiveBookCategory}
           />
         ))}
-      </CategoryListMainContainer>
-    </div>
+      </CategoryListScrollContainer>
+      {canScrollRight && (
+        <RightScrollButton onClick={handleScrollRight}>&gt;</RightScrollButton>
+      )}
+    </CategoryListMainContainer>
   );
 };
 
