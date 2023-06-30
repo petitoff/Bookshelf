@@ -7,7 +7,7 @@ import UserReadingListHeader from "../components/common/UserReadingListHeader/Us
 import BookList from "../components/common/BookList/BookList";
 import { useAppSelector } from "../hooks/hooks";
 import useReadingListBooks from "../hooks/dataHooks/booksHooks/useReadingListBooks";
-import { useDeleteBookFromReadingList } from "../hooks/dataHooks/userDataHooks/useDeleteBookFromReadingList";
+import { useDeleteBookFromReadingList } from "../hooks/dataHooks/booksHooks/useDeleteBookFromReadingList";
 
 const UserReadingListView = () => {
   const { username } = useParams<{ username: string }>();
