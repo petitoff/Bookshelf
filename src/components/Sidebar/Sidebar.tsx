@@ -1,5 +1,5 @@
 import { FaHome, FaList, FaCog, FaBookmark } from "react-icons/fa";
-import { RiBookMarkFill, RiLogoutBoxRLine } from "react-icons/ri";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import useLogout from "../../hooks/authHooks/useLogout";
