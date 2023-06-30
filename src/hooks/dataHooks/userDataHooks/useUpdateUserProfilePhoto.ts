@@ -34,8 +34,10 @@ const useUpdateUserProfilePhoto = () => {
       toast.info("Uploading photo... Please wait");
 
       // Upload photo to storage
-      // TODO: Generate a random name for the photo
-      const photoRef = ref(storage, `users/${user?.UID}/${photo.name}`);
+      const photoName = `user-${user?.UID}-photo-${Date.now()}.${photo.name
+        .split(".")
+        .pop()}`;
+      const photoRef = ref(storage, `users/${user?.UID}/${photoName}`);
       await uploadBytes(photoRef, photo);
       const photoURL = await getDownloadURL(photoRef);
 
