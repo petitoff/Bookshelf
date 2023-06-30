@@ -1,7 +1,6 @@
 import { useParams } from "react-router";
 import styles from "./DetailsBook.module.scss";
 import WideButton from "../common/WideButton/WideButton";
-import { AiOutlineBook } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "../common/LoadingIndicator/LoadingIndicator";
@@ -14,6 +13,7 @@ import ReviewsSection from "../ReviewsSection/ReviewsSection";
 import { useEffect, useState } from "react";
 import { Book } from "../../types/Book";
 import BookCardStats from "../common/BookCardStats/BookCardStats";
+import { FaBookmark } from "react-icons/fa";
 
 const DetailsBook = () => {
   const [activeDetailsBook, setActiveDetailsBook] = useState<Book>();
@@ -113,17 +113,17 @@ const DetailsBook = () => {
             handleReadOnline
           )}
           {renderWideButton(
-            <AiOutlineBook size={32} color="#fff" />,
+            <FaBookmark size={32} color="#fff" />,
             "Save to reading list",
             handleAddBookToReadingList
           )}
         </div>
-
-        <BookCardStats book={book} isDarkVersion={false} />
       </div>
       <div className={styles.rightContainer}>
         <h1>{book.title}</h1>
         <p>{book.authorName}</p>
+
+        <BookCardStats book={book} isDarkVersion={false} />
 
         <h3>Plot</h3>
         <p>{book.summary}</p>
