@@ -5,6 +5,8 @@ import CategoryCard from "../CategoryCard/CategoryCard";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useDispatch } from "react-redux";
 import { setActiveBookCategory } from "../../../store/slices/bookSlice";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const CategoryListMainContainer = styled.div`
   position: relative;
@@ -40,11 +42,11 @@ const ScrollButton = styled.button`
 `;
 
 const LeftScrollButton = styled(ScrollButton)`
-  left: 0;
+  left: -20px;
 `;
 
 const RightScrollButton = styled(ScrollButton)`
-  right: 0;
+  right: -20px;
 `;
 
 const CategoryList = () => {
@@ -102,7 +104,9 @@ const CategoryList = () => {
   return (
     <CategoryListMainContainer>
       {canScrollLeft && (
-        <LeftScrollButton onClick={handleScrollLeft}>&lt;</LeftScrollButton>
+        <LeftScrollButton onClick={handleScrollLeft}>
+          <ArrowBackIosNewIcon />
+        </LeftScrollButton>
       )}
       <CategoryListScrollContainer ref={scrollContainerRef}>
         {CATEGORIES.map((category) => (
@@ -115,7 +119,9 @@ const CategoryList = () => {
         ))}
       </CategoryListScrollContainer>
       {canScrollRight && (
-        <RightScrollButton onClick={handleScrollRight}>&gt;</RightScrollButton>
+        <RightScrollButton onClick={handleScrollRight}>
+          <ArrowForwardIosIcon />
+        </RightScrollButton>
       )}
     </CategoryListMainContainer>
   );
