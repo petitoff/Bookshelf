@@ -12,13 +12,15 @@ interface Props {
 }
 
 const useBookForm = ({ isAdmin, userId }: Props) => {
-  const [title, setTitle] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [summary, setSummary] = useState("");
-  const [pages, setPages] = useState("");
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [category, setCategory] = useState<BookCategory>(BookCategory.All);
+  const [formState, setFormState] = useState({
+    title: "",
+    authorName: "",
+    summary: "",
+    pages: "",
+    reviews: [] as Review[],
+    coverImage: null as File | null,
+    category: BookCategory.All,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const { addNewBook } = useAddNewBook();
@@ -34,6 +36,11 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
     return CATEGORIES.includes(category as BookCategory);
   };
 
+  const handleChange =
+    (field: keyof typeof formState) => (value: string | File | null) => {
+      setFormState((prevState) => ({ ...prevState, [field]: value }));
+    };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -41,6 +48,8 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       toast.error("You don't have permission to add new book");
       return;
     }
+
+    const { title, authorName, coverImage, category } = formState;
 
     if (title && authorName && coverImage && isCategoryValid(category)) {
       setIsLoading(true);
@@ -60,7 +69,7 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
         return;
       }
 
-      let pageNumber = Number(pages);
+      let pageNumber = Number(formState.pages);
       // Check for an error and set a default value
       if (isNaN(pageNumber)) {
         pageNumber = 1;
@@ -68,12 +77,12 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
 
       // Add book to Firestore
       const bookData: Book = {
-        title,
-        authorName,
-        summary,
+        title: formState.title,
+        authorName: formState.authorName,
+        summary: formState.summary,
         pages: pageNumber,
-        reviews,
-        category, // Added category to Book data
+        reviews: formState.reviews,
+        category: formState.category,
         imageId,
         imageUrl,
         addedBy: userId,
@@ -83,34 +92,24 @@ const useBookForm = ({ isAdmin, userId }: Props) => {
       addNewBook(bookData);
 
       // Reset form state
-      setTitle("");
-      setAuthorName("");
-      setSummary("");
-      setPages("");
-      setReviews([]);
-      setCoverImage(null);
-      setCategory(BookCategory.All);
+      setFormState({
+        title: "",
+        authorName: "",
+        summary: "",
+        pages: "",
+        reviews: [],
+        coverImage: null,
+        category: BookCategory.All,
+      });
       setIsLoading(false);
     }
   };
 
   return {
-    title,
-    setTitle,
-    authorName,
-    setAuthorName,
-    summary,
-    setSummary,
-    pages,
-    setPages,
-    reviews,
-    setReviews,
-    coverImage,
-    setCoverImage,
+    ...formState,
     isLoading,
+    handleChange,
     handleSubmit,
-    category,
-    setCategory,
   };
 };
 export default useBookForm;

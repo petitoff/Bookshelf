@@ -10,18 +10,13 @@ interface Props {
 const BookForm = ({ isAdmin, userId }: Props) => {
   const {
     title,
-    setTitle,
     authorName,
-    setAuthorName,
     summary,
-    setSummary,
     pages,
-    setPages,
-    setCoverImage,
     isLoading,
     handleSubmit,
     category,
-    setCategory,
+    handleChange,
   } = useBookForm({ isAdmin, userId });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +26,7 @@ const BookForm = ({ isAdmin, userId }: Props) => {
 
     const file = e.target.files[0];
     if (file) {
-      setCoverImage(file);
+      handleChange("coverImage")(file);
     }
   };
 
@@ -48,32 +43,34 @@ const BookForm = ({ isAdmin, userId }: Props) => {
       <input
         type="text"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => handleChange("title")(e.target.value)}
         placeholder="Title"
         required
       />
       <input
         type="text"
         value={authorName}
-        onChange={(e) => setAuthorName(e.target.value)}
+        onChange={(e) => handleChange("authorName")(e.target.value)}
         placeholder="Author Name"
         required
       />
       <textarea
         value={summary}
-        onChange={(e) => setSummary(e.target.value)}
+        onChange={(e) => handleChange("summary")(e.target.value)}
         placeholder="Summary"
       />
       <input
         type="text"
         value={pages}
-        onChange={(e) => setPages(e.target.value)}
+        onChange={(e) => handleChange("pages")(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Pages"
       />
       <select
         value={category}
-        onChange={(e) => setCategory(e.target.value as BookCategory)}
+        onChange={(e) =>
+          handleChange("category")(e.target.value as BookCategory)
+        }
       >
         {Object.values(BookCategory).map((categoryValue) => (
           <option key={categoryValue} value={categoryValue}>

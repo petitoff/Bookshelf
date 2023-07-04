@@ -1,4 +1,4 @@
-import { FaHome, FaList, FaCog } from "react-icons/fa";
+import { FaHome, FaList, FaCog, FaBookmark } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
@@ -85,7 +85,7 @@ const Sidebar = () => {
                 to={`/${user?.username}/reading-list`}
                 onClick={handleLinkClick}
               >
-                <FaList className={styles.icon} /> My List
+                <FaBookmark className={styles.icon} /> Bookmark
               </Link>
             </li>
 

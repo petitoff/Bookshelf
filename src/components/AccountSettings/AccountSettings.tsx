@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./AccountSettings.module.scss";
 import { useAppSelector } from "../../hooks/hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +6,8 @@ import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import { User } from "../../types/User";
 import { ChangeEvent } from "react";
 import useUpdateUser from "../../hooks/dataHooks/userDataHooks/useUpdateUser";
+import useUpdateUserProfilePhoto from "../../hooks/dataHooks/userDataHooks/useUpdateUserProfilePhoto";
+import { FaPlusCircle, FaUser } from "react-icons/fa";
 
 type ActiveButton = "My Profile" | "Security";
 
@@ -18,17 +20,20 @@ const AccountSettings = () => {
   const [name, setName] = useState(user?.username ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const { updateUserPartial } = useUpdateUser();
+  const { updateUserProfilePhoto } = useUpdateUserProfilePhoto();
 
   const handleSaveClick = async () => {
     if (isEditing && user?.UID) {
       const updatedUserData: Partial<User> = {};
       // updatedUserData.UID = user.UID;
 
-      if (name !== user.username || name !== "") {
+      if (name !== user.username && name !== "") {
         updatedUserData.username = name;
       }
-      if (email !== user.email || email !== "") {
+      if (email !== user.email && email !== "") {
         updatedUserData.email = email;
       }
       try {
@@ -39,6 +44,17 @@ const AccountSettings = () => {
       }
     }
     setIsEditing(!isEditing);
+  };
+
+  const handleUserImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && user?.UID) {
+      await updateUserProfilePhoto(file);
+    }
   };
 
   const handleChange = (
@@ -91,8 +107,18 @@ const AccountSettings = () => {
         {activeButton === "My Profile" ? (
           <div className={styles.section}>
             <div className={styles.sectionLeft}>
-              <div className={styles.userImage}>
-                <img src={user?.imageUrl ?? ""} alt="user" />
+              <div className={styles.userImage} onClick={handleUserImageClick}>
+                {user?.imageUrl && user?.imageUrl !== "" ? (
+                  <img src={user.imageUrl} alt="" />
+                ) : (
+                  <FaUser
+                    size={50}
+                    className={styles["user-icon-when-userImg-is-empty"]}
+                  />
+                )}
+                <i className={styles.plusIcon}>
+                  <FaPlusCircle />
+                </i>
               </div>
 
               <div>
@@ -128,6 +154,14 @@ const AccountSettings = () => {
           </div>
         )}
       </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
     </div>
   );
 };
