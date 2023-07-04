@@ -7,7 +7,7 @@ import { User } from "../../types/User";
 import { ChangeEvent } from "react";
 import useUpdateUser from "../../hooks/dataHooks/userDataHooks/useUpdateUser";
 import useUpdateUserProfilePhoto from "../../hooks/dataHooks/userDataHooks/useUpdateUserProfilePhoto";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle, FaUser } from "react-icons/fa";
 
 type ActiveButton = "My Profile" | "Security";
 
@@ -108,7 +108,14 @@ const AccountSettings = () => {
           <div className={styles.section}>
             <div className={styles.sectionLeft}>
               <div className={styles.userImage} onClick={handleUserImageClick}>
-                <img src={user?.imageUrl ?? ""} alt="" />
+                {user?.imageUrl && user?.imageUrl !== "" ? (
+                  <img src={user.imageUrl} alt="" />
+                ) : (
+                  <FaUser
+                    size={50}
+                    className={styles["user-icon-when-userImg-is-empty"]}
+                  />
+                )}
                 <i className={styles.plusIcon}>
                   <FaPlusCircle />
                 </i>

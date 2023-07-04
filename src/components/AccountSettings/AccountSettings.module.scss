@@ -111,6 +111,14 @@
   align-items: center;
   padding: 16px;
 
+  .user-icon-when-userImg-is-empty {
+    cursor: pointer;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+
   .plusIcon {
     display: none;
     position: absolute;
