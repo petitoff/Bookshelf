@@ -3,7 +3,7 @@
 Bookshelf is a modern web application built using ReactJS with TypeScript, Firebase, Redux Toolkit, and React Router DOM. The website allows users to browse, read, and rate books online, as well as create reading lists and share books with friends.
 
 ## Demo
-https://bookshelf-petitoff.netlify.app/.
+https://bookshelf-petitoff.vercel.app/
 
 ## Features
 
