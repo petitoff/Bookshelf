@@ -127,7 +127,7 @@ const Sidebar = () => {
         ) : (
           <li>
             <Link to="/login" onClick={handleLinkClick}>
-              Login
+              Login / Register
             </Link>
           </li>
         )}
