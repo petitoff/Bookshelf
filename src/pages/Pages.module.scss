@@ -1,3 +1,16 @@
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: #171719;
+//     color: #fff;
+//   }
+// }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .login,
 .register {
   height: 80vh;

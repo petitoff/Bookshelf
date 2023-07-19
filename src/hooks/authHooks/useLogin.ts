@@ -32,7 +32,6 @@ const useLogin = () => {
       const userData = await fetchUserData(userCredential.user?.uid);
 
       dispatch(setUser(userData));
-      // dispatch((updateUser({imageUrl: imageUrl})))
       setLoggingInStatus("success");
       successToast("Logged in successfully!");
       setIsUserLoggedIn(true);

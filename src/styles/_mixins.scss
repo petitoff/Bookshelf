@@ -1,0 +1,16 @@
+@mixin centered-container-border($width, $color, $radius, $padding) {
+  display: grid;
+  place-items: center;
+  width: $width;
+  border: 0.1rem solid $color;
+  border-radius: $radius;
+  padding: $padding;
+  margin-top: 2rem;
+}
+
+@mixin horizontal-line($width, $color, $margin-top) {
+  width: $width;
+  height: 0.1rem;
+  background-color: $color;
+  margin-top: $margin-top;
+}

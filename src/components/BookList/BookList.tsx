@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { Book } from "../../../types/Book";
-import BookCard from "../BookCard/BookCard";
+import { Book } from "../../types/Book";
+import BookCard from "../common/BookCard/BookCard";
 
 interface Props {
   books: Book[];

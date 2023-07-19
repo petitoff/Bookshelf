@@ -16,8 +16,10 @@ import Books from "./pages/Books";
 import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
-import WelcomeView from "./pages/WelcomeView";
 import AddBookView from "./pages/AddBookView";
+import FirstStepForm from "./features/welcomeScreen/FirstStepForm/FirstStepForm";
+import { SecondStepForm } from "./features/welcomeScreen/SecondStepForm/SecondStepForm";
+import { RegistrationThankYou } from "./features/welcomeScreen/RegistrationThankYou/RegistrationThankYou";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -26,7 +28,7 @@ function App() {
 
   const renderRouteWithRedirect = (Component: React.ComponentType) => {
     if (isNewUser) {
-      return <Redirect to="/welcome" />;
+      return <Redirect to="/welcome/first-step" />;
     } else {
       return <Component />;
     }
@@ -46,10 +48,6 @@ function App() {
         <ToastContainer position="top-center" />
 
         <Switch>
-          <ProtectedRoute exact path="/welcome">
-            <WelcomeView isNewUser={isNewUser} />
-          </ProtectedRoute>
-
           <Route exact path="/">
             <Redirect to="/books" />
           </Route>
@@ -73,6 +71,18 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/add-book">
             {renderRouteWithRedirect(AddBookView)}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/first-step">
+            <FirstStepForm />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/second-step">
+            <SecondStepForm />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/registration-thank-you">
+            <RegistrationThankYou />
           </ProtectedRoute>
 
           {/*<Route path="/*" component={ErrorPage} />*/}
