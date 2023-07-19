@@ -1,15 +1,24 @@
 import { useHistory } from "react-router-dom";
 import styles from "./RegistrationThankYou.module.scss";
+import useUpdateUser from "../../../hooks/dataHooks/userDataHooks/useUpdateUser";
 
 export const RegistrationThankYou = () => {
   const history = useHistory();
+  const { updateUserPartial } = useUpdateUser();
 
   return (
     <div className={styles["form-container"]}>
       <div className={styles["form-border-container"]}>
         <div className={styles["form-header"]}>
           <h2>Welcome 🎉</h2>
-          <button onClick={() => history.push("/")}>Complete</button>
+          <button
+            onClick={() => {
+              updateUserPartial({ isRegistrationComplete: true });
+              history.push("/");
+            }}
+          >
+            Complete
+          </button>
         </div>
         <div className={styles["horizontal-line"]} />
 

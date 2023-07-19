@@ -10,4 +10,5 @@ export type User = {
   favoriteBooks?: Book[];
   readingListBooks?: Book[];
   favouriteCategories?: BookCategory[];
+  isRegistrationComplete?: boolean;
 };

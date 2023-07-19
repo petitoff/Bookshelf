@@ -24,13 +24,21 @@ import { RegistrationThankYou } from "./features/welcomeScreen/RegistrationThank
 function App() {
   const user = useAppSelector((state) => state.auth.user);
   const userIsAuthenticated = Boolean(user);
-  const isNewUser = user && !user.username;
+  const isNewUser = user && !user?.isRegistrationComplete;
 
   const renderRouteWithRedirect = (Component: React.ComponentType) => {
     if (isNewUser) {
       return <Redirect to="/welcome/first-step" />;
     } else {
       return <Component />;
+    }
+  };
+
+  const renderRouteIfUserIsNotNew = (Component: React.ComponentType) => {
+    if (isNewUser) {
+      return <Component />;
+    } else {
+      return <Redirect to="/" />;
     }
   };
 
@@ -41,8 +49,6 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        {/*<NewUserRedirect user={user} isNewUser={isNewUser}/>*/}
-
         <Navbar />
         <Sidebar />
         <ToastContainer position="top-center" />
@@ -74,15 +80,15 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/welcome/first-step">
-            <FirstStepForm />
+            {renderRouteIfUserIsNotNew(FirstStepForm)}
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/welcome/second-step">
-            <SecondStepForm />
+            {renderRouteIfUserIsNotNew(SecondStepForm)}
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/welcome/registration-thank-you">
-            <RegistrationThankYou />
+            {renderRouteIfUserIsNotNew(RegistrationThankYou)}
           </ProtectedRoute>
 
           {/*<Route path="/*" component={ErrorPage} />*/}

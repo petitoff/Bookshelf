@@ -17,6 +17,7 @@ const useUpdateUser = () => {
 
   const updateUserPartial = async (data: Partial<User>): Promise<void> => {
     try {
+      setError("idle");
       if (!user || !data) return;
       if (
         data?.username &&
@@ -36,6 +37,12 @@ const useUpdateUser = () => {
       if (data?.favouriteCategories) {
         await updateUsernamesInFirestore(user.UID, {
           favouriteCategories: data.favouriteCategories,
+        });
+      }
+
+      if (data?.isRegistrationComplete) {
+        await updateUsernamesInFirestore(user.UID, {
+          isRegistrationComplete: data.isRegistrationComplete,
         });
       }
 
