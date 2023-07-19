@@ -1,6 +1,6 @@
 import BookInfoRightSidebar from "../components/BookInfoRightSidebar/BookInfoRightSidebar";
 import BookSection from "../components/BookSection/BookSection";
-import ForYouSection from "../components/ForYouSection/ForYouSection";
+import { ForYouSection } from "../components/ForYouSection/ForYouSection";
 import { useAppSelector } from "../hooks/hooks";
 import { useBooks } from "../hooks/dataHooks/booksHooks/useBooks";
 import styles from "./Pages.module.scss";
@@ -15,6 +15,10 @@ const Books = () => {
 
   const booksFilteredByCategory = useAppSelector(
     (state) => state.books.booksFilteredByCategory
+  );
+
+  const isUserHaveFavoriteCategories = !!useAppSelector(
+    (state) => state.auth.user?.favouriteCategories?.length
   );
 
   const isSearchResults = booksSearch && booksSearch.length > 0;
@@ -39,7 +43,7 @@ const Books = () => {
               </div>
             ) : (
               <>
-                <ForYouSection />
+                {isUserHaveFavoriteCategories && <ForYouSection />}
                 <div className={styles.booksContainer}>
                   <CategoryList />
                   <BookSection

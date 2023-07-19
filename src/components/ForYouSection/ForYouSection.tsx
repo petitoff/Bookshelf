@@ -4,7 +4,7 @@ import WideBookCard from "../common/WideBookCard/WideBookCard";
 import "./ForYouSection.css";
 import { Book, BookCategory } from "../../types/Book";
 
-const ForYouSection = () => {
+export const ForYouSection = () => {
   const userListOfFavoriteBookCategories = useAppSelector(
     (state) => state.auth.user?.favouriteCategories
   );
@@ -46,5 +46,3 @@ const ForYouSection = () => {
     </section>
   );
 };
-
-export default ForYouSection;
