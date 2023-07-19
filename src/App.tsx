@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "./hooks/hooks";
 import "./App.css";
 
-// components
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
