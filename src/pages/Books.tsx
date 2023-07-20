@@ -36,13 +36,11 @@ const Books = () => {
     return (
       <div className={styles.container}>
         {isUserHaveFavoriteCategories && <ForYouSection />}
-        {/* <div className={styles.booksContainer}> */}
         <CategoryList />
         <BookSection
           titleOfSection=""
           books={booksFilteredByCategory ?? books}
         />
-        {/* </div> */}
       </div>
     );
   };
