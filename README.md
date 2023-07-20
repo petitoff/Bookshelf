@@ -5,6 +5,13 @@ Bookshelf is a modern web application built using ReactJS with TypeScript, Fireb
 ## Demo
 https://bookshelf-petitoff.vercel.app/
 
+### Demo Account
+
+You can use these credentials to log in to the demo account.
+
+john.smith@example.com \
+password123
+
 ## Features
 
 - Registration and login: Users can create their own accounts, which grant them access to all the features of the website.
