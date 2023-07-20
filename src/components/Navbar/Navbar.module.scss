@@ -5,7 +5,7 @@
   padding: 20px;
   background-color: #fdfdfd;
   width: 100%;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease-in-out;
   height: 80px;
 
   @media only screen and (max-width: 768px) {
@@ -120,7 +120,8 @@
 }
 
 .open-right-sidebar {
-  width: calc(100vw - 19rem);
+  width: calc(100vw - 26rem);
+  transition: all 0.3s ease-in-out;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
