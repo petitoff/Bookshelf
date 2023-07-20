@@ -1,4 +1,3 @@
-// Variables
 $sidebar-width: 300px;
 $sidebar-top-position: 20%;
 $sidebar-background-color: #1a1a23;
@@ -12,13 +11,11 @@ $menu-item-spacing: 10px;
 $menu-link-background-color: #4a80f0;
 $menu-link-border-radius: 20px;
 
-// Mixins
 @mixin border-radius($radius) {
   border-top-right-radius: $radius;
   border-bottom-right-radius: $radius;
 }
 
-// Styles
 .sidebar {
   background-color: $sidebar-background-color;
   color: $sidebar-font-color;
@@ -46,6 +43,7 @@ $menu-link-border-radius: 20px;
     width: $menu-width;
 
     li {
+      margin-top: $menu-item-spacing;
       margin-bottom: $menu-item-spacing;
 
       &:last-child {

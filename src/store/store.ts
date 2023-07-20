@@ -6,23 +6,22 @@ import sidebarSlice from "./slices/sidebarSlice";
 import bookSlice from "./slices/bookSlice";
 
 const persistConfig = {
-    key: "root",
-    storage,
+  key: "root",
+  storage,
 };
 
 const authReducer = persistReducer<AuthState>(persistConfig, authSlice);
 
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        sidebar: sidebarSlice,
-        books: bookSlice,
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck:
-                process.env.NODE_ENV === "test" ? false : undefined,
-        }),
+  reducer: {
+    auth: authReducer,
+    sidebar: sidebarSlice,
+    books: bookSlice,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: process.env.NODE_ENV === "test" ? false : undefined,
+    }),
 });
 
 export const persistor = persistStore(store);

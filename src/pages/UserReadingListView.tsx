@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import LoadingIndicator from "../components/common/LoadingIndicator/LoadingIndicator";
 import styles from "./Pages.module.scss";
 import UserReadingListHeader from "../components/common/UserReadingListHeader/UserReadingListHeader";
-import BookList from "../components/common/BookList/BookList";
+import BookList from "../components/BookList/BookList";
 import { useAppSelector } from "../hooks/hooks";
 import useReadingListBooks from "../hooks/dataHooks/booksHooks/useReadingListBooks";
 import { useDeleteBookFromReadingList } from "../hooks/dataHooks/booksHooks/useDeleteBookFromReadingList";

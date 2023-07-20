@@ -4,6 +4,7 @@ import { auth, db } from "../../firebase/config";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import useLogin from "./useLogin";
 
 interface SignupState {
   isLoading: boolean;
@@ -19,6 +20,7 @@ const useSignup = () => {
     error: null,
   });
 
+  const { login } = useLogin();
   const history = useHistory();
 
   const signup = async (email: string, password: string): Promise<void> => {
@@ -38,6 +40,8 @@ const useSignup = () => {
         });
 
         await setDoc(doc(db, USERNAMES_COLLECTION, result.user.uid), {});
+
+        await login(email, password);
 
         toast.success("User created successfully");
       }

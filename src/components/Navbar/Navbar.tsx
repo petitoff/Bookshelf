@@ -6,6 +6,15 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { toggleLeftSidebar } from "../../store/slices/sidebarSlice";
 import styles from "./Navbar.module.scss";
 
+// Routes that should not dislay the navbar
+const EXCLUDED_ROUTES = [
+  "/welcome/first-step",
+  "/welcome/second-step",
+  "/welcome/registration-thank-you",
+  "/login",
+  "/signup",
+];
+
 // Routes that should display the search bar in the navbar
 const INCLUDED_ROUTES = ["/books"];
 
@@ -15,6 +24,8 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const isSearchBarActive = INCLUDED_ROUTES.includes(location.pathname);
+  const isNavbarActive = !EXCLUDED_ROUTES.includes(location.pathname);
+
   const isLeftSidebarOpen = useAppSelector(
     (state) => state.sidebar.isLeftSidebarOpen
   );
@@ -59,6 +70,10 @@ const Navbar = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!isNavbarActive) {
+    return null;
+  }
 
   return (
     <nav

@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import BookList from "./BookList";
 import { Provider } from "react-redux";
-import { store } from "../../../store/store";
+import { store } from "../../store/store";
 
 const mockBooks = [
   {

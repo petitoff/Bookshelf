@@ -4,8 +4,8 @@
   justify-content: space-between;
   padding: 20px;
   background-color: #fdfdfd;
-  width: 90%;
-  transition: width 0.3s ease;
+  width: 100%;
+  transition: width 0.3s ease-in-out;
   height: 80px;
 
   @media only screen and (max-width: 768px) {
@@ -70,7 +70,6 @@
   border-radius: 20px;
 
   @media only screen and (max-width: 768px) {
-    margin-top: 20px;
     margin-right: 1rem;
   }
 }
@@ -85,7 +84,7 @@
   margin-right: 8px;
 
   &::placeholder {
-    color: #a3a2a2;
+    color: rgb(94, 94, 94);
     text-align: left;
   }
 
@@ -121,7 +120,8 @@
 }
 
 .open-right-sidebar {
-  width: 70%;
+  width: calc(100vw - 26rem);
+  transition: all 0.3s ease-in-out;
 
   @media only screen and (max-width: 768px) {
     width: 100%;

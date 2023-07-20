@@ -1,3 +1,16 @@
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: #171719;
+//     color: #fff;
+//   }
+// }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .login,
 .register {
   height: 80vh;
@@ -9,16 +22,21 @@
 .books {
   display: flex;
 
-  .booksLeftContainer {
-    width: 70vw;
+  .left-container {
     margin-left: 5rem;
+    width: calc(100vw - 25rem);
 
-    .booksContainer {
-      margin-right: 20%;
+    @media (max-width: 1200px) {
+      width: calc(100vw - 7rem);
     }
+  }
+
+  .right-container {
+    width: 20vw;
+    margin-right: 5rem;
 
     @media screen and (max-width: 1024px) {
-      width: 100vw;
+      display: none;
     }
   }
 
@@ -27,11 +45,11 @@
     width: 80vw;
     margin: auto;
 
-    .booksLeftContainer {
+    .left-container {
       width: 100%;
       margin: 0;
 
-      .booksContainer {
+      .container {
         margin-right: 0;
         margin-left: 0;
       }

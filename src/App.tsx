@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "./hooks/hooks";
 import "./App.css";
 
-// components
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,19 +15,29 @@ import Books from "./pages/Books";
 import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
-import WelcomeView from "./pages/WelcomeView";
 import AddBookView from "./pages/AddBookView";
+import { FirstStepForm } from "./features/WelcomeScreen/FirstStepForm/FirstStepForm";
+import { SecondStepForm } from "./features/WelcomeScreen/SecondStepForm/SecondStepForm";
+import { RegistrationThankYou } from "./features/WelcomeScreen/RegistrationThankYou/RegistrationThankYou";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
   const userIsAuthenticated = Boolean(user);
-  const isNewUser = user && !user.username;
+  const isNewUser = user && !user?.isRegistrationComplete;
 
   const renderRouteWithRedirect = (Component: React.ComponentType) => {
     if (isNewUser) {
-      return <Redirect to="/welcome" />;
+      return <Redirect to="/welcome/first-step" />;
     } else {
       return <Component />;
+    }
+  };
+
+  const renderRouteIfUserIsNotNew = (Component: React.ComponentType) => {
+    if (isNewUser) {
+      return <Component />;
+    } else {
+      return <Redirect to="/" />;
     }
   };
 
@@ -39,17 +48,11 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        {/*<NewUserRedirect user={user} isNewUser={isNewUser}/>*/}
-
         <Navbar />
         <Sidebar />
         <ToastContainer position="top-center" />
 
         <Switch>
-          <ProtectedRoute exact path="/welcome">
-            <WelcomeView isNewUser={isNewUser} />
-          </ProtectedRoute>
-
           <Route exact path="/">
             <Redirect to="/books" />
           </Route>
@@ -73,6 +76,18 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/add-book">
             {renderRouteWithRedirect(AddBookView)}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/first-step">
+            {renderRouteIfUserIsNotNew(FirstStepForm)}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/second-step">
+            {renderRouteIfUserIsNotNew(SecondStepForm)}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/welcome/registration-thank-you">
+            {renderRouteIfUserIsNotNew(RegistrationThankYou)}
           </ProtectedRoute>
 
           {/*<Route path="/*" component={ErrorPage} />*/}

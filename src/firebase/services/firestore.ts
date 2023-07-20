@@ -80,8 +80,6 @@ export const updateUsernamesInFirestore = async (
     // Update user in Firestore
     await updateDoc(doc(db, "usernames", UID), data);
   } catch (error: any) {
-    console.log(error);
-    toast.error("Error updating user");
     throw new Error("Error updating user");
   }
 };

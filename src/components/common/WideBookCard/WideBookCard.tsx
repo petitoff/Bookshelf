@@ -24,11 +24,6 @@ const WideBookCard = ({ book }: WideBookCardProps) => {
     history.push(`/book/${book.id}`);
   };
 
-  // useEffect(() => {
-  //   getImageUrl(book?.imageId ?? "");
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [book]);
-
   return (
     <div className="book-card">
       {error ? (

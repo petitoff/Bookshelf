@@ -8,7 +8,7 @@ import { getBookByIdFromFirestore } from "../../../firebase/services/firestore";
 
 type FetchingStatus = "idle" | "loading" | "error";
 
-const useFavoriteBooks = () => {
+export const useFavoriteBooks = () => {
   const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [fetchingStatus, setFetchingStatus] = useState<FetchingStatus>("idle");
@@ -58,5 +58,3 @@ const useFavoriteBooks = () => {
 
   return { favoriteBooks, fetchingStatus, updateUserId };
 };
-
-export default useFavoriteBooks;

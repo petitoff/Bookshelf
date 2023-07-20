@@ -85,7 +85,11 @@ const BookInfoRightSidebar = () => {
       {activeBook ? renderBookInfo() : renderNoBookSelected()}
 
       <div className={styles.buttonContainer}>
-        <WideButton isActive={!!activeBook} onClick={handleOpenDetailsPage}>
+        <WideButton
+          isActive={!!activeBook}
+          onClick={handleOpenDetailsPage}
+          className={styles.button}
+        >
           <p style={{ fontSize: "15px", fontWeight: 700 }}>Read</p>
         </WideButton>
       </div>

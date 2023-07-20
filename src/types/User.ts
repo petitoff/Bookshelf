@@ -1,4 +1,4 @@
-import { Book } from "./Book";
+import { Book, BookCategory } from "./Book";
 
 export type User = {
   UID: string;
@@ -9,4 +9,6 @@ export type User = {
   imageUrl?: string;
   favoriteBooks?: Book[];
   readingListBooks?: Book[];
+  favouriteCategories?: BookCategory[];
+  isRegistrationComplete?: boolean;
 };
