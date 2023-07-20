@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Book } from "../../../types/Book";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setBooks } from "../../../store/slices/bookSlice";
+import { toast } from "react-toastify";
 
 export const useBooks = () => {
   const user = useAppSelector((state) => state.auth.user);
@@ -14,35 +15,40 @@ export const useBooks = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      setFetchingStatus("loading");
-      const booksCollection = query(collection(db, "books"));
-      const unsubscribe = onSnapshot(booksCollection, async (snapshot) => {
-        const bookListPromises = snapshot.docs.map(async (doc) => {
-          const bookData: Book = doc.data();
+      try {
+        setFetchingStatus("loading");
+        const booksCollection = query(collection(db, "books"));
+        const unsubscribe = onSnapshot(booksCollection, async (snapshot) => {
+          const bookListPromises = snapshot.docs.map(async (doc) => {
+            const bookData: Book = doc.data();
 
-          // const createdAt =
-          //   bookData?.createdAt === undefined
-          //     ? undefined
-          //     : (bookData.createdAt as Timestamp).toDate();
+            // const createdAt =
+            //   bookData?.createdAt === undefined
+            //     ? undefined
+            //     : (bookData.createdAt as Timestamp).toDate();
 
-          const book: Book = {
-            id: doc.id,
-            // createdAt,
-            ...bookData,
-          };
+            const book: Book = {
+              id: doc.id,
+              // createdAt,
+              ...bookData,
+            };
 
-          return book;
+            return book;
+          });
+
+          const bookList = await Promise.all(bookListPromises);
+
+          dispatch(setBooks(bookList));
+          setFetchingStatus("succeeded");
         });
 
-        const bookList = await Promise.all(bookListPromises);
-
-        dispatch(setBooks(bookList));
-        setFetchingStatus("succeeded");
-      });
-
-      return () => {
-        unsubscribe();
-      };
+        return () => {
+          unsubscribe();
+        };
+      } catch (error: any) {
+        toast.error(error.message);
+        setFetchingStatus("failed");
+      }
     };
 
     fetchBooks();
