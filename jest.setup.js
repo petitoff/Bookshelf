@@ -1,11 +1,11 @@
-window.matchMedia =
-  window.matchMedia ||
-  function (query) {
-    return {
+beforeAll(() => {
+  window.matchMedia =
+    window.matchMedia ||
+    jest.fn().mockImplementation((query) => ({
       matches: false,
       media: query,
       onchange: null,
-      addListener: function () {},
-      removeListener: function () {},
-    };
-  };
+      addListener: jest.fn(), // Use jest.fn to track calls
+      removeListener: jest.fn(), // Use jest.fn to track calls
+    }));
+});
