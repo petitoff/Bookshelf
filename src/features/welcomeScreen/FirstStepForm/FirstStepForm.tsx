@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../../hooks/hooks";
 
-const FirstStepForm = () => {
+export const FirstStepForm = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   const [newUser, setNewUser] = useState<Partial<User>>({
@@ -74,5 +74,3 @@ const FirstStepForm = () => {
     </div>
   );
 };
-
-export default FirstStepForm;

@@ -16,7 +16,7 @@ import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
 import AddBookView from "./pages/AddBookView";
-import FirstStepForm from "./features/WelcomeScreen/FirstStepForm/FirstStepForm";
+import { FirstStepForm } from "./features/WelcomeScreen/FirstStepForm/FirstStepForm";
 import { SecondStepForm } from "./features/WelcomeScreen/SecondStepForm/SecondStepForm";
 import { RegistrationThankYou } from "./features/WelcomeScreen/RegistrationThankYou/RegistrationThankYou";
 
