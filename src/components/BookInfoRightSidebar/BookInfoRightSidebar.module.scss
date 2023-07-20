@@ -106,6 +106,10 @@ $bookInfoWidth: 18vw;
     // margin: 10% 0px;
     margin-bottom: 7%;
     width: 100%;
+
+    .button {
+      height: 3rem;
+    }
   }
 
   @media (max-width: 1200px), (max-width: 768px) {
