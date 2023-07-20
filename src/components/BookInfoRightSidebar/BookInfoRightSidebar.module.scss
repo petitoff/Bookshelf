@@ -8,8 +8,10 @@ $bookInfoWidth: 18vw;
 
 .bookInfo {
   background-color: #121421;
-  width: clamp(300px, $bookInfoWidth, 400px);
+  // width: clamp(300px, $bookInfoWidth, 400px);
+  // width: 100%;
   height: 100%;
+  width: 20%;
 
   position: fixed;
   top: 0;

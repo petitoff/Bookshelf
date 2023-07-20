@@ -25,7 +25,7 @@ const useUpdateUser = () => {
         data?.username.length > 0
       ) {
         await updateUsernamesInFirestore(user.UID, {
-          username: data.username,
+          username: data.username.toLowerCase(),
         });
       }
 

@@ -16,9 +16,9 @@ import Book from "./pages/Book";
 import Settings from "./pages/Settings";
 import UserReadingListView from "./pages/UserReadingListView";
 import AddBookView from "./pages/AddBookView";
-import FirstStepForm from "./features/welcomeScreen/FirstStepForm/FirstStepForm";
-import { SecondStepForm } from "./features/welcomeScreen/SecondStepForm/SecondStepForm";
-import { RegistrationThankYou } from "./features/welcomeScreen/RegistrationThankYou/RegistrationThankYou";
+import FirstStepForm from "./features/WelcomeScreen/FirstStepForm/FirstStepForm";
+import { SecondStepForm } from "./features/WelcomeScreen/SecondStepForm/SecondStepForm";
+import { RegistrationThankYou } from "./features/WelcomeScreen/RegistrationThankYou/RegistrationThankYou";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);

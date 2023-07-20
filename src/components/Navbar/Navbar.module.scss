@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: 20px;
   background-color: #fdfdfd;
-  width: 90%;
+  width: 100%;
   transition: width 0.3s ease;
   height: 80px;
 
@@ -70,7 +70,6 @@
   border-radius: 20px;
 
   @media only screen and (max-width: 768px) {
-    margin-top: 20px;
     margin-right: 1rem;
   }
 }
@@ -121,7 +120,7 @@
 }
 
 .open-right-sidebar {
-  width: 70%;
+  width: calc(100vw - 19rem);
 
   @media only screen and (max-width: 768px) {
     width: 100%;

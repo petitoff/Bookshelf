@@ -3,9 +3,9 @@ import styles from "./SecondStepForm.module.scss";
 import { HeaderFormContainer } from "../HeaderFormContainer/HeaderFormContainer";
 import useUpdateUser from "../../../hooks/dataHooks/userDataHooks/useUpdateUser";
 import { User } from "../../../types/User";
-import { ListOfCategoriesOfBook } from "./ListOfCategoriesOfBook/ListOfCategoriesOfBook";
 import { BookCategory } from "../../../types/Book";
 import { useHistory } from "react-router-dom";
+import { ListOfCategoriesOfBook } from "./ListOfCategoriesOfBook/ListOfCategoriesOfBook";
 
 export const SecondStepForm = () => {
   // const [newUser, setNewUser] = useState<Partial<User>>();
